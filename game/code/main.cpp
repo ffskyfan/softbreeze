@@ -20,6 +20,7 @@
 
 // INCLUDES ///////////////////////////////////////////////
 
+
 #define INITGUID       // make sure all the COM interfaces are available
 // instead of this you can include the .LIB file
 // DXGUID.LIB
