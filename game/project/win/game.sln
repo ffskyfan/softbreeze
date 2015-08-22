@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40302.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "softbreeze", "..\..\..\engine\project\win\softbreeze\softbreeze.vcxproj", "{AA5A331E-C616-45AC-8668-093C21C77085}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "engine", "engine", "{0D9E5188-50F3-4CDE-BBD1-4A319896ED12}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "game", "project\game.vcxproj", "{971F376A-D078-4E39-9E0A-ED90651EC7D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA5A331E-C616-45AC-8668-093C21C77085}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AA5A331E-C616-45AC-8668-093C21C77085}.Debug|Win32.Build.0 = Debug|Win32
+		{AA5A331E-C616-45AC-8668-093C21C77085}.Release|Win32.ActiveCfg = Release|Win32
+		{AA5A331E-C616-45AC-8668-093C21C77085}.Release|Win32.Build.0 = Release|Win32
+		{971F376A-D078-4E39-9E0A-ED90651EC7D8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{971F376A-D078-4E39-9E0A-ED90651EC7D8}.Debug|Win32.Build.0 = Debug|Win32
+		{971F376A-D078-4E39-9E0A-ED90651EC7D8}.Release|Win32.ActiveCfg = Release|Win32
+		{971F376A-D078-4E39-9E0A-ED90651EC7D8}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AA5A331E-C616-45AC-8668-093C21C77085} = {0D9E5188-50F3-4CDE-BBD1-4A319896ED12}
+	EndGlobalSection
+EndGlobal
