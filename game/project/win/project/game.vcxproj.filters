@@ -11,7 +11,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\code\t3dconsole2.cpp">
+    <ClCompile Include="..\..\..\code\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
