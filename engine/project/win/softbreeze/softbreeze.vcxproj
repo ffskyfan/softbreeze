@@ -10,6 +10,28 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\code\core\graphic.cpp" />
+    <ClCompile Include="..\..\..\code\core\input.cpp" />
+    <ClCompile Include="..\..\..\code\file\obj_file_loader.cpp" />
+    <ClCompile Include="..\..\..\code\math\matrix3.cpp" />
+    <ClCompile Include="..\..\..\code\math\matrix4.cpp" />
+    <ClCompile Include="..\..\..\code\math\vector2.cpp" />
+    <ClCompile Include="..\..\..\code\math\vector3.cpp" />
+    <ClCompile Include="..\..\..\code\math\vector4.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\code\core\graphic.h" />
+    <ClInclude Include="..\..\..\code\core\input.h" />
+    <ClInclude Include="..\..\..\code\file\obj_file_loader.h" />
+    <ClInclude Include="..\..\..\code\math\math_def.h" />
+    <ClInclude Include="..\..\..\code\math\matrix3.h" />
+    <ClInclude Include="..\..\..\code\math\matrix4.h" />
+    <ClInclude Include="..\..\..\code\math\vector2.h" />
+    <ClInclude Include="..\..\..\code\math\vector3.h" />
+    <ClInclude Include="..\..\..\code\math\vector4.h" />
+    <ClInclude Include="..\..\..\code\object\mesh.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AA5A331E-C616-45AC-8668-093C21C77085}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -75,16 +97,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\code\softbreeze_graphic.h" />
-    <ClInclude Include="..\..\..\code\softbreeze_input.h" />
-    <ClInclude Include="..\..\..\code\softbreeze_audio.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\code\softbreeze_graphic.cpp" />
-    <ClCompile Include="..\..\..\code\softbreeze_input.cpp" />
-    <ClCompile Include="..\..\..\code\softbreeze_audio.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
