@@ -48,10 +48,12 @@
 #include <dmusicc.h>
 #include <dinput.h>
 
-#include <softbreeze_graphic.h>// game library includes
-#include <softbreeze_input.h>
+#include <softbreeze/softbreeze.h>// game library includes
+#include <softbreeze/core/graphic.h>
+#include <softbreeze/core/input.h>
 
 #include "game/game.h"
+
 
 // DEFINES ////////////////////////////////////////////////
 
@@ -61,8 +63,8 @@
 
 // GLOBALS ////////////////////////////////////////////////
 
-HWND main_window_handle = NULL; // save the window handle
-HINSTANCE main_instance = NULL; // save the instance
+HWND softbreeze::main_window_handle = NULL; // save the window handle
+HINSTANCE softbreeze::main_instance = NULL; // save the instance
 char buffer[256];                          // used to print text
 
 
@@ -158,8 +160,8 @@ int WINAPI WinMain(HINSTANCE hinstance,
 		return(0);
 
 	// save the window handle and instance in a global
-	main_window_handle = hwnd;
-	main_instance = hinstance;
+	softbreeze::main_window_handle = hwnd;
+	softbreeze::main_instance = hinstance;
 
 	// resize the window so that client is really width x height
 	if(WINDOWED_APP) {
@@ -171,16 +173,16 @@ int WINAPI WinMain(HINSTANCE hinstance,
 
 		// make the call to adjust window_rect
 		AdjustWindowRectEx(&window_rect,
-			GetWindowStyle(main_window_handle),
-			GetMenu(main_window_handle) != NULL,
-			GetWindowExStyle(main_window_handle));
+			GetWindowStyle(softbreeze::main_window_handle),
+			GetMenu(softbreeze::main_window_handle) != NULL,
+			GetWindowExStyle(softbreeze::main_window_handle));
 
 		// save the global client offsets, they are needed in DDraw_Flip()
-		window_client_x0 = -window_rect.left;
-		window_client_y0 = -window_rect.top;
+		softbreeze::window_client_x0 = -window_rect.left;
+		softbreeze::window_client_y0 = -window_rect.top;
 
 		// now resize the window with a call to MoveWindow()
-		MoveWindow(main_window_handle,
+		MoveWindow(softbreeze::main_window_handle,
 			0, // x position
 			0, // y position
 			window_rect.right - window_rect.left, // width
@@ -188,7 +190,7 @@ int WINAPI WinMain(HINSTANCE hinstance,
 			FALSE);
 
 		// show the window, so there's no garbage on first render
-		ShowWindow(main_window_handle, SW_SHOW);
+		ShowWindow(softbreeze::main_window_handle, SW_SHOW);
 	} // end if windowed
 
 	// perform all game console specific initialization

@@ -2,56 +2,56 @@
 #ifndef MATRIX4_H
 #define MATRIX4_H
 
-#include "Vector3.h"
-#include "Vector4.h"
-#include "MathDef.h"
+#include "vector3.h"
+#include "vector4.h"
+#include "math_def.h"
 
 #include <math.h>
 #include <cstring>
 
-class starMatrix3;
+class Matrix3;
 
 
-class starMatrix4
+class Matrix4
 {
 public:
-	starMatrix4();
-	explicit starMatrix4(const starVector4& x,const starVector4& y,const starVector4& z,const starVector4& w);
-	explicit starMatrix4(const float xx,const float xy,const float xz,const float xw,
+	Matrix4();
+	explicit Matrix4(const Vector4& x,const Vector4& y,const Vector4& z,const Vector4& w);
+	explicit Matrix4(const float xx,const float xy,const float xz,const float xw,
 						 const float yx,const float yy,const float yz,const float yw,
 						 const float zx,const float zy,const float zz,const float zw,
 						 const float wx,const float wy,const float wz,const float ww);
 
-	explicit starMatrix4( const starMatrix3 &rotation, const starVector3 &translation );
-	explicit starMatrix4( const float src[ 4 ][ 4 ] );
-	explicit starMatrix4( const float src[ 16 ]);
+	explicit Matrix4( const Matrix3 &rotation, const Vector3 &translation );
+	explicit Matrix4( const float src[ 4 ][ 4 ] );
+	explicit Matrix4( const float src[ 16 ]);
 
 
-	const starVector4&	operator[]( int index ) const;
-	starVector4&		operator[]( int index );
+	const Vector4&	operator[]( int index ) const;
+	Vector4&		operator[]( int index );
 
-	starMatrix4			operator*( const float a ) const;
-	starVector4			operator*( const starVector4 &vec ) const;
-	starVector3			operator*( const starVector3 &vec ) const;
-	starMatrix4			operator*( const starMatrix4 &a ) const;
-	starMatrix4			operator+( const starMatrix4 &a ) const;
-	starMatrix4			operator-( const starMatrix4 &a ) const;
+	Matrix4			operator*( const float a ) const;
+	Vector4			operator*( const Vector4 &vec ) const;
+	Vector3			operator*( const Vector3 &vec ) const;
+	Matrix4			operator*( const Matrix4 &a ) const;
+	Matrix4			operator+( const Matrix4 &a ) const;
+	Matrix4			operator-( const Matrix4 &a ) const;
 
-	starMatrix4&		operator*=( const float a );
-	starMatrix4&		operator*=( const starMatrix4 &a );
-	starMatrix4&		operator+=( const starMatrix4 &a );
-	starMatrix4&		operator-=( const starMatrix4 &a );
+	Matrix4&		operator*=( const float a );
+	Matrix4&		operator*=( const Matrix4 &a );
+	Matrix4&		operator+=( const Matrix4 &a );
+	Matrix4&		operator-=( const Matrix4 &a );
 
-	friend starMatrix4	operator*( const float a, const starMatrix4 &mat );
-	friend starVector4	operator*( const starVector4 &vec, const starMatrix4 &mat );
-	friend starVector3	operator*( const starVector3 &vec, const starMatrix4 &mat );
-	friend starVector4&	operator*=( starVector4 &vec, const starMatrix4 &mat );
-	friend starVector3&	operator*=( starVector3 &vec, const starMatrix4 &mat );
+	friend Matrix4	operator*( const float a, const Matrix4 &mat );
+	friend Vector4	operator*( const Vector4 &vec, const Matrix4 &mat );
+	friend Vector3	operator*( const Vector3 &vec, const Matrix4 &mat );
+	friend Vector4&	operator*=( Vector4 &vec, const Matrix4 &mat );
+	friend Vector3&	operator*=( Vector3 &vec, const Matrix4 &mat );
 
-	bool				Compare( const starMatrix4 &a ) const;						
-	bool				Compare( const starMatrix4 &a, const float epsilon ) const;	
-	bool				operator==( const starMatrix4 &a ) const;					
-	bool				operator!=( const starMatrix4 &a ) const;					
+	bool				Compare( const Matrix4 &a ) const;						
+	bool				Compare( const Matrix4 &a, const float epsilon ) const;	
+	bool				operator==( const Matrix4 &a ) const;					
+	bool				operator!=( const Matrix4 &a ) const;					
 
 	void				Zero( );
 	void				Identity(  );
@@ -59,15 +59,15 @@ public:
 
 
 public:
-	starVector4 data[4];
+	Vector4 data[4];
 
 };
 
 
-extern starMatrix4 matrix4_zero;
-extern starMatrix4 matrix4_identity;
+extern Matrix4 matrix4_zero;
+extern Matrix4 matrix4_identity;
 
-__forceinline starMatrix4::starMatrix4(const starVector4& x,const starVector4& y,const starVector4& z,const starVector4& w)
+__forceinline Matrix4::Matrix4(const Vector4& x,const Vector4& y,const Vector4& z,const Vector4& w)
 {
 	data[0]= x;
 	data[1]= y;
@@ -76,7 +76,7 @@ __forceinline starMatrix4::starMatrix4(const starVector4& x,const starVector4& y
 }
 
 
-__forceinline starMatrix4::starMatrix4(const float xx,const float xy,const float xz,const float xw,
+__forceinline Matrix4::Matrix4(const float xx,const float xy,const float xz,const float xw,
 						 const float yx,const float yy,const float yz,const float yw,
 						 const float zx,const float zy,const float zz,const float zw,
 						 const float wx,const float wy,const float wz,const float ww)
@@ -88,14 +88,14 @@ __forceinline starMatrix4::starMatrix4(const float xx,const float xy,const float
 }
 
 
-__forceinline starMatrix4::starMatrix4( const starMatrix3 &rotation, const starVector3 &translation )
+__forceinline Matrix4::Matrix4( const Matrix3 &rotation, const Vector3 &translation )
 {
 
 
 }
 
 
-__forceinline starMatrix4::starMatrix4( const float src[ 4 ][ 4 ] )
+__forceinline Matrix4::Matrix4( const float src[ 4 ][ 4 ] )
 {
 	data[0][0] = src[0][0];	data[0][1] = src[0][1];	data[0][2] = src[0][2];	data[0][3] = src[0][3];
 	data[1][0] = src[1][0];	data[1][1] = src[1][1];	data[1][2] = src[1][2];	data[1][3] = src[1][3];
@@ -103,7 +103,7 @@ __forceinline starMatrix4::starMatrix4( const float src[ 4 ][ 4 ] )
 	data[3][0] = src[3][0];	data[3][1] = src[3][1];	data[3][2] = src[3][2];	data[3][3] = src[3][3];
 }
 
-__forceinline starMatrix4::starMatrix4( const float src[ 16 ])
+__forceinline Matrix4::Matrix4( const float src[ 16 ])
 {
 	data[0][0] = src[0];	data[0][1] = src[1];	data[0][2] = src[2];	data[0][3] = src[3];
 	data[1][0] = src[4];	data[1][1] = src[5];	data[1][2] = src[6];	data[1][3] = src[7];
@@ -113,28 +113,28 @@ __forceinline starMatrix4::starMatrix4( const float src[ 16 ])
 
 
 
-__forceinline const starVector4& starMatrix4::	operator[]( int index ) const
+__forceinline const Vector4& Matrix4::	operator[]( int index ) const
 {
 	return data[index];
 }
 
-__forceinline starVector4& starMatrix4::operator[]( int index )
+__forceinline Vector4& Matrix4::operator[]( int index )
 {
 	return data[index];
 }
 
-__forceinline starMatrix4 starMatrix4::operator*( const float a ) const
+__forceinline Matrix4 Matrix4::operator*( const float a ) const
 {
-	return starMatrix4(
+	return Matrix4(
 		data[0].x*a, data[0].y*a, data[0].z*a, data[0].w*a,
 		data[1].x*a, data[1].y*a, data[1].z*a, data[1].w*a,
 		data[2].x*a, data[2].y*a, data[2].z*a, data[2].w*a,
 		data[3].x*a, data[3].y*a, data[3].z*a, data[3].w*a);
 }
 
-__forceinline starVector4 starMatrix4::operator*( const starVector4 &vec ) const
+__forceinline Vector4 Matrix4::operator*( const Vector4 &vec ) const
 {
-	return starVector4(
+	return Vector4(
 		data[0].x*vec.x + data[0].y*vec.y + data[0].z*vec.z + data[0].w*vec.w,
 		data[1].x*vec.x + data[1].y*vec.y + data[1].z*vec.z + data[1].w*vec.w,
 		data[2].x*vec.x + data[2].y*vec.y + data[2].z*vec.z + data[2].w*vec.w,
@@ -143,21 +143,21 @@ __forceinline starVector4 starMatrix4::operator*( const starVector4 &vec ) const
 }
 
 
-__forceinline starVector3 starMatrix4::operator*( const starVector3 &vec ) const
+__forceinline Vector3 Matrix4::operator*( const Vector3 &vec ) const
 {
 	float s = data[3].x*vec.x + data[3].y*vec.y + data[3].z*vec.z + data[3].w;
 	if( s == 0.0f ){
-		return starVector3(0.0f,0.0f,0.0f);
+		return Vector3(0.0f,0.0f,0.0f);
 	}
 
 	if( s == 1.0f ) {
-		return starVector3(
+		return Vector3(
 			data[0].x*vec.x + data[0].y*vec.y + data[0].z*vec.z + data[0].w,
 			data[1].x*vec.x + data[1].y*vec.y + data[1].z*vec.z + data[1].w,
 			data[2].x*vec.x + data[2].y*vec.y + data[2].z*vec.z + data[2].w);
 	} else {
 		float invS = 1.0f / s;
-		return starVector3(
+		return Vector3(
 			(data[0].x*vec.x + data[0].y*vec.y + data[0].z*vec.z + data[0].w) * invS,
 			(data[1].x*vec.x + data[1].y*vec.y + data[1].z*vec.z + data[1].w) * invS,
 			(data[2].x*vec.x + data[2].y*vec.y + data[2].z*vec.z + data[2].w) * invS);
@@ -165,12 +165,12 @@ __forceinline starVector3 starMatrix4::operator*( const starVector3 &vec ) const
 }
 
 
-__forceinline starMatrix4 starMatrix4::operator*( const starMatrix4 &a ) const
+__forceinline Matrix4 Matrix4::operator*( const Matrix4 &a ) const
 {
 	int i, j;
 	const float *m1Ptr, *m2Ptr;
 	float *dstPtr;
-	starMatrix4 dst;
+	Matrix4 dst;
 
 	m1Ptr = reinterpret_cast<const float *>(this);
 	m2Ptr = reinterpret_cast<const float *>(&a);
@@ -190,18 +190,18 @@ __forceinline starMatrix4 starMatrix4::operator*( const starMatrix4 &a ) const
 }
 
 
-__forceinline starMatrix4 starMatrix4::operator+( const starMatrix4 &a ) const
+__forceinline Matrix4 Matrix4::operator+( const Matrix4 &a ) const
 {
-	return starMatrix4 (
+	return Matrix4 (
 		data[0].x + a.data[0].x,data[0].y + a.data[0].y,data[0].z + a.data[0].z, data[0].w + a.data[0].w,
 		data[1].x + a.data[1].x,data[1].y + a.data[1].y,data[1].z + a.data[1].z, data[1].w + a.data[1].w,
 		data[2].x + a.data[2].x,data[2].y + a.data[2].y,data[2].z + a.data[2].z, data[2].w + a.data[2].w,
 		data[3].x + a.data[3].x,data[3].y + a.data[3].y,data[3].z + a.data[3].z, data[3].w + a.data[3].w);
 }
 
-__forceinline starMatrix4 starMatrix4::operator-( const starMatrix4 &a ) const
+__forceinline Matrix4 Matrix4::operator-( const Matrix4 &a ) const
 {
-	return starMatrix4 (
+	return Matrix4 (
 		data[0].x - a.data[0].x,data[0].y - a.data[0].y,data[0].z - a.data[0].z, data[0].w - a.data[0].w,
 		data[1].x - a.data[1].x,data[1].y - a.data[1].y,data[1].z - a.data[1].z, data[1].w - a.data[1].w,
 		data[2].x - a.data[2].x,data[2].y - a.data[2].y,data[2].z - a.data[2].z, data[2].w - a.data[2].w,
@@ -209,7 +209,7 @@ __forceinline starMatrix4 starMatrix4::operator-( const starMatrix4 &a ) const
 }
 
 
-__forceinline starMatrix4& starMatrix4::operator*=( const float a )
+__forceinline Matrix4& Matrix4::operator*=( const float a )
 {
 	data[0].x *= a; data[0].y *= a; data[0].z *= a; data[0].w *= a;
 	data[1].x *= a; data[1].y *= a; data[1].z *= a; data[1].w *= a;
@@ -218,13 +218,13 @@ __forceinline starMatrix4& starMatrix4::operator*=( const float a )
 
 }
 
-__forceinline starMatrix4& starMatrix4::operator*=( const starMatrix4& a )
+__forceinline Matrix4& Matrix4::operator*=( const Matrix4& a )
 {
 	(*this) = (*this) * a;
 	return *this;
 }
 
-__forceinline starMatrix4& starMatrix4::operator+=( const starMatrix4& a )
+__forceinline Matrix4& Matrix4::operator+=( const Matrix4& a )
 {
 	data[0].x += a[0].x; data[0].y += a[0].y; data[0].z += a[0].z; data[0].w += a[0].w;
 	data[1].x += a[1].x; data[1].y += a[1].y; data[1].z += a[1].z; data[1].w += a[1].w;
@@ -233,7 +233,7 @@ __forceinline starMatrix4& starMatrix4::operator+=( const starMatrix4& a )
 	return *this;
 }
 
-__forceinline starMatrix4& starMatrix4::operator-=( const starMatrix4& a )
+__forceinline Matrix4& Matrix4::operator-=( const Matrix4& a )
 {
 	data[0].x -= a[0].x; data[0].y -= a[0].y; data[0].z -= a[0].z; data[0].w -= a[0].w;
 	data[1].x -= a[1].x; data[1].y -= a[1].y; data[1].z -= a[1].z; data[1].w -= a[1].w;
@@ -243,35 +243,35 @@ __forceinline starMatrix4& starMatrix4::operator-=( const starMatrix4& a )
 }
 
 
-__forceinline starMatrix4	operator*( const float a, const starMatrix4 &mat )
+__forceinline Matrix4	operator*( const float a, const Matrix4 &mat )
 {
 	return mat*a;
 }
 
-__forceinline starVector4	operator*( const starVector4 &vec, const starMatrix4 &mat )
+__forceinline Vector4	operator*( const Vector4 &vec, const Matrix4 &mat )
 {
 	return mat*vec;
 }
 
-__forceinline starVector3	operator*( const starVector3 &vec, const starMatrix4 &mat )
+__forceinline Vector3	operator*( const Vector3 &vec, const Matrix4 &mat )
 {
 	return mat*vec;
 }
 
-__forceinline starVector4&	operator*=( starVector4 &vec, const starMatrix4 &mat )
+__forceinline Vector4&	operator*=( Vector4 &vec, const Matrix4 &mat )
 {
 	vec = mat*vec;
 	return vec;
 }
 
-__forceinline starVector3&	operator*=( starVector3 &vec, const starMatrix4 &mat )
+__forceinline Vector3&	operator*=( Vector3 &vec, const Matrix4 &mat )
 {
 	vec = mat*vec;
 	return vec;
 }
 
 
-__forceinline bool starMatrix4::Compare( const starMatrix4 &a ) const
+__forceinline bool Matrix4::Compare( const Matrix4 &a ) const
 {
 	unsigned int i;
 	const float *ptr1, *ptr2;
@@ -286,7 +286,7 @@ __forceinline bool starMatrix4::Compare( const starMatrix4 &a ) const
 	return true;
 }
 
-__forceinline bool starMatrix4::Compare( const starMatrix4 &a, const float epsilon ) const 
+__forceinline bool Matrix4::Compare( const Matrix4 &a, const float epsilon ) const 
 {
 	unsigned int i;
 	const float *ptr1, *ptr2;
@@ -301,29 +301,29 @@ __forceinline bool starMatrix4::Compare( const starMatrix4 &a, const float epsil
 	return true;
 }
 
-__forceinline bool starMatrix4::operator==( const starMatrix4 &a ) const 
+__forceinline bool Matrix4::operator==( const Matrix4 &a ) const 
 {
 	return Compare(a);
 }
 
 
-__forceinline bool starMatrix4::operator!=( const starMatrix4 &a ) const 
+__forceinline bool Matrix4::operator!=( const Matrix4 &a ) const 
 {
 	return !Compare(a);
 }
 
 
-__forceinline void starMatrix4::Zero( )
+__forceinline void Matrix4::Zero( )
 {
-	memset((void*)data, 0, sizeof(starMatrix4));
+	memset((void*)data, 0, sizeof(Matrix4));
 }
 
-__forceinline void starMatrix4::Identity( )
+__forceinline void Matrix4::Identity( )
 {
 	(*this) = matrix4_identity;
 }
 	
-__forceinline bool starMatrix4::IsIdentity( const float epsilon ) const
+__forceinline bool Matrix4::IsIdentity( const float epsilon ) const
 {
 	return Compare(matrix4_identity,epsilon);
 }

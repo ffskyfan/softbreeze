@@ -11,10 +11,12 @@
 #include <dmusicc.h>
 #include <dinput.h>
 
-#include <softbreeze_graphic.h>// game library includes
-#include <softbreeze_input.h>
+#include <softbreeze/softbreeze.h>// game library includes
+#include <softbreeze/core/graphic.h>
+#include <softbreeze/core/input.h>
 
 #include "game.h"
+
 
 
 int Game_Init(void *parms)
@@ -23,13 +25,13 @@ int Game_Init(void *parms)
 	// for your game
 
 	// start up DirectDraw (replace the parms as you desire)
-	DDraw_Init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_BPP, WINDOWED_APP);
+	softbreeze::DDraw_Init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_BPP, WINDOWED_APP);
 
 	// initialize directinput
-	DInput_Init();
+	softbreeze::DInput_Init();
 
 	// acquire the keyboard 
-	DInput_Init_Keyboard();
+	softbreeze::DInput_Init_Keyboard();
 
 	// add calls to acquire other directinput devices here...
 
@@ -43,7 +45,7 @@ int Game_Init(void *parms)
 		ShowCursor(FALSE);
 
 	// seed random number generator
-	srand(Start_Clock());
+	srand(softbreeze::Start_Clock());
 
 	// all your initialization code goes here...
 
@@ -75,12 +77,12 @@ int Game_Shutdown(void *parms)
 	//DMusic_Shutdown();
 
 	// shut down directinput
-	DInput_Release_Keyboard();
+	softbreeze::DInput_Release_Keyboard();
 
-	DInput_Shutdown();
+	softbreeze::DInput_Shutdown();
 
 	// shutdown directdraw last
-	DDraw_Shutdown();
+	softbreeze::DDraw_Shutdown();
 
 	// return success
 	return(1);
@@ -97,27 +99,27 @@ int Game_Main(void *parms)
 	int index; // looping var
 
 	// start the timing clock
-	Start_Clock();
+	softbreeze::Start_Clock();
 
 	// clear the drawing surface 
-	DDraw_Fill_Surface(lpddsback, 0);
+	softbreeze::DDraw_Fill_Surface(softbreeze::lpddsback, 0);
 
 	// read keyboard and other devices here
-	DInput_Read_Keyboard();
+	softbreeze::DInput_Read_Keyboard();
 
 	// game logic here...
 
 
 
 	// flip the surfaces
-	DDraw_Flip();
+	softbreeze::DDraw_Flip();
 
 	// sync to 30ish fps
-	Wait_Clock(30);
+	softbreeze::Wait_Clock(30);
 
 	// check of user is trying to exit
-	if(KEY_DOWN(VK_ESCAPE) || keyboard_state[DIK_ESCAPE]) {
-		PostMessage(main_window_handle, WM_DESTROY, 0, 0);
+	if(KEY_DOWN(VK_ESCAPE) || softbreeze::keyboard_state[DIK_ESCAPE]) {
+		PostMessage(softbreeze::main_window_handle, WM_DESTROY, 0, 0);
 
 	} // end if
 

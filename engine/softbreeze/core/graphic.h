@@ -4,6 +4,8 @@
 #ifndef SOFTBREEZE_GRAPHIC
 #define SOFTBREEZE_GRAPHIC
 
+softbreeze_namespace_beg
+
 // DEFINES ////////////////////////////////////////////////
 
 // default screen values, these are all overriden by the 
@@ -624,6 +626,9 @@ extern int debug_polys_rendered_per_frame;
 extern int debug_backfaces_removed_per_frame;
 extern int debug_objects_removed_per_frame;
 extern int debug_total_transformations_per_frame;
+
+
+softbreeze_namespace_end
 
 #endif
 

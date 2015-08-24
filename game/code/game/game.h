@@ -1,5 +1,7 @@
 
 
+
+
 // defines for windows interface
 #define WINDOW_CLASS_NAME "WIN3DCLASS"  // class name
 #define WINDOW_TITLE      "Soft Breeze Console"
@@ -14,6 +16,7 @@
 // is created and attached
 
 #define WINDOWED_APP      1     // 0 not windowed, 1 windowed
+
 
 
 

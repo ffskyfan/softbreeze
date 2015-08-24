@@ -5,36 +5,36 @@
 
 #include <math.h>
 
-class starVector3
+class Vector3
 {
 public:
-	starVector3();
-	starVector3( const starVector3& a );
-	explicit starVector3( float x, float y,float z);
+	Vector3();
+	Vector3( const Vector3& a );
+	explicit Vector3( float x, float y,float z);
 
 
 	float				operator[]( int index ) const;
 	float &				operator[]( int index );
 
-	starVector3&		operator =(const starVector3& a);
-	starVector3			operator -();
+	Vector3&		operator =(const Vector3& a);
+	Vector3			operator -();
 
-	starVector3			operator +(const starVector3& a) const; 
-	starVector3			operator -(const starVector3& a) const;  
-	float				operator *(const starVector3& a) const;
-	starVector3			operator *(const float a) const;
-	starVector3			operator /(const float a) const;
+	Vector3			operator +(const Vector3& a) const; 
+	Vector3			operator -(const Vector3& a) const;  
+	float				operator *(const Vector3& a) const;
+	Vector3			operator *(const float a) const;
+	Vector3			operator /(const float a) const;
 
-	friend starVector3	operator *(const float a, const starVector3& v);
+	friend Vector3	operator *(const float a, const Vector3& v);
 
-	starVector3&		operator +=(const starVector3& a);
-	starVector3&		operator -=(const starVector3& a);
-	starVector3&		operator *=(const float& a);
-	starVector3&		operator /=(const float& a);
+	Vector3&		operator +=(const Vector3& a);
+	Vector3&		operator -=(const Vector3& a);
+	Vector3&		operator *=(const float& a);
+	Vector3&		operator /=(const float& a);
 
-	bool				operator == (const starVector3& a) const ;
-	bool				operator != (const starVector3& a) const ;
-	bool				operator <	 (const starVector3& a) const ;
+	bool				operator == (const Vector3& a) const ;
+	bool				operator != (const Vector3& a) const ;
+	bool				operator <	 (const Vector3& a) const ;
 
 	float				Length() const;
 	float				LengthSqr() const;
@@ -42,12 +42,12 @@ public:
 	void				Normalize();
 	void				Zero();
 
-	starVector3			Cross(const starVector3& a) const ;
-	starVector3&		Cross(const starVector3& a,const starVector3& b);
+	Vector3			Cross(const Vector3& a) const ;
+	Vector3&		Cross(const Vector3& a,const Vector3& b);
 	 
 
-	void				Lerp( const starVector3 &v1, const starVector3 &v2, const float l );
-	void				SLerp( const starVector3 &v1, const starVector3 &v2, const float l );
+	void				Lerp( const Vector3 &v1, const Vector3 &v2, const float l );
+	void				SLerp( const Vector3 &v1, const Vector3 &v2, const float l );
 
 
 
@@ -55,12 +55,12 @@ public:
 	float x,y,z;
 };
 
-__forceinline starVector3::starVector3()
+__forceinline Vector3::Vector3()
 {
 }
 
 
-__forceinline starVector3::starVector3(const starVector3& a)
+__forceinline Vector3::Vector3(const Vector3& a)
 {
 	x = a.x;
 	y = a.y;
@@ -68,7 +68,7 @@ __forceinline starVector3::starVector3(const starVector3& a)
 }
 
 
-__forceinline starVector3::starVector3( float x, float y,float z)
+__forceinline Vector3::Vector3( float x, float y,float z)
 {
 	this->x = x;
 	this->y = y;
@@ -76,18 +76,18 @@ __forceinline starVector3::starVector3( float x, float y,float z)
 }
 
 
-__forceinline float starVector3::operator[]( int index ) const
+__forceinline float Vector3::operator[]( int index ) const
 {
 	return (&x)[index];
 }
 
-__forceinline float &starVector3::operator[]( int index )
+__forceinline float &Vector3::operator[]( int index )
 {
 	return (&x)[index];
 }
 
 
-__forceinline starVector3& starVector3::operator=(const starVector3& a)
+__forceinline Vector3& Vector3::operator=(const Vector3& a)
 {
 	this->x = a.x;
 	this->y = a.y;
@@ -97,45 +97,45 @@ __forceinline starVector3& starVector3::operator=(const starVector3& a)
 }
 
 
-__forceinline starVector3 starVector3::operator-() 
+__forceinline Vector3 Vector3::operator-() 
 {
-	return starVector3(-x,-y,-z);
+	return Vector3(-x,-y,-z);
 }
 
 
-__forceinline starVector3 starVector3::operator+(const starVector3& a) const
+__forceinline Vector3 Vector3::operator+(const Vector3& a) const
 {
-	return starVector3(x+a.x,y+a.y,z+a.z);
+	return Vector3(x+a.x,y+a.y,z+a.z);
 
 }
 
-__forceinline starVector3 starVector3::operator-(const starVector3& a) const
+__forceinline Vector3 Vector3::operator-(const Vector3& a) const
 {
-	return starVector3(x-a.x,y-a.y,z-a.z);
+	return Vector3(x-a.x,y-a.y,z-a.z);
 
 }
 
-__forceinline starVector3 starVector3::operator *(const float a) const
+__forceinline Vector3 Vector3::operator *(const float a) const
 {
-	return starVector3(x*a,y*a,z*a);
+	return Vector3(x*a,y*a,z*a);
 }
 
-__forceinline float starVector3::operator *(const starVector3& a) const
+__forceinline float Vector3::operator *(const Vector3& a) const
 {
 	return x*a.x+y*a.y+z*a.z;
 }
 
-__forceinline starVector3 starVector3::operator /(const float a) const
+__forceinline Vector3 Vector3::operator /(const float a) const
 {
-	return starVector3(x/a,y/a,z/a);
+	return Vector3(x/a,y/a,z/a);
 }
 
-__forceinline starVector3	operator *(const float a, const starVector3& v)
+__forceinline Vector3	operator *(const float a, const Vector3& v)
 {
-	return starVector3(v.x*a, v.y*a, v.z*a);
+	return Vector3(v.x*a, v.y*a, v.z*a);
 }
 
-__forceinline starVector3& starVector3::operator+=(const starVector3& a) 
+__forceinline Vector3& Vector3::operator+=(const Vector3& a) 
 {
 	x += a.x;
 	y += a.y;
@@ -144,7 +144,7 @@ __forceinline starVector3& starVector3::operator+=(const starVector3& a)
 	return *this;
 }
 
-__forceinline starVector3& starVector3::operator-=(const starVector3& a) 
+__forceinline Vector3& Vector3::operator-=(const Vector3& a) 
 {
 	x -= a.x;
 	y -= a.y;
@@ -153,7 +153,7 @@ __forceinline starVector3& starVector3::operator-=(const starVector3& a)
 	return *this;
 }
 
-__forceinline starVector3& starVector3::operator*=(const float& a) 
+__forceinline Vector3& Vector3::operator*=(const float& a) 
 {
 	x *= a;
 	y *= a;
@@ -162,7 +162,7 @@ __forceinline starVector3& starVector3::operator*=(const float& a)
 	return *this;
 }
 
-__forceinline starVector3& starVector3::operator/=(const float& a) 
+__forceinline Vector3& Vector3::operator/=(const float& a) 
 {
 	float invA = 1.0f/a;
 	x *= invA;
@@ -173,30 +173,30 @@ __forceinline starVector3& starVector3::operator/=(const float& a)
 }
 
 
-__forceinline bool starVector3::operator == (const starVector3& a) const
+__forceinline bool Vector3::operator == (const Vector3& a) const
 {
 	return x==a.x && y==a.y && z==a.z;
 
 }
 
-__forceinline bool starVector3::operator != (const starVector3& a) const
+__forceinline bool Vector3::operator != (const Vector3& a) const
 {
 	return x!=a.x || y!=a.y || z!=a.z;
 
 }
 
 
-__forceinline float starVector3::Length() const
+__forceinline float Vector3::Length() const
 {
 	return sqrt(x*x + y*y + z*z);
 }
 
-__forceinline float starVector3::LengthSqr() const
+__forceinline float Vector3::LengthSqr() const
 {
 	return x*x + y*y + z*z;
 }
 
-__forceinline void starVector3::Normalize()
+__forceinline void Vector3::Normalize()
 {
 	float lengthSqr = x*x + y*y + z*z;
 	if( lengthSqr != 0.0f)
@@ -208,7 +208,7 @@ __forceinline void starVector3::Normalize()
 	}
 }
 
-__forceinline void starVector3::Zero()
+__forceinline void Vector3::Zero()
 {
 	x = 0;
 	y = 0;
@@ -217,12 +217,12 @@ __forceinline void starVector3::Zero()
 
 
 
-__forceinline starVector3 starVector3::Cross(const starVector3& a) const
+__forceinline Vector3 Vector3::Cross(const Vector3& a) const
 {
-	return starVector3(y*a.z-z*a.y, z*a.x-x*a.z, x*a.y-y*a.z);
+	return Vector3(y*a.z-z*a.y, z*a.x-x*a.z, x*a.y-y*a.z);
 }
 
-__forceinline starVector3& starVector3::Cross(const starVector3& a,const starVector3& b)
+__forceinline Vector3& Vector3::Cross(const Vector3& a,const Vector3& b)
 {
 	x = y*a.z-z*a.y;
 	y = z*a.x-x*a.z;

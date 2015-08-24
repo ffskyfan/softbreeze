@@ -5,6 +5,8 @@
 #define SOFTBREEZE_INPUT
 
 
+softbreeze_namespace_beg
+
 // DEFINES ////////////////////////////////////////////////
 
 // MACROS /////////////////////////////////////////////////
@@ -54,5 +56,9 @@ extern UCHAR keyboard_state[256]; // contains keyboard state table
 extern DIMOUSESTATE mouse_state;  // contains state of mouse
 extern DIJOYSTATE joy_state;      // contains state of joystick
 extern int joystick_found;        // tracks if stick is plugged in
+
+
+
+softbreeze_namespace_end
 
 #endif

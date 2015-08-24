@@ -1,6 +1,6 @@
 
-#include "Matrix3.h"
+#include "matrix3.h"
 
 
-starMatrix3 matrix3_zero( starVector3( 0, 0, 0 ), starVector3( 0, 0, 0 ), starVector3( 0, 0, 0 )  );
-starMatrix3 matrix3_identity( starVector3( 1, 0, 0 ), starVector3( 0, 1, 0 ), starVector3( 0, 0, 1 ) );
+Matrix3 matrix3_zero( Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 )  );
+Matrix3 matrix3_identity( Vector3( 1, 0, 0 ), Vector3( 0, 1, 0 ), Vector3( 0, 0, 1 ) );

@@ -24,8 +24,12 @@
 #include <ddraw.h>  // directX includes
 #include <dinput.h>
 
-#include "softbreeze_graphic.h"
-#include "softbreeze_input.h"
+#include "../softbreeze.h"
+
+#include "graphic.h"
+#include "input.h"
+
+softbreeze_namespace_beg
 
 // DEFINES ////////////////////////////////////////////////
 
@@ -365,3 +369,5 @@ void DInput_Release_Keyboard(void)
 
 } // end DInput_Release_Keyboard
 
+
+softbreeze_namespace_end

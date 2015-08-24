@@ -1,9 +1,9 @@
 
 
-#include "Vector3.h"
+#include "vector3.h"
 
 
-void starVector3::Lerp( const starVector3 &v1, const starVector3 &v2, const float l )
+void Vector3::Lerp( const Vector3 &v1, const Vector3 &v2, const float l )
 {
 	if(l <= 0.0f) {
 		(*this) = v1;
@@ -17,7 +17,7 @@ void starVector3::Lerp( const starVector3 &v1, const starVector3 &v2, const floa
 
 
 #define SLERP_DELTA  1e-6
-void starVector3::SLerp( const starVector3 &v1, const starVector3 &v2, const float t )
+void Vector3::SLerp( const Vector3 &v1, const Vector3 &v2, const float t )
 {
 	if(t <= 0.0f) {
 		(*this) = v1;

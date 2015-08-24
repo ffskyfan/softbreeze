@@ -13,63 +13,67 @@
     <Filter Include="object">
       <UniqueIdentifier>{442ef593-e6f4-4237-b813-2b3a0ead0306}</UniqueIdentifier>
     </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{ead6193a-cde2-4162-91c5-4aa438d1bcc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\code\core\graphic.cpp">
+    <ClCompile Include="..\..\..\softbreeze\core\graphic.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\code\core\input.cpp">
+    <ClCompile Include="..\..\..\softbreeze\core\input.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\code\math\matrix3.cpp">
+    <ClCompile Include="..\..\..\softbreeze\math\matrix3.cpp">
       <Filter>math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\code\math\matrix4.cpp">
+    <ClCompile Include="..\..\..\softbreeze\math\matrix4.cpp">
       <Filter>math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\code\math\vector2.cpp">
+    <ClCompile Include="..\..\..\softbreeze\math\vector2.cpp">
       <Filter>math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\code\math\vector3.cpp">
+    <ClCompile Include="..\..\..\softbreeze\math\vector3.cpp">
       <Filter>math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\code\math\vector4.cpp">
+    <ClCompile Include="..\..\..\softbreeze\math\vector4.cpp">
       <Filter>math</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\code\file\obj_file_loader.cpp">
+    <ClCompile Include="..\..\..\softbreeze\file\obj_file_loader.cpp">
       <Filter>file</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\code\core\graphic.h">
+    <ClInclude Include="..\..\..\softbreeze\core\graphic.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\code\core\input.h">
+    <ClInclude Include="..\..\..\softbreeze\core\input.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\code\math\math_def.h">
+    <ClInclude Include="..\..\..\softbreeze\math\math_def.h">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\code\math\matrix3.h">
+    <ClInclude Include="..\..\..\softbreeze\math\matrix3.h">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\code\math\matrix4.h">
+    <ClInclude Include="..\..\..\softbreeze\math\matrix4.h">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\code\math\vector2.h">
+    <ClInclude Include="..\..\..\softbreeze\math\vector2.h">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\code\math\vector3.h">
+    <ClInclude Include="..\..\..\softbreeze\math\vector3.h">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\code\math\vector4.h">
+    <ClInclude Include="..\..\..\softbreeze\math\vector4.h">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\code\file\obj_file_loader.h">
+    <ClInclude Include="..\..\..\softbreeze\file\obj_file_loader.h">
       <Filter>file</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\code\object\mesh.h">
+    <ClInclude Include="..\..\..\softbreeze\object\mesh.h">
       <Filter>object</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\softbreeze\softbreeze.h" />
   </ItemGroup>
 </Project>

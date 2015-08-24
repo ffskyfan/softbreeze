@@ -5,11 +5,11 @@
 #define OBJLOADER_H
 
 
-struct starMesh;
+struct Mesh;
 
 namespace ObjFileLoader
 {
-	bool Load(const char* filename,starMesh* mesh);
+	bool Load(const char* filename,Mesh* mesh);
 }
 
 

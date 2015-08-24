@@ -4,35 +4,35 @@
 
 #include <math.h>
 
-class starVector2
+class Vector2
 {
 public:
-	starVector2();
-	starVector2( const starVector2& a );
-	explicit starVector2( float x, float y);
+	Vector2();
+	Vector2( const Vector2& a );
+	explicit Vector2( float x, float y);
 
 
 	float				operator[]( int index ) const;
 	float &				operator[]( int index );
 
-	starVector2&		operator =(const starVector2& a);
-	starVector2			operator -();
+	Vector2&		operator =(const Vector2& a);
+	Vector2			operator -();
 
-	starVector2			operator +(const starVector2& a) const; 
-	starVector2			operator -(const starVector2& a) const;  
-	float				operator *(const starVector2& a) const;
-	starVector2			operator *(const float a) const;
-	starVector2			operator /(const float a) const;
+	Vector2			operator +(const Vector2& a) const; 
+	Vector2			operator -(const Vector2& a) const;  
+	float				operator *(const Vector2& a) const;
+	Vector2			operator *(const float a) const;
+	Vector2			operator /(const float a) const;
 
-	friend starVector2	operator *(const float a, const starVector2& v);
+	friend Vector2	operator *(const float a, const Vector2& v);
 
-	starVector2&		operator +=(const starVector2& a);
-	starVector2&		operator -=(const starVector2& a);
-	starVector2&		operator *=(const float& a);
-	starVector2&		operator /=(const float& a);
+	Vector2&		operator +=(const Vector2& a);
+	Vector2&		operator -=(const Vector2& a);
+	Vector2&		operator *=(const float& a);
+	Vector2&		operator /=(const float& a);
 
-	bool				operator == (const starVector2& a) const ;
-	bool				operator != (const starVector2& a) const ;
+	bool				operator == (const Vector2& a) const ;
+	bool				operator != (const Vector2& a) const ;
 
 	float				Length() const;
 	float				LengthSqr() const;
@@ -40,41 +40,41 @@ public:
 	void				Normalize();
 	void				Zero();
 
-	void				Lerp(const starVector2 &v1, const starVector2 &v2, const float l);
+	void				Lerp(const Vector2 &v1, const Vector2 &v2, const float l);
 
 public:
 	float x,y;
 };
 
-__forceinline starVector2::starVector2()
+__forceinline Vector2::Vector2()
 {
 }
 
 
-__forceinline starVector2::starVector2(const starVector2& a)
+__forceinline Vector2::Vector2(const Vector2& a)
 {
 	x = a.x;
 	y = a.y;
 }
 
 
-__forceinline starVector2::starVector2( float x, float y)
+__forceinline Vector2::Vector2( float x, float y)
 {
 	this->x = x;
 	this->y = y;
 }
 
-__forceinline float starVector2::operator[]( int index ) const
+__forceinline float Vector2::operator[]( int index ) const
 {
 	return (&x)[index];
 }
 
-__forceinline float &starVector2::operator[]( int index )
+__forceinline float &Vector2::operator[]( int index )
 {
 	return (&x)[index];
 }
 
-__forceinline starVector2& starVector2::operator=(const starVector2& a)
+__forceinline Vector2& Vector2::operator=(const Vector2& a)
 {
 	this->x = a.x;
 	this->y = a.y;
@@ -83,47 +83,47 @@ __forceinline starVector2& starVector2::operator=(const starVector2& a)
 }
 
 
-__forceinline starVector2 starVector2::operator-() 
+__forceinline Vector2 Vector2::operator-() 
 {
-	return starVector2(-x,-y);
+	return Vector2(-x,-y);
 }
 
 
-__forceinline starVector2 starVector2::operator+(const starVector2& a) const
+__forceinline Vector2 Vector2::operator+(const Vector2& a) const
 {
-	return starVector2(a.x+x,a.y+y);
+	return Vector2(a.x+x,a.y+y);
 
 }
 
-__forceinline starVector2 starVector2::operator-(const starVector2& a) const
+__forceinline Vector2 Vector2::operator-(const Vector2& a) const
 {
-	return starVector2(x-a.x,y-a.y);
+	return Vector2(x-a.x,y-a.y);
 
 }
 
-__forceinline starVector2 starVector2::operator *(const float a) const
+__forceinline Vector2 Vector2::operator *(const float a) const
 {
-	return starVector2(x*a,y*a);
+	return Vector2(x*a,y*a);
 }
 
-__forceinline float starVector2::operator *(const starVector2& a) const
+__forceinline float Vector2::operator *(const Vector2& a) const
 {
 	return x*a.x+y*a.y;
 }
 
 
 
-__forceinline starVector2 starVector2::operator /(const float a) const
+__forceinline Vector2 Vector2::operator /(const float a) const
 {
-	return starVector2(x/a,y/a);
+	return Vector2(x/a,y/a);
 }
 
-__forceinline starVector2	operator *(const float a, const starVector2& v)
+__forceinline Vector2	operator *(const float a, const Vector2& v)
 {
-	return starVector2(a*v.x, a*v.y);
+	return Vector2(a*v.x, a*v.y);
 }
 
-__forceinline starVector2& starVector2::operator+=(const starVector2& a) 
+__forceinline Vector2& Vector2::operator+=(const Vector2& a) 
 {
 	x += a.x;
 	y += a.y;
@@ -131,7 +131,7 @@ __forceinline starVector2& starVector2::operator+=(const starVector2& a)
 	return *this;
 }
 
-__forceinline starVector2& starVector2::operator-=(const starVector2& a) 
+__forceinline Vector2& Vector2::operator-=(const Vector2& a) 
 {
 	x -= a.x;
 	y -= a.y;
@@ -139,7 +139,7 @@ __forceinline starVector2& starVector2::operator-=(const starVector2& a)
 	return *this;
 }
 
-__forceinline starVector2& starVector2::operator*=(const float& a) 
+__forceinline Vector2& Vector2::operator*=(const float& a) 
 {
 	x *= a;
 	y *= a;
@@ -147,7 +147,7 @@ __forceinline starVector2& starVector2::operator*=(const float& a)
 	return *this;
 }
 
-__forceinline starVector2& starVector2::operator/=(const float& a) 
+__forceinline Vector2& Vector2::operator/=(const float& a) 
 {
 	float invA = 1.0f/a;
 	x *= invA;
@@ -157,29 +157,29 @@ __forceinline starVector2& starVector2::operator/=(const float& a)
 }
 
 
-__forceinline bool starVector2::operator == (const starVector2& a) const
+__forceinline bool Vector2::operator == (const Vector2& a) const
 {
 	return x==a.x && y==a.y ;
 
 }
 
-__forceinline bool starVector2::operator != (const starVector2& a) const
+__forceinline bool Vector2::operator != (const Vector2& a) const
 {
 	return x!=a.x || y!=a.y ;
 
 }
 
-__forceinline float starVector2::Length() const
+__forceinline float Vector2::Length() const
 {
 	return sqrt(x*x + y*y);
 }
 
-__forceinline float starVector2::LengthSqr() const
+__forceinline float Vector2::LengthSqr() const
 {
 	return x*x + y*y ;
 }
 
-__forceinline void starVector2::Normalize()
+__forceinline void Vector2::Normalize()
 {
 	float lengthSqr = x*x + y*y ;
 	if( lengthSqr != 0.0f)
@@ -190,7 +190,7 @@ __forceinline void starVector2::Normalize()
 	}
 }
 
-__forceinline void starVector2::Zero()
+__forceinline void Vector2::Zero()
 {
 	x = 0;
 	y = 0;

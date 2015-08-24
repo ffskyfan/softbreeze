@@ -28,9 +28,12 @@
 #include <sys/timeb.h>
 #include <time.h>
 
-
 #include <ddraw.h>    // directX includes
-#include "softbreeze_graphic.h"
+
+#include "../softbreeze.h"
+#include "graphic.h"
+
+softbreeze_namespace_beg
 
 // DEFINES ////////////////////////////////////////////////
 
@@ -6142,3 +6145,6 @@ inline int Mat_Init_3X2(MATRIX3X2_PTR ma,
 } // end Mat_Init_3X2
 #endif
 /////////////////////////////////////////////////////////////////
+
+
+softbreeze_namespace_end

@@ -5,12 +5,12 @@
 
 
 
-class starVector3;
-class starVector2;
+class Vector3;
+class Vector2;
 
-struct starVertex
+struct Vertex
 {
-	starVertex()
+	Vertex()
 	{
 		for(int i=0;i<3;i++){
 			color[i] = 63;
@@ -18,7 +18,7 @@ struct starVertex
 		color[3] = 0; 
 	}
 
-	bool operator<(const starVertex& a) const 
+	bool operator<(const Vertex& a) const 
 	{
 		if(xyz .x != a.xyz.x) {
 			return xyz .x < a.xyz.x;
@@ -47,15 +47,15 @@ struct starVertex
 		}
 	}
 
-	starVector3 	xyz;
-	starVector3		normal;
-	starVector2		textureCoord;
+	Vector3 	xyz;
+	Vector3		normal;
+	Vector2		textureCoord;
 	unsigned char 	color[4];
 };
 
-struct starMesh
+struct Mesh
 {
-	starMesh()
+	Mesh()
 	{
 		vertexNum = 0;
 		indexNum  = 0;
@@ -64,7 +64,7 @@ struct starMesh
 		indices	  = 0;				
 	}
 
-	~starMesh()
+	~Mesh()
 	{
 		if(vertices != 0) {
 			delete vertices;
@@ -78,7 +78,7 @@ struct starMesh
 	int vertexNum;
 	int indexNum;
 
-	starVertex*		vertices;
+	Vertex*		vertices;
 	unsigned int*	indices;				
 };
 

@@ -1,10 +1,10 @@
 
-#include "Vector4.h"
+#include "vector4.h"
 
 
 
 
-void starVector4::Lerp( const starVector4 &v1, const starVector4 &v2, const float l )
+void Vector4::Lerp( const Vector4 &v1, const Vector4 &v2, const float l )
 {
 	if(l <= 0.0f) {
 		(*this) = v1;
