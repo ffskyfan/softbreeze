@@ -1,0 +1,263 @@
+
+#include "Vector2.h"
+#include "Vector3.h"
+#include "Mesh.h"
+#include "ObjLoader.h"
+
+#include <stdio.h>
+
+#include <vector>
+#include <map>
+
+namespace ObjFileLoader
+{
+	enum starObjInedxType
+	{
+		starObjInedxType_non,
+		starObjInedxType_v,
+		starObjInedxType_vn,
+		starObjInedxType_vt,
+		starObjInedxType_vnt,
+	};
+
+	//----------------------------------------------------------
+
+
+	struct starObjFile_Index
+	{
+		starObjFile_Index()
+		{
+			indexType = starObjInedxType_non;
+			vertex = 0;
+			normal = 0;
+			textureCoord = 0;
+		}
+
+		starObjInedxType	indexType;
+
+		int					vertex;
+		int					normal;
+		int					textureCoord;
+	};
+
+	struct starObjFile_Content
+	{
+		std::vector<starVector3>			vertices;
+		std::vector<starVector3>			normals;
+		std::vector<starVector2>			textureCoords;
+		
+		std::vector<starObjFile_Index>		indices;
+	};
+
+
+	//-------------------------------------------------------------
+
+	void Parse(const starObjFile_Content& objInfo,starMesh* mesh)
+	{
+		std::map<starVertex,unsigned int> vertexMap;
+		std::vector<starVertex> vertexVector;
+		std::vector<unsigned int>	indicesVector;
+
+		int idx=0;
+		std::vector<starObjFile_Index>::const_iterator itIndex		= objInfo.indices.begin();
+		std::vector<starObjFile_Index>::const_iterator itIndexEnd	= objInfo.indices.end();
+		for(;itIndex!=itIndexEnd;itIndex++)	{
+			starVertex vertex;
+			vertex.xyz			= objInfo.vertices[itIndex->vertex-1];
+			vertex.normal		= objInfo.normals[itIndex->normal-1];
+			vertex.textureCoord	= objInfo.textureCoords[itIndex->textureCoord-1];
+
+			std::map<starVertex,unsigned int>::iterator itVertexFinded = vertexMap.find(vertex);
+			if(itVertexFinded != vertexMap.end()) {
+				indicesVector.push_back(itVertexFinded->second);
+			} else { 
+				vertexMap.insert( std::pair<starVertex,unsigned int>(vertex,idx));
+				vertexVector.push_back(vertex);
+				indicesVector.push_back(idx);
+				idx++;
+			}
+		}
+
+		size_t vertexNum = vertexVector.size();
+		mesh->vertexNum = vertexNum;
+		mesh->vertices = new starVertex[vertexNum];
+		for(int i=0;i<mesh->vertexNum;i++) {
+			mesh->vertices[i] = vertexVector[i];
+		}
+
+		mesh->indexNum = indicesVector.size();
+		mesh->indices = new unsigned int[mesh->indexNum];
+		for(int i=0;i<mesh->indexNum; i++)
+		{
+			mesh->indices[i] = indicesVector[i];
+		}
+		/*if(mesh->indexNum > 0 ) {
+			std::memcpy(mesh->indices,indicesVector.data(),sizeof(int)*mesh->indexNum);
+		}*/
+
+	}
+
+
+	void ReadIndexData(const char* qualifier,const char* data,starObjFile_Content& objInfo)
+	{
+		const int maxIndicesPerFace = 3;
+		starObjFile_Index objIndices[maxIndicesPerFace]; //most
+
+		char* buffer[maxIndicesPerFace];
+		for(int i=0; i<maxIndicesPerFace ;i++)
+		{
+			buffer[i] = new char[1024];
+		}
+
+		int bufferIdx = 0;
+		int bufferDataPointer = 0;
+		for(int i=0;;i++)
+		{
+			if(data[i]!=' ' && data[i]!='\0') {
+				buffer[bufferIdx][bufferDataPointer] = data[i];
+				bufferDataPointer++;
+			} else {
+				buffer[bufferIdx][bufferDataPointer] = '\0';
+				bufferIdx++;
+				bufferDataPointer = 0;
+				if(data[i]=='\0') {
+					break;
+				}
+				if(bufferIdx>=maxIndicesPerFace){
+					break;
+				}
+			}
+		}
+		
+
+		int i=0;
+		if(strstr(buffer[i], "//")) //  格式v//n
+		{
+			for(; i<maxIndicesPerFace ; i++) {
+				if (2 == sscanf_s(buffer[i], "%d//%d", &objIndices[i].vertex, &objIndices[i].normal ) ) {
+					objIndices[i].indexType = starObjInedxType_vn;
+				}
+			}
+
+		} else if (3 == sscanf_s(buffer[i], "%d/%d/%d", &objIndices[i].vertex, &objIndices[i].textureCoord, &objIndices[i].normal))	{ //  格式v/t/n
+			i++;
+			for(;  i<maxIndicesPerFace ; i++) {
+				if (3 == sscanf_s(buffer[i], "%d/%d/%d", &objIndices[i].vertex, &objIndices[i].textureCoord, &objIndices[i].normal) ) {
+					objIndices[i].indexType = starObjInedxType_vnt;
+				}
+			}
+
+		} else if (2 == sscanf_s(buffer[i], "%d/%d", &objIndices[i].vertex, &objIndices[i].textureCoord ) )	{//  格式v/t
+			i++;
+			for(; i<maxIndicesPerFace ; i++) {
+				if (2 == sscanf_s(buffer[i], "%d/%d", &objIndices[i].vertex, &objIndices[i].textureCoord ) ) {
+					objIndices[i].indexType = starObjInedxType_vt;
+				}
+			}
+
+		} else { // 格式 v
+			for(; i<maxIndicesPerFace ; i++) {
+				if (1 == sscanf_s(buffer[i], "%d", &objIndices[i].vertex) ) {
+					objIndices[i].indexType = starObjInedxType_v;
+				}
+			}
+
+		}
+
+		for(int j=0; j<i; j++) {
+			if( j< 3) {
+				objInfo.indices.push_back(objIndices[j]);
+			}else {
+				objInfo.indices.push_back(objIndices[j-2]);
+				objInfo.indices.push_back(objIndices[j-1]);
+				objInfo.indices.push_back(objIndices[j]);
+			}
+		}
+
+
+		for(int i=0; i<maxIndicesPerFace ;i++)
+		{
+			delete buffer[i];
+		}
+	}
+
+	void ReadSignalData(const char* qualifier,const char* data,starObjFile_Content& objInfo)
+	{
+		if(0==strcmp(qualifier , "v") ) {
+			starVector3 vertexPos;
+			sscanf_s(data, "%f %f %f", &vertexPos.x, &vertexPos.y, &vertexPos.z);
+			objInfo.vertices.push_back(vertexPos);
+
+		} else if (0==strcmp(qualifier , "vn")){
+			starVector3 vertexNormal;
+			sscanf_s(data, "%f %f %f", &vertexNormal.x, &vertexNormal.y, &vertexNormal.z);
+			objInfo.normals.push_back(vertexNormal);
+
+		} else if (0==strcmp(qualifier , "vt")){
+			starVector2 textureCoord;
+			sscanf_s(data, "%f %f ", &textureCoord.x, &textureCoord.y );
+			objInfo.textureCoords.push_back(textureCoord);
+
+		} else if (0==strcmp(qualifier , "f")) {
+			ReadIndexData(qualifier,data,objInfo);
+		} 
+	}
+
+	bool Load(const char* filePath,starMesh* mesh)
+	{
+		FILE* pFile = fopen(filePath,"r");
+		if(!pFile) {
+			return false;
+		}
+
+		char* qualifier = new char[16]; //the largest qualifier is"shadow_obj",16 byte is enough
+		char* buffer = new char[1024]; 
+
+		starObjFile_Content tempObjContent;
+
+		char qualifierReadIdx = 0;
+		while(!feof(pFile)) 
+		{
+			char readData=fgetc(pFile); 
+			if(readData == ' ')
+			{
+				qualifier[qualifierReadIdx]  = '\0';
+				//if (0==strcmp(qualifier , "#")) {
+				//	continue;
+				//}
+
+				int  bufferIdx = 0;
+				while(readData != '\n')
+				{
+					readData=fgetc(pFile);
+					buffer[bufferIdx] = readData;
+					bufferIdx++;
+				}
+				buffer[bufferIdx] = '\0';
+
+				ReadSignalData(qualifier,buffer,tempObjContent);
+				qualifierReadIdx = 0;
+			}
+			else
+			{
+				if(readData != '\n') {
+					qualifier[qualifierReadIdx] = readData;
+					qualifierReadIdx++;
+				}
+				else
+				{
+					qualifierReadIdx = 0;
+				}
+			}
+
+		}
+
+		Parse(tempObjContent, mesh);
+
+		delete qualifier;
+		delete buffer;
+		return true;
+	}
+
+
+}
