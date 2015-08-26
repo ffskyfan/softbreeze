@@ -19,6 +19,7 @@
     <ClCompile Include="..\..\..\softbreeze\math\vector2.cpp" />
     <ClCompile Include="..\..\..\softbreeze\math\vector3.cpp" />
     <ClCompile Include="..\..\..\softbreeze\math\vector4.cpp" />
+    <ClCompile Include="..\..\..\softbreeze\object\camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\softbreeze\core\graphic.h" />
@@ -30,6 +31,7 @@
     <ClInclude Include="..\..\..\softbreeze\math\vector2.h" />
     <ClInclude Include="..\..\..\softbreeze\math\vector3.h" />
     <ClInclude Include="..\..\..\softbreeze\math\vector4.h" />
+    <ClInclude Include="..\..\..\softbreeze\object\camera.h" />
     <ClInclude Include="..\..\..\softbreeze\object\mesh.h" />
     <ClInclude Include="..\..\..\softbreeze\softbreeze.h" />
   </ItemGroup>

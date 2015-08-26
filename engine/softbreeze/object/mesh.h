@@ -1,7 +1,7 @@
 
 
-#ifndef MESH_H
-#define MESH_H
+#ifndef SOFTBREEZE_MESH_H
+#define SOFTBREEZE_MESH_H
 
 
 

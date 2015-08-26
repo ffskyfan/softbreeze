@@ -42,6 +42,9 @@
     <ClCompile Include="..\..\..\softbreeze\file\obj_file_loader.cpp">
       <Filter>file</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\softbreeze\object\camera.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\softbreeze\core\graphic.h">
@@ -75,5 +78,8 @@
       <Filter>object</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\softbreeze\softbreeze.h" />
+    <ClInclude Include="..\..\..\softbreeze\object\camera.h">
+      <Filter>object</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
