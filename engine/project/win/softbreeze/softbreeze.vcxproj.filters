@@ -45,6 +45,9 @@
     <ClCompile Include="..\..\..\softbreeze\object\camera.cpp">
       <Filter>object</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\softbreeze\core\pipe_line.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\softbreeze\core\graphic.h">
@@ -80,6 +83,9 @@
     <ClInclude Include="..\..\..\softbreeze\softbreeze.h" />
     <ClInclude Include="..\..\..\softbreeze\object\camera.h">
       <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\softbreeze\core\pipe_line.h">
+      <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

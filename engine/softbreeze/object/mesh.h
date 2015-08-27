@@ -75,11 +75,12 @@ struct Mesh
 		}
 	}
 
-	int vertexNum;
-	int indexNum;
 
-	Vertex*		vertices;
+	Vertex*			vertices;
+	int				vertexNum;
+
 	unsigned int*	indices;				
+	int				indexNum;
 };
 
 

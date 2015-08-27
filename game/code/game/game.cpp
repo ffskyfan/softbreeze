@@ -15,9 +15,15 @@
 #include <softbreeze/core/graphic.h>
 #include <softbreeze/core/input.h>
 
+#include <softbreeze/math/vector2.h>
+#include <softbreeze/math/vector3.h>
+#include <softbreeze/object/mesh.h>
+#include <softbreeze/file/obj_file_loader.h>
+
 #include "game.h"
 
 
+Mesh mesh;
 
 int Game_Init(void *parms)
 {
@@ -48,6 +54,7 @@ int Game_Init(void *parms)
 	srand(softbreeze::Start_Clock());
 
 	// all your initialization code goes here...
+	ObjFileLoader::Load("xxx.obj", &mesh);
 
 
 	// return success
