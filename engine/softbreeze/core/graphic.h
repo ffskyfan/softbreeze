@@ -13,7 +13,7 @@ softbreeze_namespace_beg
 // to set the globals to instead of constant values
 #define SCREEN_WIDTH        640  // size of screen
 #define SCREEN_HEIGHT       480
-#define SCREEN_BPP          8    // bits per pixel
+#define SCREEN_BPP          32    // bits per pixel
 #define MAX_COLORS_PALETTE  256
 
 

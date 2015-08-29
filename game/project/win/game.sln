@@ -8,6 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "engine", "engine", "{0D9E5188-50F3-4CDE-BBD1-4A319896ED12}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "game", "project\game.vcxproj", "{971F376A-D078-4E39-9E0A-ED90651EC7D8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AA5A331E-C616-45AC-8668-093C21C77085} = {AA5A331E-C616-45AC-8668-093C21C77085}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

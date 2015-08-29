@@ -87,5 +87,11 @@
     <ClInclude Include="..\..\..\softbreeze\core\pipe_line.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\softbreeze\object\vertex_list.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\softbreeze\object\vertex.h">
+      <Filter>object</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

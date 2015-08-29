@@ -35,6 +35,8 @@
     <ClInclude Include="..\..\..\softbreeze\math\vector4.h" />
     <ClInclude Include="..\..\..\softbreeze\object\camera.h" />
     <ClInclude Include="..\..\..\softbreeze\object\mesh.h" />
+    <ClInclude Include="..\..\..\softbreeze\object\vertex.h" />
+    <ClInclude Include="..\..\..\softbreeze\object\vertex_list.h" />
     <ClInclude Include="..\..\..\softbreeze\softbreeze.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

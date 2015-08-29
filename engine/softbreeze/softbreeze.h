@@ -9,6 +9,7 @@
 #define softbreeze_namespace_beg	namespace softbreeze{
 #define softbreeze_namespace_end	}
 
+#define OUTPUT
 
 
 

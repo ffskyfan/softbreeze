@@ -18,12 +18,15 @@
 #include <softbreeze/math/vector2.h>
 #include <softbreeze/math/vector3.h>
 #include <softbreeze/object/mesh.h>
+#include <softbreeze/object/vertex_list.h>
 #include <softbreeze/file/obj_file_loader.h>
+#include <softbreeze/core/pipe_line.h>
 
 #include "game.h"
 
 
-Mesh mesh;
+Mesh		mesh;
+VertexList	vertices;
 
 int Game_Init(void *parms)
 {
@@ -54,7 +57,31 @@ int Game_Init(void *parms)
 	srand(softbreeze::Start_Clock());
 
 	// all your initialization code goes here...
-	ObjFileLoader::Load("xxx.obj", &mesh);
+	//ObjFileLoader::Load("xxx.obj", &mesh);
+
+	Vertex vertex1;
+	vertex1.xyz.x = 0;
+	vertex1.xyz.y = 0;
+	vertex1.xyz.z = 100;
+
+	Vertex vertex2;
+	vertex2.xyz.x = 90;
+	vertex2.xyz.y = 0;
+	vertex2.xyz.z = 100;
+
+	Vertex vertex3;
+	vertex3.xyz.x = 45;
+	vertex3.xyz.y = 90;
+	vertex3.xyz.z = 100;
+
+	vertices.vertices.push_back(vertex1);
+	vertices.vertices.push_back(vertex2);
+	vertices.vertices.push_back(vertex3);
+
+	for(int j=0 ; j<3; j++) {
+		vertices.indices.push_back(j);
+	}
+
 
 
 	// return success
@@ -116,6 +143,20 @@ int Game_Main(void *parms)
 
 	// game logic here...
 
+	VertexList projectionVertices;
+	softbreeze::PipeLine::Projection(vertices, projectionVertices);
+
+	VertexList ScreenVertices;
+	softbreeze::PipeLine::ToScreen(projectionVertices, WINDOW_WIDTH, WINDOW_HEIGHT, ScreenVertices);
+
+	// lock the back buffer
+	softbreeze::DDraw_Lock_Back_Surface();
+
+	// render the polygon list
+	softbreeze::PipeLine::DrawVertexList(ScreenVertices, softbreeze::back_buffer, softbreeze::back_lpitch);
+
+	// unlock the back buffer
+	softbreeze::DDraw_Unlock_Back_Surface();
 
 
 	// flip the surfaces
