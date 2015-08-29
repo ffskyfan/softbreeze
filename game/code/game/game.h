@@ -1,25 +1,25 @@
 
 
+#ifndef SOFTBREEZE_GAME_H
+#define SOFTBREEZE_GAME_H
 
 
-// defines for windows interface
-#define WINDOW_CLASS_NAME "WIN3DCLASS"  // class name
-#define WINDOW_TITLE      "Soft Breeze Console"
-#define WINDOW_WIDTH      640   // size of window
-#define WINDOW_HEIGHT     480
+class Game
+{
+public:
+	Game();
+	~Game();
 
-#define WINDOW_BPP        32    // bitdepth of window (8,16,24 etc.)
-// note: if windowed and not
-// fullscreen then bitdepth must
-// be same as system bitdepth
-// also if 8-bit the a pallete
-// is created and attached
-
-#define WINDOWED_APP      1     // 0 not windowed, 1 windowed
-
+	int		Init(HWND hWnd);
+	void	Shutdown();
+	void	Main();
+};
 
 
 
-int Game_Init(void *parms=NULL);
-int Game_Shutdown(void *parms=NULL);
-int Game_Main(void *parms=NULL);
+
+
+
+
+
+#endif

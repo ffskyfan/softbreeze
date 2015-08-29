@@ -1,3 +1,4 @@
+/*
 // T3DLIB1.H - Header file for T3DLIB1.CPP game engine library
 
 // watch for multiple inclusions
@@ -633,3 +634,5 @@ softbreeze_namespace_end
 #endif
 
 
+
+*/

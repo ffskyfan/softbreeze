@@ -48,6 +48,9 @@
     <ClCompile Include="..\..\..\softbreeze\core\pipe_line.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\softbreeze\core\graphic_new.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\softbreeze\core\graphic.h">
@@ -92,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\softbreeze\object\vertex.h">
       <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\softbreeze\core\graphic_new.h">
+      <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

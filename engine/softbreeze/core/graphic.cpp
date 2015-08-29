@@ -1,3 +1,4 @@
+/*
 // T3DLIB1.CPP - Game Engine Part I
 
 // INCLUDES ///////////////////////////////////////////////
@@ -6148,3 +6149,5 @@ inline int Mat_Init_3X2(MATRIX3X2_PTR ma,
 
 
 softbreeze_namespace_end
+
+*/

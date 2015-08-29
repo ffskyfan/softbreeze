@@ -10,6 +10,7 @@
     <ClCompile Include="..\..\..\code\game\game.cpp">
       <Filter>game</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\code\main_new.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\code\game\game.h">

@@ -1,3 +1,4 @@
+/*
 // T3DCONSOLE2.CPP - First Template for Tricks 3D Volume II
 // Use this as a template for your applications if you wish
 // you may want to change things like the resolution of the
@@ -228,3 +229,5 @@ int WINAPI WinMain(HINSTANCE hinstance,
 
 
 //////////////////////////////////////////////////////////
+
+*/

@@ -94,7 +94,7 @@ namespace PipeLine
 		int indexCount = (int)vertexList.indices.size();
 		for(int i = 0; ((i+1)*3) <= indexCount; i++) {
 
-			Draw_Clip_Line(vertexList.vertices[i].xyz.x,
+			/*Draw_Clip_Line(vertexList.vertices[i].xyz.x,
 				vertexList.vertices[i].xyz.y,
 				vertexList.vertices[i+1].xyz.x,
 				vertexList.vertices[i+1].xyz.y,
@@ -113,7 +113,7 @@ namespace PipeLine
 				vertexList.vertices[i].xyz.x,
 				vertexList.vertices[i].xyz.y,
 				0xFF0000FF,
-				video_buffer, lpitch);
+				video_buffer, lpitch);*/
 
 		}
 

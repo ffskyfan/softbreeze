@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\softbreeze\core\graphic.cpp" />
+    <ClCompile Include="..\..\..\softbreeze\core\graphic_new.cpp" />
     <ClCompile Include="..\..\..\softbreeze\core\input.cpp" />
     <ClCompile Include="..\..\..\softbreeze\core\pipe_line.cpp" />
     <ClCompile Include="..\..\..\softbreeze\file\obj_file_loader.cpp" />
@@ -24,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\softbreeze\core\graphic.h" />
+    <ClInclude Include="..\..\..\softbreeze\core\graphic_new.h" />
     <ClInclude Include="..\..\..\softbreeze\core\input.h" />
     <ClInclude Include="..\..\..\softbreeze\core\pipe_line.h" />
     <ClInclude Include="..\..\..\softbreeze\file\obj_file_loader.h" />
@@ -70,6 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(IncludePath);$(DXSDK_DIR)Include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
