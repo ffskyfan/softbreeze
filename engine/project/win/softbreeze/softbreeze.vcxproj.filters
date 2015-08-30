@@ -13,7 +13,7 @@
     <Filter Include="object">
       <UniqueIdentifier>{442ef593-e6f4-4237-b813-2b3a0ead0306}</UniqueIdentifier>
     </Filter>
-    <Filter Include="common">
+    <Filter Include="shader">
       <UniqueIdentifier>{ead6193a-cde2-4162-91c5-4aa438d1bcc0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -99,5 +99,10 @@
     <ClInclude Include="..\..\..\softbreeze\core\graphic_new.h">
       <Filter>core</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\..\softbreeze\shader\core.fx">
+      <Filter>shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

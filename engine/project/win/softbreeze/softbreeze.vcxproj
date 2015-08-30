@@ -41,6 +41,12 @@
     <ClInclude Include="..\..\..\softbreeze\object\vertex_list.h" />
     <ClInclude Include="..\..\..\softbreeze\softbreeze.h" />
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\..\softbreeze\shader\core.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.1</ShaderModel>
+    </FxCompile>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AA5A331E-C616-45AC-8668-093C21C77085}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
