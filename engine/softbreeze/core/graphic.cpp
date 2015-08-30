@@ -33,7 +33,10 @@ Graphic& Graphic::Instance()
 
 Graphic::Graphic()
 {
+	canvas	= nullptr;
 
+	width	= 0;
+	height	= 0;
 }
 
 Graphic::~Graphic()
@@ -253,7 +256,7 @@ HRESULT Graphic::Init(HWND hWnd)
         return hr;
 
 	canvas= new UINT[width * height];
-	for(int i = 0; i < width * height; i++) {
+	for(uint32 i = 0; i < width * height; i++) {
 		canvas[i] = 0x00000000;
 	}
 
@@ -320,6 +323,15 @@ void Graphic::Cleanup()
 }
 
 
+
+
+void Graphic::SetPixel(uint32 x, uint32 y, uint32 color)
+{
+	if(x > width) return;
+	if(y > height) return;
+
+	canvas[y*width + x] = color;
+}
 
 
 softbreeze_namespace_end

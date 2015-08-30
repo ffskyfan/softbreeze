@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\softbreeze\core\graphic.cpp" />
-    <ClCompile Include="..\..\..\softbreeze\core\graphic_new.cpp" />
     <ClCompile Include="..\..\..\softbreeze\core\input.cpp" />
     <ClCompile Include="..\..\..\softbreeze\core\pipe_line.cpp" />
     <ClCompile Include="..\..\..\softbreeze\file\obj_file_loader.cpp" />
@@ -25,7 +24,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\softbreeze\core\graphic.h" />
-    <ClInclude Include="..\..\..\softbreeze\core\graphic_new.h" />
     <ClInclude Include="..\..\..\softbreeze\core\input.h" />
     <ClInclude Include="..\..\..\softbreeze\core\pipe_line.h" />
     <ClInclude Include="..\..\..\softbreeze\file\obj_file_loader.h" />

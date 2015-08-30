@@ -41,15 +41,20 @@ public:
 	void			Render();
 	void			Cleanup();
 
+	void			SetPixel(uint32 x, uint32 y, uint32 color);
+
+	inline uint32	GetWidth()	{ return width; }
+	inline uint32	GetHeight() { return height; }
+
 private:
 	Graphic();
 	
 
 	static Graphic* _inst;
 
-	UINT*								canvas;
-	UINT								width;
-	UINT								height;
+	uint32*								canvas;
+	uint32								width;
+	uint32								height;
 
 	D3D_DRIVER_TYPE						driverType			= D3D_DRIVER_TYPE_NULL;
 	D3D_FEATURE_LEVEL					featureLevel		= D3D_FEATURE_LEVEL_11_0;

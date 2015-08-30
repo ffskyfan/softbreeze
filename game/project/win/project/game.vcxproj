@@ -81,7 +81,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\code\game\game.cpp" />
     <ClCompile Include="..\..\..\code\main.cpp" />
-    <ClCompile Include="..\..\..\code\main_new.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\code\game\game.h" />

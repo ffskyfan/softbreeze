@@ -1,4 +1,5 @@
 
+#include <time.h>
 
 #include <windows.h>
 #include <d3d11.h>
@@ -21,22 +22,30 @@ Game::~Game()
 
 int Game::Init(HWND hWnd)
 {
-	softbreeze::Graphic& graphic = softbreeze::Graphic::Instance();
+	breeze::Graphic& graphic = breeze::Graphic::Instance();
 	HRESULT result = graphic.Init(hWnd);
+
+	srand(time(nullptr));
 
 	return result;
 }
 
 void Game::Shutdown()
 {
-	softbreeze::Graphic& graphic = softbreeze::Graphic::Instance();
+	breeze::Graphic& graphic = breeze::Graphic::Instance();
 	graphic.Cleanup();
 
 }
 
 void Game::Main()
 {
-	softbreeze::Graphic& graphic = softbreeze::Graphic::Instance();
+	breeze::Graphic& graphic = breeze::Graphic::Instance();
+
+
+	breeze::uint32 x = rand()%graphic.GetWidth();
+	breeze::uint32 y = rand()%graphic.GetHeight();
+
+	graphic.SetPixel(x, y, 0xFFFFFFFF);
 	graphic.Render();
 }
 

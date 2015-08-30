@@ -21,7 +21,11 @@
 #include <io.h>
 #include <fcntl.h>
 
-#include <ddraw.h>  // directX includes
+// directX includes
+#include <windows.h>
+#include <d3d11.h>
+#include <d3dx11.h>
+
 #include <dinput.h>
 
 #include "../softbreeze.h"
