@@ -5,7 +5,7 @@
 #include <d3dx11.h>
 
 #include <softbreeze/softbreeze.h>
-#include <softbreeze/core/graphic_new.h>
+#include <softbreeze/core/graphic.h>
 
 #include "game.h"
 

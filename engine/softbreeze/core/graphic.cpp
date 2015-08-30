@@ -5,7 +5,7 @@
 #include <d3dcompiler.h>
 
 #include "../softbreeze.h"
-#include "graphic_new.h"
+#include "graphic.h"
 
 
 
