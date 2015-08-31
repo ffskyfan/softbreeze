@@ -10,7 +10,7 @@ namespace PipeLine
 
 	void ToScreen(const VertexList& vertexList, int width, int height, OUTPUT VertexList& output);
 
-	void DrawVertexList(const VertexList& vertexList, UCHAR* video_buffer, int lpitch);
+	void DrawVertexList(const VertexList& vertexList);
 }
 
 softbreeze_namespace_end

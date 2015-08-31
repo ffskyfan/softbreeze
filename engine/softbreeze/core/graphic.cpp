@@ -348,6 +348,8 @@ void Graphic::SetPixel(uint32 x, uint32 y, uint32 color)
 
 void Graphic::DrawLine(Vector2 begin, Vector2 end, uint32 color)
 {//draw line using Bresenham's line algorithm
+	if(begin.x < 0 || begin.y < 0 || end.x < 0 || end.y < 0) return;
+
 	int beginX = (int)begin.x, beginY = (int)begin.y;
 	int endX = (int)end.x, endY = (int)end.y;
 
@@ -358,23 +360,22 @@ void Graphic::DrawLine(Vector2 begin, Vector2 end, uint32 color)
 	if(begin == end) return;
 
 	if(deltaX == 0) { //
-		int step = deltaY / abs(deltaY);
+		int step = (beginY < endY) ? 1 : -1;
 		for(int i = beginY+step; i != endY; i = i + step) {
 			SetPixel(beginX, i, color);
 		}
 	} else if(deltaY == 0) { //
 
-		int step = deltaX / abs(deltaX);
+		int step = (beginX < endX) ? 1 : -1;
 		for(int i = beginX+step; i != endX; i = i + step) {
 			SetPixel(i, beginY, color);
 		}
 
 	} else {
-		int m = deltaY / deltaX;
-		if(abs(m) == 1) { //
+		if(deltaY==deltaX || deltaY==-deltaX) { //
 
-			int stepX = deltaX / abs(deltaX);
-			int stepY = deltaY / abs(deltaY);
+			int stepX = (beginX < endX) ? 1 : -1;
+			int stepY = (beginY < endY) ? 1 : -1;
 			for(int i = beginX + stepX, j = beginY + stepY; i != endX; i = i + stepX, j = j + stepY) {
 				SetPixel(i, j, color);
 			}

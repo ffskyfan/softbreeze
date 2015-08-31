@@ -91,32 +91,19 @@ namespace PipeLine
 	}
 
 
-	void DrawVertexList(const VertexList& vertexList, UCHAR* video_buffer, int lpitch)
+	void DrawVertexList(const VertexList& vertexList)
 	{
+		Graphic& graphic = Graphic::Instance();
 		int indexCount = (int)vertexList.indices.size();
 		for(int i = 0; ((i+1)*3) <= indexCount; i++) {
 
-			/*Draw_Clip_Line(vertexList.vertices[i].xyz.x,
-				vertexList.vertices[i].xyz.y,
-				vertexList.vertices[i+1].xyz.x,
-				vertexList.vertices[i+1].xyz.y,
-				0xFF0000FF,
-				video_buffer, lpitch);
+			Vector2 pos0( vertexList.vertices[i].xyz.x, vertexList.vertices[i].xyz.y);
+			Vector2 pos1( vertexList.vertices[i+1].xyz.x, vertexList.vertices[i+1].xyz.y);
+			Vector2 pos2( vertexList.vertices[i+2].xyz.x, vertexList.vertices[i+2].xyz.y);
 
-			Draw_Clip_Line(vertexList.vertices[i+1].xyz.x,
-				vertexList.vertices[i+1].xyz.y,
-				vertexList.vertices[i+2].xyz.x,
-				vertexList.vertices[i+2].xyz.y,
-				0xFF0000FF,
-				video_buffer, lpitch);
-
-			Draw_Clip_Line(vertexList.vertices[i+2].xyz.x,
-				vertexList.vertices[i+2].xyz.y,
-				vertexList.vertices[i].xyz.x,
-				vertexList.vertices[i].xyz.y,
-				0xFF0000FF,
-				video_buffer, lpitch);*/
-
+			graphic.DrawLine(pos0,pos1,0xFF0000FF);
+			graphic.DrawLine(pos1,pos2,0xFF0000FF);
+			graphic.DrawLine(pos2,pos0,0xFF0000FF);
 		}
 
 	}
