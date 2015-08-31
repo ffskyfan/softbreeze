@@ -8,6 +8,8 @@
 
 softbreeze_namespace_beg
 
+class Vector2;
+
 struct vertex
 {
 	XMFLOAT3	pos;
@@ -41,10 +43,16 @@ public:
 	void			Render();
 	void			Cleanup();
 
-	void			SetPixel(uint32 x, uint32 y, uint32 color);
-
 	inline uint32	GetWidth()	{ return width; }
 	inline uint32	GetHeight() { return height; }
+
+	void			ClearCanvas(uint32 color);
+
+	void			SetPixel(uint32 x, uint32 y, uint32 color);
+
+	void			DrawLine(Vector2 begin, Vector2 end, uint32 color);
+	
+
 
 private:
 	Graphic();

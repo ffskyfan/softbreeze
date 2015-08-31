@@ -7,6 +7,7 @@
 #include <vector>
 
 
+softbreeze_namespace_beg
 
 struct VertexList
 {
@@ -27,6 +28,7 @@ struct VertexList
 
 
 
+softbreeze_namespace_end
 
 
 #endif

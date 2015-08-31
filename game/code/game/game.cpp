@@ -6,6 +6,7 @@
 #include <d3dx11.h>
 
 #include <softbreeze/softbreeze.h>
+#include <softbreeze/math/vector2.h>
 #include <softbreeze/core/graphic.h>
 
 #include "game.h"
@@ -34,18 +35,25 @@ void Game::Shutdown()
 {
 	breeze::Graphic& graphic = breeze::Graphic::Instance();
 	graphic.Cleanup();
-
 }
 
 void Game::Main()
 {
 	breeze::Graphic& graphic = breeze::Graphic::Instance();
 
+	graphic.ClearCanvas(0x00000000);
 
-	breeze::uint32 x = rand()%graphic.GetWidth();
-	breeze::uint32 y = rand()%graphic.GetHeight();
+	breeze::uint32 beginX = rand()%graphic.GetWidth();
+	breeze::uint32 beginY = rand()%graphic.GetHeight();
 
-	graphic.SetPixel(x, y, 0xFFFFFFFF);
+	breeze::uint32 endX = rand()%graphic.GetWidth();
+	breeze::uint32 endY = rand()%graphic.GetHeight();
+
+	breeze::Vector2 begin(beginX, beginY);
+	breeze::Vector2 end(endX, endY);
+	graphic.DrawLine(begin, end, 0xFFFFFFFF);
+
+
 	graphic.Render();
 }
 

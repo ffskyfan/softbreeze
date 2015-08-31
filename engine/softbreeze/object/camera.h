@@ -3,6 +3,9 @@
 #ifndef SOFTBREEZE_CAMERA_H
 #define SOFTBREEZE_CAMERA_H
 
+
+softbreeze_namespace_beg
+
 class Vector3;
 
 class Camera
@@ -25,5 +28,7 @@ public:
 
 
 };
+
+softbreeze_namespace_end
 
 #endif

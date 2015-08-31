@@ -4,6 +4,9 @@
 
 #include <math.h>
 
+
+softbreeze_namespace_beg
+
 class Vector2
 {
 public:
@@ -197,6 +200,8 @@ __forceinline void Vector2::Zero()
 }
 
 
+
+softbreeze_namespace_end
 
 
 #endif

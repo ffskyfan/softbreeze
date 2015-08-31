@@ -5,6 +5,10 @@
 
 #include <math.h>
 
+
+
+softbreeze_namespace_beg
+
 class Vector4
 {
 public:
@@ -216,6 +220,9 @@ __forceinline float Vector4::Dot(const Vector4& a) const
 {
 	return x*a.x+y*a.y+z*a.z+w*a.w;
 }
+
+
+softbreeze_namespace_end
 
 #endif
 

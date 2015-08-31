@@ -9,6 +9,10 @@
 #include <math.h>
 #include <cstring>
 
+
+
+softbreeze_namespace_beg
+
 class Matrix3;
 
 
@@ -327,6 +331,10 @@ __forceinline bool Matrix4::IsIdentity( const float epsilon ) const
 {
 	return Compare(matrix4_identity,epsilon);
 }
+
+
+
+softbreeze_namespace_end
 
 #endif
 

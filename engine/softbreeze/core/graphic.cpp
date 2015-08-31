@@ -5,6 +5,11 @@
 #include <d3dcompiler.h>
 
 #include "../softbreeze.h"
+
+#include "../math/vector2.h"
+
+
+
 #include "graphic.h"
 
 
@@ -292,7 +297,7 @@ void Graphic::Render()
 	// Update canvas
 	pImmediateContext->UpdateSubresource(Texture, 0, NULL, canvas, width*sizeof(UINT), 0);
 
-    // Render a triangle
+    // Draw
 	pImmediateContext->VSSetShader( pVertexShader, NULL, 0 );
 	pImmediateContext->PSSetShader( pPixelShader, NULL, 0 );
     pImmediateContext->PSSetShaderResources( 0, 1, &pTextureRV );
@@ -323,6 +328,13 @@ void Graphic::Cleanup()
 }
 
 
+void Graphic::ClearCanvas(uint32 color)
+{
+	int canvasLength = width*height;
+	for(int i = 0; i < canvasLength; i++) {
+		canvas[i] = color;
+	}
+}
 
 
 void Graphic::SetPixel(uint32 x, uint32 y, uint32 color)
@@ -331,6 +343,64 @@ void Graphic::SetPixel(uint32 x, uint32 y, uint32 color)
 	if(y > height) return;
 
 	canvas[y*width + x] = color;
+}
+
+
+void Graphic::DrawLine(Vector2 begin, Vector2 end, uint32 color)
+{//draw line using Bresenham's line algorithm
+	int beginX = (int)begin.x, beginY = (int)begin.y;
+	int endX = (int)end.x, endY = (int)end.y;
+
+	int deltaX = endX - beginX;
+	int deltaY = endY - beginY;
+
+	SetPixel(beginX, beginY, color);
+	if(begin == end) return;
+
+	if(deltaX == 0) { //
+		int step = deltaY / abs(deltaY);
+		for(int i = beginY+step; i != endY; i = i + step) {
+			SetPixel(beginX, i, color);
+		}
+	} else if(deltaY == 0) { //
+
+		int step = deltaX / abs(deltaX);
+		for(int i = beginX+step; i != endX; i = i + step) {
+			SetPixel(i, beginY, color);
+		}
+
+	} else {
+		int m = deltaY / deltaX;
+		if(abs(m) == 1) { //
+
+			int stepX = deltaX / abs(deltaX);
+			int stepY = deltaY / abs(deltaY);
+			for(int i = beginX + stepX, j = beginY + stepY; i != endX; i = i + stepX, j = j + stepY) {
+				SetPixel(i, j, color);
+			}
+
+		} else {
+
+			deltaX = abs(deltaX);
+			deltaY = abs(deltaY);
+			int stepX = (beginX < endX) ? 1 : -1;
+			int stepY = (beginY < endY) ? 1 : -1;
+			int err = deltaX - deltaY;
+
+			while(true) {
+				if((beginX == endX) && (beginY == endY)) break;
+
+				int err2 = 2 * err;
+				if(err2 > -deltaY) { err -= deltaY; beginX += stepX; }
+				if(err2 < deltaX) { err += deltaX; beginY += stepY; }
+
+				SetPixel(beginX, beginY, color);
+			}
+
+		}
+	}
+
+
 }
 
 

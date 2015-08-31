@@ -5,6 +5,8 @@
 
 #include <math.h>
 
+softbreeze_namespace_beg
+
 class Vector3
 {
 public:
@@ -230,6 +232,9 @@ __forceinline Vector3& Vector3::Cross(const Vector3& a,const Vector3& b)
 
 	return *this;
 }
+
+
+softbreeze_namespace_end
 
 
 #endif

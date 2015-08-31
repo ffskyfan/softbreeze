@@ -1,7 +1,9 @@
 
+#include "../softbreeze.h"
 #include "vector4.h"
 
 
+softbreeze_namespace_beg
 
 
 void Vector4::Lerp( const Vector4 &v1, const Vector4 &v2, const float l )
@@ -15,4 +17,8 @@ void Vector4::Lerp( const Vector4 &v1, const Vector4 &v2, const float l )
 	}
 }
 
+
+
+
+softbreeze_namespace_end
 

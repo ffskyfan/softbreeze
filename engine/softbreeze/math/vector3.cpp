@@ -1,7 +1,9 @@
 
 
+#include "../softbreeze.h"
 #include "vector3.h"
 
+softbreeze_namespace_beg
 
 void Vector3::Lerp( const Vector3 &v1, const Vector3 &v2, const float l )
 {
@@ -42,3 +44,6 @@ void Vector3::SLerp( const Vector3 &v1, const Vector3 &v2, const float t )
 	(*this) = scale0*v1 + scale1*v2;
 
 }
+
+
+softbreeze_namespace_end

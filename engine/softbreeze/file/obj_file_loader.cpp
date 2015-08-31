@@ -1,13 +1,16 @@
 
+#include <stdio.h>
+#include <vector>
+#include <map>
+
+#include "../softbreeze.h"
 #include "../math/vector2.h"
 #include "../math/vector3.h"
 #include "../object/mesh.h"
 #include "../file/obj_file_loader.h"
 
-#include <stdio.h>
 
-#include <vector>
-#include <map>
+softbreeze_namespace_beg
 
 namespace ObjFileLoader
 {
@@ -261,3 +264,9 @@ namespace ObjFileLoader
 
 
 }
+
+
+softbreeze_namespace_end
+
+
+

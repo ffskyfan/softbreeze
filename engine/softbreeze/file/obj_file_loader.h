@@ -4,6 +4,7 @@
 #ifndef OBJLOADER_H
 #define OBJLOADER_H
 
+softbreeze_namespace_beg
 
 struct Mesh;
 
@@ -14,6 +15,7 @@ namespace ObjFileLoader
 
 
 
+softbreeze_namespace_end
 
 
 

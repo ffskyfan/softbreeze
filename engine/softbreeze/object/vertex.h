@@ -3,6 +3,7 @@
 #ifndef SOFTBREEZE_VERTEX_H
 #define SOFTBREEZE_VERTEX_H
 
+softbreeze_namespace_beg
 
 
 class Vector3;
@@ -55,6 +56,7 @@ struct Vertex
 
 
 
+softbreeze_namespace_end
 
 
 

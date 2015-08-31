@@ -6,6 +6,7 @@
 #include "vertex.h"
 
 
+softbreeze_namespace_beg
 
 struct Mesh
 {
@@ -40,6 +41,7 @@ struct Mesh
 
 
 
+softbreeze_namespace_end
 
 
 #endif
