@@ -302,7 +302,7 @@ void Graphic::Render()
 	pImmediateContext->PSSetShader( pPixelShader, NULL, 0 );
     pImmediateContext->PSSetShaderResources( 0, 1, &pTextureRV );
     pImmediateContext->PSSetSamplers( 0, 1, &pSamplerLinear );
-    pImmediateContext->Draw( 6, 0 );
+    pImmediateContext->Draw( 4, 0 );
 
     // Present the information rendered to the back buffer to the front buffer (the screen)
     pSwapChain->Present( 0, 0 );
