@@ -48,6 +48,9 @@
     <ClCompile Include="..\..\..\softbreeze\core\graphic.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\softbreeze\math\utility.cpp">
+      <Filter>math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\softbreeze\core\input.h">
@@ -92,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\softbreeze\core\graphic.h">
       <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\softbreeze\math\utility.h">
+      <Filter>math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

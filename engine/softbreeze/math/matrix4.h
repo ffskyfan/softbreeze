@@ -71,6 +71,11 @@ public:
 extern Matrix4 matrix4_zero;
 extern Matrix4 matrix4_identity;
 
+__forceinline Matrix4::Matrix4()
+{
+	Zero();
+}
+
 __forceinline Matrix4::Matrix4(const Vector4& x,const Vector4& y,const Vector4& z,const Vector4& w)
 {
 	data[0]= x;

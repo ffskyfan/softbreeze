@@ -9,6 +9,8 @@
 #include <softbreeze/core/graphic.h>
 #include <softbreeze/math/vector2.h>
 #include <softbreeze/math/vector3.h>
+#include <softbreeze/math/matrix4.h>
+#include <softbreeze/math/utility.h>
 #include <softbreeze/object/vertex.h>
 #include <softbreeze/object/vertex_list.h>
 #include <softbreeze/object/mesh.h>
@@ -18,6 +20,8 @@
 
 breeze::Mesh		mesh;
 breeze::VertexList	vertices;
+breeze::Matrix4		matrix = breeze::matrix4_zero;
+float				angle;
 
 Game::Game()
 {
@@ -70,6 +74,15 @@ void Game::Main()
 {
 	breeze::Graphic& graphic = breeze::Graphic::Instance();
 	graphic.ClearCanvas(0x00000000);
+
+	breeze::BuildXYZRotationMatrix4(0, angle, 0, matrix);
+
+	// rotate polygon slowly
+	if(++angle >= 360.0) angle = 0;
+
+	// rotate the local coords of single polygon in renderlist
+	//Transform_RENDERLIST4DV1(&rend_list, &mrot, TRANSFORM_LOCAL_ONLY);
+
 
 	breeze::VertexList projectionVertices;
 	breeze::PipeLine::Projection(vertices, projectionVertices);

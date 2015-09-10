@@ -17,6 +17,7 @@
     <ClCompile Include="..\..\..\softbreeze\file\obj_file_loader.cpp" />
     <ClCompile Include="..\..\..\softbreeze\math\matrix3.cpp" />
     <ClCompile Include="..\..\..\softbreeze\math\matrix4.cpp" />
+    <ClCompile Include="..\..\..\softbreeze\math\utility.cpp" />
     <ClCompile Include="..\..\..\softbreeze\math\vector2.cpp" />
     <ClCompile Include="..\..\..\softbreeze\math\vector3.cpp" />
     <ClCompile Include="..\..\..\softbreeze\math\vector4.cpp" />
@@ -30,6 +31,7 @@
     <ClInclude Include="..\..\..\softbreeze\math\math_def.h" />
     <ClInclude Include="..\..\..\softbreeze\math\matrix3.h" />
     <ClInclude Include="..\..\..\softbreeze\math\matrix4.h" />
+    <ClInclude Include="..\..\..\softbreeze\math\utility.h" />
     <ClInclude Include="..\..\..\softbreeze\math\vector2.h" />
     <ClInclude Include="..\..\..\softbreeze\math\vector3.h" />
     <ClInclude Include="..\..\..\softbreeze\math\vector4.h" />
