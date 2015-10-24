@@ -1,7 +1,7 @@
 
 
-#ifndef MATRIX4_H
-#define MATRIX4_H
+#ifndef MATRIX3_H
+#define MATRIX3_H
 
 #include "vector3.h"
 #include "vector4.h"

@@ -6,6 +6,9 @@ softbreeze_namespace_beg
 
 namespace PipeLine
 {
+
+	void Transform(const VertexList& vertexList, const Matrix4& matrix, OUTPUT VertexList& output);
+
 	void Projection(const VertexList& vertexList, OUTPUT VertexList& output);
 
 	void ToScreen(const VertexList& vertexList, int width, int height, OUTPUT VertexList& output);

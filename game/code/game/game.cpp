@@ -41,17 +41,17 @@ int Game::Init(HWND hWnd)
 	breeze::Vertex vertex1;
 	vertex1.xyz.x = 0;
 	vertex1.xyz.y = 0;
-	vertex1.xyz.z = 100;
+	vertex1.xyz.z = 500;
 
 	breeze::Vertex vertex2;
 	vertex2.xyz.x = 90;
 	vertex2.xyz.y = 0;
-	vertex2.xyz.z = 100;
+	vertex2.xyz.z = 500;
 
 	breeze::Vertex vertex3;
 	vertex3.xyz.x = 45;
 	vertex3.xyz.y = 90;
-	vertex3.xyz.z = 100;
+	vertex3.xyz.z = 500;
 
 	vertices.vertices.push_back(vertex1);
 	vertices.vertices.push_back(vertex2);
@@ -70,22 +70,37 @@ void Game::Shutdown()
 	graphic.Cleanup();
 }
 
+
 void Game::Main()
 {
 	breeze::Graphic& graphic = breeze::Graphic::Instance();
 	graphic.ClearCanvas(0x00000000);
 
-	breeze::BuildXYZRotationMatrix4(0, angle, 0, matrix);
+	breeze::BuildXYZRotationMatrix4(angle, 0, 0,  matrix);
+
+	for(int i = 0; i < 10000000; i++) {
+		int a = i;
+	}
 
 	// rotate polygon slowly
+	//angle = angle + 90;
 	if(++angle >= 360.0) angle = 0;
+	/*std::vector<breeze::Vertex>::iterator it = vertices.vertices.begin();
+	std::vector<breeze::Vertex>::iterator itEnd = vertices.vertices.end();
+	for(; it != itEnd; it++) {
+		breeze::Vertex& vectex = *it;
+		vectex.xyz.z+=0.1;
+		if(++vectex.xyz.z > 500) {
+			vectex.xyz.z = 0;
+		}
+	}*/
 
-	// rotate the local coords of single polygon in renderlist
-	//Transform_RENDERLIST4DV1(&rend_list, &mrot, TRANSFORM_LOCAL_ONLY);
+	breeze::VertexList TransformVertices;
+	breeze::PipeLine::Transform(vertices, matrix, TransformVertices);
 
 
 	breeze::VertexList projectionVertices;
-	breeze::PipeLine::Projection(vertices, projectionVertices);
+	breeze::PipeLine::Projection(TransformVertices, projectionVertices);
 
 	breeze::VertexList ScreenVertices;
 	breeze::PipeLine::ToScreen(projectionVertices, graphic.GetWidth(), graphic.GetHeight(), ScreenVertices);

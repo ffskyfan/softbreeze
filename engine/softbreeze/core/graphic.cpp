@@ -7,6 +7,8 @@
 #include "../softbreeze.h"
 
 #include "../math/vector2.h"
+#include "../math/matrix4.h"
+#include "../math/utility.h"
 
 
 
@@ -339,6 +341,8 @@ void Graphic::ClearCanvas(uint32 color)
 
 void Graphic::SetPixel(uint32 x, uint32 y, uint32 color)
 {
+	if(x < 0) return;
+	if(y < 0) return;
 	if(x > width) return;
 	if(y > height) return;
 
@@ -347,17 +351,18 @@ void Graphic::SetPixel(uint32 x, uint32 y, uint32 color)
 
 
 void Graphic::DrawLine(Vector2 begin, Vector2 end, uint32 color)
-{//draw line using Bresenham's line algorithm
-	if(begin.x < 0 || begin.y < 0 || end.x < 0 || end.y < 0) return;
-
+{
 	int beginX = (int)begin.x, beginY = (int)begin.y;
 	int endX = (int)end.x, endY = (int)end.y;
+
+	bool isInScreen = CohenSutherlandClip(0, width, 0, height, beginX, beginY, endX, endY);
+	if(!isInScreen) return;
 
 	int deltaX = endX - beginX;
 	int deltaY = endY - beginY;
 
 	SetPixel(beginX, beginY, color);
-	if(begin == end) return;
+	if(beginX == endX && beginY==endY) return;
 
 	if(deltaX == 0) { //
 		int step = (beginY < endY) ? 1 : -1;

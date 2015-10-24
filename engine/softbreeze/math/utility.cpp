@@ -2,15 +2,99 @@
 #include "../softbreeze.h"
 
 #include <limits>
+#include <math.h>
 
 #include "matrix4.h"
-
-
 #include "utility.h"
 
+#define _USE_MATH_DEFINES
 
 
 softbreeze_namespace_beg
+
+namespace
+{
+
+	enum{
+		CohenSutherlandCode_Inside	= 0,
+		CohenSutherlandCode_Left	= 1,
+		CohenSutherlandCode_Right	= 2,
+		CohenSutherlandCode_Buttom	= 4,
+		CohenSutherlandCode_Top		= 8
+	};
+
+	char CohenSutherlandCode(int left, int right, int top, int buttom, int x, int y)
+	{
+		char c = CohenSutherlandCode_Inside;
+		if(x < left) {
+			c = c | CohenSutherlandCode_Left;
+		}
+		if(x > right) {
+			c = c | CohenSutherlandCode_Right;
+		}
+		if(y < top) {
+			c = c | CohenSutherlandCode_Top;
+		}
+		if(y > buttom) {
+			c = c | CohenSutherlandCode_Buttom;
+		}
+		return c;
+	}
+
+}
+
+bool CohenSutherlandClip(int left, int right, int top, int buttom, OUTPUT int& beginX, OUTPUT int& beginY, OUTPUT int& endX, OUTPUT int& endY)
+{
+	char codeBegin = CohenSutherlandCode(left, right, top, buttom, beginX, beginY);
+	char codeEnd = CohenSutherlandCode(left, right, top, buttom, endX, endY);
+	int tempCode;
+	int x = 0, y = 0;//记录交点  
+	while(codeBegin != CohenSutherlandCode_Inside || codeEnd != CohenSutherlandCode_Inside)//两个点（beginX,beginY）,（endX,endY）不都在矩形框内；都在内部就画出线段  
+	{
+		if((codeBegin & codeEnd) != 0) {  //两个点在矩形框的同一外侧 → 不可见
+			return false;
+		}
+
+		tempCode = codeBegin;
+		if(codeBegin == 0) {// 判断P1 P2谁在矩形框内（可能是P1，也可能是P2）  
+			tempCode = codeEnd;
+		}
+
+		if((tempCode & CohenSutherlandCode_Left) != 0) {//用与判断的点在左侧   
+			x = left;
+			y = beginY + (int)((endY - beginY) / (endX - beginX) * (left - beginX));
+		} else if((tempCode & CohenSutherlandCode_Right) != 0) {//用与判断的点在右侧   
+			x = right;
+			y = beginY + (int)((endY - beginY) / (endX - beginX) * (right - beginX));
+		} else if((tempCode & CohenSutherlandCode_Top) != 0) {//用与判断的点在上方  
+			y = top;
+			x = beginX + (int)((endX - beginX) / (endY - beginY) * (top - beginY));
+		} else if((tempCode & CohenSutherlandCode_Buttom) != 0) {//用与判断的点在下方  
+			y = buttom;
+			x = beginX + (int)((endX - beginX) / (endY - beginY) * (buttom - beginY));
+		}
+
+		if(tempCode == codeBegin) {//上面判断使用的是哪个端点就替换该端点为新值  
+			beginX = x;
+			beginY = y;
+			codeBegin = CohenSutherlandCode(left, right, top, buttom, beginX, beginY); 
+		} else {
+			endX = x;
+			endY = y;
+			codeEnd = CohenSutherlandCode(left, right, top, buttom, endX, endY);
+		}
+	}
+
+	return true;
+}
+
+
+inline float AngleToRadian(float angle)
+{
+	return angle*PI / 180.0f;
+}
+
+
 
 
 void BuildXYZRotationMatrix4(float thetaX, float thetaY, float thetaZ, Matrix4& OUTPUT matrix)
@@ -24,8 +108,8 @@ void BuildXYZRotationMatrix4(float thetaX, float thetaY, float thetaZ, Matrix4& 
 	// zero!
 
 	Matrix4 mx(matrix4_zero);
-	Matrix4 my(matrix4_zero); 
-	Matrix4 mz(matrix4_zero); 
+	Matrix4 my(matrix4_zero);
+	Matrix4 mz(matrix4_zero);
 
 	float sinThetA = 0, cosThetA = 0;   // used to initialize matrices
 	int rotSeq = 0;                  // 1 for x, 2 for y, 4 for z
@@ -35,7 +119,7 @@ void BuildXYZRotationMatrix4(float thetaX, float thetaY, float thetaZ, Matrix4& 
 
 	float epsilon = std::numeric_limits<float>::epsilon();
 
-	
+
 
 	// step 1: based on zero and non-zero rotation angles, determine
 	// rotation sequence
@@ -47,6 +131,10 @@ void BuildXYZRotationMatrix4(float thetaX, float thetaY, float thetaZ, Matrix4& 
 
 	if(fabs(thetaZ) > epsilon) // z
 		rotSeq = rotSeq | 4;
+
+	thetaX = AngleToRadian(thetaX);
+	thetaY = AngleToRadian(thetaY);
+	thetaZ = AngleToRadian(thetaZ);
 
 	// now case on sequence
 	switch(rotSeq) {
@@ -116,7 +204,7 @@ void BuildXYZRotationMatrix4(float thetaX, float thetaY, float thetaZ, Matrix4& 
 			0, 0, 0, 1);
 
 		// concatenate matrices 
-		//matrix = mx*my;
+		matrix = mx*my;
 		return;
 
 	} break;
@@ -159,7 +247,7 @@ void BuildXYZRotationMatrix4(float thetaX, float thetaY, float thetaZ, Matrix4& 
 			0, 0, 0, 1);
 
 		// concatenate matrices 
-		//matrix = mx*mz;
+		matrix = mx*mz;
 		return;
 
 	} break;
@@ -184,7 +272,7 @@ void BuildXYZRotationMatrix4(float thetaX, float thetaY, float thetaZ, Matrix4& 
 			0, 0, 0, 1);
 
 		// concatenate matrices 
-		//matrix = my*mz;
+		matrix = my*mz;
 		return;
 
 	} break;
@@ -218,7 +306,7 @@ void BuildXYZRotationMatrix4(float thetaX, float thetaY, float thetaZ, Matrix4& 
 
 		// concatenate matrices, watch order!
 		matrix = mx*my;
-		//matrix = matrix*mz;
+		matrix = matrix*mz;
 	} break;
 
 	default: break;

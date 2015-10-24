@@ -50,7 +50,7 @@ public:
 
 	void			SetPixel(uint32 x, uint32 y, uint32 color);
 
-	void			DrawLine(Vector2 begin, Vector2 end, uint32 color);
+	void			DrawLine(Vector2 begin, Vector2 end, uint32 color);//draw line using Bresenham's line algorithm
 	
 
 

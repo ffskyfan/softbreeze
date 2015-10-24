@@ -8,10 +8,33 @@
 softbreeze_namespace_beg
 
 
-void Camera::SetMoveSpeed(float speed)
+Camera::Camera()
 {
-	moveSpeed = speed;
+
 }
+
+
+Camera::~Camera()
+{
+
+}
+
+void Camera::Init(const Vector3& pos, const Vector3& direction)
+{
+
+}
+
+void Camera::SetPos(const Vector3& pos)
+{
+
+}
+
+
+void Camera::LookAt(const Vector3& direction)
+{
+
+}
+
 
 void Camera::Move(Vector3 offset)
 {
@@ -21,7 +44,6 @@ void Camera::Move(Vector3 offset)
 
 void Camera::Rotate(Vector3 offset)
 {
-	angle += offset;
 }
 
 

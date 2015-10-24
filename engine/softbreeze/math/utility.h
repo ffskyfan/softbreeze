@@ -9,8 +9,9 @@
 
 softbreeze_namespace_beg
 
+bool CohenSutherlandClip(int left, int right, int top, int buttom, OUTPUT int& beginX, OUTPUT int& beginY, OUTPUT int& endX, OUTPUT int& endY);
 
-void BuildXYZRotationMatrix4(float thetaX, float thetaY, float thetaZ, Matrix4& OUTPUT matrix);
+void BuildXYZRotationMatrix4(float thetaX, float thetaY, float thetaZ, OUTPUT Matrix4& matrix);
 
 
 softbreeze_namespace_end

@@ -11,20 +11,21 @@ class Vector3;
 class Camera
 {
 public:
-	Vector3 pos;
-	Vector3 angle;
-	
-	float moveSpeed;
-	float rotateSpeed;
+	Camera();
+	~Camera();
 
+	void Init(const Vector3& pos, const Vector3& direction);
 
-public:
-
-	void SetMoveSpeed(float speed);
-	void SetRotateSpeed();
+	void SetPos(const Vector3& pos);
+	void LookAt(const Vector3& direction);
 
 	void Move(Vector3 offset);
 	void Rotate(Vector3 offset);
+
+private:
+	Vector3 pos;
+
+	Vector3 look;//单位向量，表示所注视的方向
 
 
 };
