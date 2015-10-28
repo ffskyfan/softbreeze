@@ -1,6 +1,7 @@
 
 #include "../softbreeze.h"
 #include "../math/vector3.h"
+#include "../math/matrix3.h"
 #include "../math/matrix4.h"
 #include "../math/utility.h"
 #include "camera.h"
@@ -40,6 +41,28 @@ void Camera::Move(Vector3 offset)
 {
 	pos += offset;
 }
+
+
+namespace
+{
+
+	Matrix3 MakeRotationMatrixAlongVector(const Vector3& vec, float angle)
+	{
+		float radian = AngleToRadian(angle);
+		float cs = cos(radian);
+		float sn = sin(radian);
+
+		float x = vec.x, y = vec.y, z = vec.z;
+
+		Matrix3 matrix(	x*x*(1 - cs) + sn,		x*y*(1 - cs) + x*sn,	x*z*(1 - cs) - y*sn,
+						x*y*(1 - cs) - z*sn,	y*y*(1 - cs) + cs,		y*z*(1 - cs) + x*sn,
+						x*z*(1 - cs) - y*sn,	y*z*(1 - cs) - x*sn,	z*z*(1 - cs) + cs);
+
+		return matrix;
+	}
+
+}
+
 
 
 void Camera::Roll(float angle)
