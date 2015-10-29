@@ -16,13 +16,15 @@ public:
 	~Camera();
 
 
-	void SetPos(const Vector3& pos);
+	void	SetPos(const Vector3& pos);
 
-	void Move(Vector3 offset);
+	void	Move(Vector3 offset);
 
-	void Roll(float angle);		//沿着UVN的Z轴旋转
-	void Pitch(float angle);	//沿着UVN的X轴旋转
-	void Yaw(float angle);		//沿着UVN的Y轴旋转
+	void	Pitch(float angle);		//沿着UVN的X轴旋转
+	void	Yaw(float angle);		//沿着UVN的Y轴旋转
+	void	Roll(float angle);		//沿着UVN的Z轴旋转
+
+	Matrix4	MakeCameraMatrix();
 
 private:
 	Vector3 pos;

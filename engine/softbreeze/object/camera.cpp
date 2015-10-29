@@ -46,7 +46,7 @@ void Camera::Move(Vector3 offset)
 namespace
 {
 
-	Matrix3 MakeRotationMatrixAlongVector(const Vector3& vec, float angle)
+	Matrix4 MakeRotationMatrixAlongVector(const Vector4& vec, float angle)
 	{
 		float radian = AngleToRadian(angle);
 		float cs = cos(radian);
@@ -54,9 +54,10 @@ namespace
 
 		float x = vec.x, y = vec.y, z = vec.z;
 
-		Matrix3 matrix(	x*x*(1 - cs) + sn,		x*y*(1 - cs) + x*sn,	x*z*(1 - cs) - y*sn,
-						x*y*(1 - cs) - z*sn,	y*y*(1 - cs) + cs,		y*z*(1 - cs) + x*sn,
-						x*z*(1 - cs) - y*sn,	y*z*(1 - cs) - x*sn,	z*z*(1 - cs) + cs);
+		Matrix4 matrix(	x*x*(1 - cs) + sn,		x*y*(1 - cs) + x*sn,	x*z*(1 - cs) - y*sn,	0,
+						x*y*(1 - cs) - z*sn,	y*y*(1 - cs) + cs,		y*z*(1 - cs) + x*sn,	0,
+						x*z*(1 - cs) - y*sn,	y*z*(1 - cs) - x*sn,	z*z*(1 - cs) + cs,		0,
+						0,						0,						0,						1);
 
 		return matrix;
 	}
@@ -65,60 +66,56 @@ namespace
 
 
 
-void Camera::Roll(float angle)
-{
-	float cs=cos(AngleToRadian(angle));  
-    float sn=sin(AngleToRadian(angle));  
-
-    Vector3 t(u);  
-    Vector3 s(v);  
-
-    u.x() = cs*t.x()-sn*s.x();  
-    u.y() = cs*t.y()-sn*s.y();  
-    u.z() = cs*t.z()-sn*s.z();  
-  
-    v.x() = sn*t.x()+cs*s.x();  
-    v.y() = sn*t.y()+cs*s.y();  
-    v.z() = sn*t.z()+cs*s.z();  
-
-}
 
 void Camera::Pitch(float angle)
 {
-	float cs = cos(angle*3.14159265 / 180);
-	float sn = sin(angle*3.14159265 / 180);
-	Vector3d t(v);
-	Vector3d s(n);
+	Vector4& u = uvn.data[0];
+	Vector4& v = uvn.data[1];
+	Vector4& n = uvn.data[2];
 
-	v.x() = cs*t.x() - sn*s.x();
-	v.y() = cs*t.y() - sn*s.y();
-	v.z() = cs*t.z() - sn*s.z();
+	Matrix4 matrix = MakeRotationMatrixAlongVector(u, angle);
 
-	n.x() = sn*t.x() + cs*s.x();
-	n.y() = sn*t.y() + cs*s.y();
-	n.z() = sn*t.z() + cs*s.z();
+	v = v*matrix;
+	v.Normalize();
+	n = n*matrix;
+	n.Normalize();
 
-
+	direction.x=n.x;
+	direction.y=n.y;
+	direction.z=n.z;
 }
 
 void Camera::Yaw(float angle)
 {
-	float cs = cos(angle*3.14159265 / 180);
-	float sn = sin(angle*3.14159265 / 180);
-	Vector3d t(n);
-	Vector3d s(u);
+	Vector4& u = uvn.data[0];
+	Vector4& v = uvn.data[1];
+	Vector4& n = uvn.data[2];
 
-	n.x() = cs*t.x() - sn*s.x();
-	n.y() = cs*t.y() - sn*s.y();
-	n.z() = cs*t.z() - sn*s.z();
+	Matrix4 matrix = MakeRotationMatrixAlongVector(v, angle);
 
-	u.x() = sn*t.x() + cs*s.x();
-	u.y() = sn*t.y() + cs*s.y();
-	u.z() = sn*t.z() + cs*s.z();
+	u = u*matrix;
+	u.Normalize();
+	n = n*matrix;
+	n.Normalize();
 
-
+	direction.x=n.x;
+	direction.y=n.y;
+	direction.z=n.z;
 }
 
+void Camera::Roll(float angle)
+{
+	Vector4& u = uvn.data[0];
+	Vector4& v = uvn.data[1];
+	Vector4& n = uvn.data[2];
+
+	Matrix4 matrix = MakeRotationMatrixAlongVector(n, angle);
+
+	u = u*matrix;
+	u.Normalize();
+	v = v*matrix;
+	v.Normalize();
+}
 
 
 
