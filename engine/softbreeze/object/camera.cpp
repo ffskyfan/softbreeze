@@ -118,6 +118,21 @@ void Camera::Roll(float angle)
 }
 
 
+Matrix4	Camera::MakeCameraMatrix()
+{
+	const Vector4& u = uvn.data[0];
+	const Vector4& v = uvn.data[1];
+	const Vector4& n = uvn.data[2];
+	Vector4 cameraPos(pos.x, pos.y, pos.z, 0);
+
+	Matrix4 matrix( u.x,				v.x,				n.x,				0,
+					u.y,				v.y,				n.y,				0,
+					u.z,				v.z,				n.z,				0,
+					-cameraPos.Dot(u),	-cameraPos.Dot(v),	-cameraPos.Dot(n),	1);
+
+	return matrix;
+}
+
 
 
 softbreeze_namespace_end
