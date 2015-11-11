@@ -92,7 +92,9 @@ void Game::Main()
 	//if(++angle >= 360.0) angle = 0;
 
 	//move ploygon slowly
-	if(++pos.z > 100.0f) pos.z = 0;
+	//if(++pos.z > 100.0f) pos.z = 0;
+
+	camera.Roll(1);
 
 	for(int i = 0; i < 10000000; i++) {
 		int a = i;
@@ -105,8 +107,12 @@ void Game::Main()
 	breeze::PipeLine::ToWorld(TransformVertices, pos, WorldVertices);
 
 
+	breeze::VertexList CameraVertices;
+	breeze::PipeLine::ToCamera(WorldVertices, camera, CameraVertices);
+
+
 	breeze::VertexList projectionVertices;
-	breeze::PipeLine::Projection(WorldVertices, projectionVertices);
+	breeze::PipeLine::Projection(CameraVertices, projectionVertices);
 
 	breeze::VertexList ScreenVertices;
 	breeze::PipeLine::ToScreen(projectionVertices, graphic.GetWidth(), graphic.GetHeight(), ScreenVertices);

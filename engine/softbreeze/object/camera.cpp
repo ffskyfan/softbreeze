@@ -118,7 +118,7 @@ void Camera::Roll(float angle)
 }
 
 
-Matrix4	Camera::MakeCameraMatrix()
+Matrix4	Camera::MakeCameraMatrix() const
 {
 	const Vector4& u = uvn.data[0];
 	const Vector4& v = uvn.data[1];

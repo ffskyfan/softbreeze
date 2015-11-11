@@ -24,7 +24,7 @@ public:
 	void	Yaw(float angle);		//沿着UVN的Y轴旋转
 	void	Roll(float angle);		//沿着UVN的Z轴旋转
 
-	Matrix4	MakeCameraMatrix();
+	Matrix4	MakeCameraMatrix() const;
 
 private:
 	Vector3 pos;
