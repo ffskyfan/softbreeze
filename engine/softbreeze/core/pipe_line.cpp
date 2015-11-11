@@ -22,6 +22,28 @@ softbreeze_namespace_beg
 namespace PipeLine
 {
 
+	void ToWorld(const VertexList& vertexList, const Vector3 pos, OUTPUT VertexList& output)
+	{
+		std::vector<Vertex>::const_iterator it = vertexList.vertices.begin();
+		std::vector<Vertex>::const_iterator itEnd = vertexList.vertices.end();
+		for(; it != itEnd; it++) {
+			const Vertex& vertex = *it;
+
+			Vertex newVertex = vertex;
+			newVertex.xyz = vertex.xyz-pos;
+
+			output.vertices.push_back(newVertex);
+		}
+
+		std::vector<int>::const_iterator indexIt = vertexList.indices.begin();
+		std::vector<int>::const_iterator indexItEnd = vertexList.indices.end();
+		for(; indexIt != indexItEnd; indexIt++) {
+			output.indices.push_back(*indexIt);
+		}
+	}
+
+
+
 	void Mat_Mul_VECTOR4D_4X3(const Vector3&  va,
 		const Matrix4& mb,
 		Vector3&  vprod)

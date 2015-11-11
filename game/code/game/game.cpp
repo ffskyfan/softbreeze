@@ -14,13 +14,16 @@
 #include <softbreeze/object/vertex.h>
 #include <softbreeze/object/vertex_list.h>
 #include <softbreeze/object/mesh.h>
+#include <softbreeze/object/camera.h>
 #include <softbreeze/core/pipe_line.h>
 
 #include "game.h"
 
 breeze::Mesh		mesh;
 breeze::VertexList	vertices;
+breeze::Vector3		pos;
 breeze::Matrix4		matrix = breeze::matrix4_zero;
+breeze::Camera		camera;
 float				angle;
 
 Game::Game()
@@ -61,6 +64,13 @@ int Game::Init(HWND hWnd)
 		vertices.indices.push_back(j);
 	}
 
+	pos.x = 0;
+	pos.y = 0;
+	pos.z = 0;
+
+	breeze::Vector3 cameraPos(0, 0, 0);
+	camera.SetPos(cameraPos); 
+
 	return result;
 }
 
@@ -78,29 +88,25 @@ void Game::Main()
 
 	breeze::BuildXYZRotationMatrix4(angle, 0, 0,  matrix);
 
+	// rotate polygon slowly
+	//if(++angle >= 360.0) angle = 0;
+
+	//move ploygon slowly
+	if(++pos.z > 100.0f) pos.z = 0;
+
 	for(int i = 0; i < 10000000; i++) {
 		int a = i;
 	}
 
-	// rotate polygon slowly
-	//angle = angle + 90;
-	if(++angle >= 360.0) angle = 0;
-	/*std::vector<breeze::Vertex>::iterator it = vertices.vertices.begin();
-	std::vector<breeze::Vertex>::iterator itEnd = vertices.vertices.end();
-	for(; it != itEnd; it++) {
-		breeze::Vertex& vectex = *it;
-		vectex.xyz.z+=0.1;
-		if(++vectex.xyz.z > 500) {
-			vectex.xyz.z = 0;
-		}
-	}*/
-
 	breeze::VertexList TransformVertices;
 	breeze::PipeLine::Transform(vertices, matrix, TransformVertices);
 
+	breeze::VertexList WorldVertices;
+	breeze::PipeLine::ToWorld(TransformVertices, pos, WorldVertices);
+
 
 	breeze::VertexList projectionVertices;
-	breeze::PipeLine::Projection(TransformVertices, projectionVertices);
+	breeze::PipeLine::Projection(WorldVertices, projectionVertices);
 
 	breeze::VertexList ScreenVertices;
 	breeze::PipeLine::ToScreen(projectionVertices, graphic.GetWidth(), graphic.GetHeight(), ScreenVertices);
