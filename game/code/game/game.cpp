@@ -94,9 +94,9 @@ void Game::Main()
 	//move ploygon slowly
 	//if(++pos.z > 100.0f) pos.z = 0;
 
-	//camera.Pitch(1);
+	camera.Yaw(1);
 
-	camera.Move(breeze::Vector3(1,0,0));
+	//camera.Move(breeze::Vector3(0,1,0));
 
 	for(int i = 0; i < 10000000; i++) {
 		int a = i;

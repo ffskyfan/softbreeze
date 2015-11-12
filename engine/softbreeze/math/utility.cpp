@@ -62,16 +62,16 @@ bool CohenSutherlandClip(int left, int right, int top, int buttom, OUTPUT int& b
 
 		if((tempCode & CohenSutherlandCode_Left) != 0) {//用与判断的点在左侧   
 			x = left;
-			y = beginY + (int)((endY - beginY) / (endX - beginX) * (left - beginX));
+			y = beginY + (int)((left - beginX) * (endY - beginY) / (endX - beginX) );
 		} else if((tempCode & CohenSutherlandCode_Right) != 0) {//用与判断的点在右侧   
 			x = right;
-			y = beginY + (int)((endY - beginY) / (endX - beginX) * (right - beginX));
+			y = beginY + (int)((right - beginX) * (endY - beginY) / (endX - beginX) );
 		} else if((tempCode & CohenSutherlandCode_Top) != 0) {//用与判断的点在上方  
 			y = top;
-			x = beginX + (int)((endX - beginX) / (endY - beginY) * (top - beginY));
+			x = beginX + (int)((top - beginY) * (endX - beginX) / (endY - beginY) );
 		} else if((tempCode & CohenSutherlandCode_Buttom) != 0) {//用与判断的点在下方  
 			y = buttom;
-			x = beginX + (int)((endX - beginX) / (endY - beginY) * (buttom - beginY));
+			x = beginX + (int)((buttom - beginY) * (endX - beginX) / (endY - beginY) );
 		}
 
 		if(tempCode == codeBegin) {//上面判断使用的是哪个端点就替换该端点为新值  
