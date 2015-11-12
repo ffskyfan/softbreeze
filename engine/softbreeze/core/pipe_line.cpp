@@ -30,8 +30,11 @@ namespace PipeLine
 		for(; it != itEnd; it++) {
 			const Vertex& vertex = *it;
 
+			Vector4 newXYZ(vertex.xyz.x, vertex.xyz.y, vertex.xyz.z, 1);
+			newXYZ = newXYZ*matrix;
+
 			Vertex newVertex = vertex;
-			newVertex.xyz = vertex.xyz*matrix;
+			newVertex.xyz = Vector3(newXYZ.x, newXYZ.y, newXYZ.z);
 
 			output.vertices.push_back(newVertex);
 		}

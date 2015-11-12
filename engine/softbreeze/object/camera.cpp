@@ -54,9 +54,9 @@ namespace
 
 		float x = vec.x, y = vec.y, z = vec.z;
 
-		Matrix4 matrix(	x*x*(1 - cs) + sn,		x*y*(1 - cs) + x*sn,	x*z*(1 - cs) - y*sn,	0,
-						x*y*(1 - cs) - z*sn,	y*y*(1 - cs) + cs,		y*z*(1 - cs) + x*sn,	0,
-						x*z*(1 - cs) - y*sn,	y*z*(1 - cs) - x*sn,	z*z*(1 - cs) + cs,		0,
+		Matrix4 matrix(	x*x*(1 - cs) + cs,		x*y*(1 - cs) - z*sn,	x*z*(1 - cs) + y*sn,	0,
+						x*y*(1 - cs) + z*sn,	y*y*(1 - cs) + cs,		y*z*(1 - cs) - x*sn,	0,
+						x*z*(1 - cs) - y*sn,	y*z*(1 - cs) + x*sn,	z*z*(1 - cs) + cs,		0,
 						0,						0,						0,						1);
 
 		return matrix;
@@ -125,10 +125,10 @@ Matrix4	Camera::MakeCameraMatrix() const
 	const Vector4& n = uvn.data[2];
 	Vector4 cameraPos(pos.x, pos.y, pos.z, 0);
 
-	Matrix4 matrix( u.x,				v.x,				n.x,				0,
-					u.y,				v.y,				n.y,				0,
-					u.z,				v.z,				n.z,				0,
-					-cameraPos.Dot(u),	-cameraPos.Dot(v),	-cameraPos.Dot(n),	1);
+	Matrix4 matrix( u.x,				v.x,				n.x,				-cameraPos.Dot(u),
+					u.y,				v.y,				n.y,				-cameraPos.Dot(v),
+					u.z,				v.z,				n.z,				-cameraPos.Dot(n),
+					0,					0,					0,								1);
 
 	return matrix;
 }
