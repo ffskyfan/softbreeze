@@ -55,7 +55,7 @@ namespace PipeLine
 			const Vertex& vertex = *it;
 
 			Vertex newVertex = vertex;
-			newVertex.xyz = vertex.xyz-pos;
+			newVertex.xyz = vertex.xyz+pos;
 
 			output.vertices.push_back(newVertex);
 		}
@@ -152,9 +152,13 @@ namespace PipeLine
 		int indexCount = (int)vertexList.indices.size();
 		for(int i = 0; ((i+1)*3) <= indexCount; i++) {
 
-			Vector2 pos0( vertexList.vertices[i].xyz.x, vertexList.vertices[i].xyz.y);
-			Vector2 pos1( vertexList.vertices[i+1].xyz.x, vertexList.vertices[i+1].xyz.y);
-			Vector2 pos2( vertexList.vertices[i+2].xyz.x, vertexList.vertices[i+2].xyz.y);
+			int idx0 = vertexList.indices[i * 3];
+			int idx1 = vertexList.indices[(i * 3)+1];
+			int idx2 = vertexList.indices[(i * 3)+2];
+
+			Vector2 pos0( vertexList.vertices[idx0].xyz.x, vertexList.vertices[idx0].xyz.y);
+			Vector2 pos1( vertexList.vertices[idx1].xyz.x, vertexList.vertices[idx1].xyz.y);
+			Vector2 pos2( vertexList.vertices[idx2].xyz.x, vertexList.vertices[idx2].xyz.y);
 
 			graphic.DrawLine(pos0,pos1,0xFF0000FF);
 			graphic.DrawLine(pos1,pos2,0xFF0000FF);

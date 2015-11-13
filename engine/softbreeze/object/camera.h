@@ -17,6 +17,7 @@ public:
 
 
 	void	SetPos(const Vector3& pos);
+	void	SetAspectRatio(float ratio) { if(ratio > 0) { aspectRatio = ratio; } }
 
 	void	Move(Vector3 offset);
 
@@ -33,6 +34,7 @@ private:
 
 	Matrix4 uvn;
 
+	float	aspectRatio;//¿í¸ß±È
 };
 
 softbreeze_namespace_end
