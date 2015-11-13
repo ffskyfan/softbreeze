@@ -89,6 +89,7 @@ int Game::Init(HWND hWnd)
 
 	breeze::Vector3 cameraPos(0, 0, 0);
 	camera.SetPos(cameraPos); 
+	camera.SetAspectRatio(16.0f/9.0f); 
 
 	return result;
 }
@@ -132,7 +133,7 @@ void Game::Main()
 	breeze::PipeLine::ToCamera(WorldVertices, camera, CameraVertices);
 
 	breeze::VertexList projectionVertices;
-	breeze::PipeLine::Projection(CameraVertices, projectionVertices);
+	breeze::PipeLine::Projection(CameraVertices, camera, projectionVertices);
 
 	breeze::VertexList ScreenVertices;
 	breeze::PipeLine::ToScreen(projectionVertices, graphic.GetWidth(), graphic.GetHeight(), ScreenVertices);

@@ -82,8 +82,10 @@ namespace PipeLine
 											 0,0,1,1,
 											 0,0,0,0);
 
-	void Projection(const VertexList& vertexList, OUTPUT VertexList& output)
+	void Projection(const VertexList& vertexList,const Camera& camera, OUTPUT VertexList& output)
 	{
+		float aspectRatio = camera.GetAspectRatio();
+		
 		std::vector<Vertex>::const_iterator it = vertexList.vertices.begin();
 		std::vector<Vertex>::const_iterator itEnd = vertexList.vertices.end();
 		for(; it != itEnd; it++) {
@@ -92,7 +94,7 @@ namespace PipeLine
 
 			Vector3 projectionVector;
 			projectionVector.x = vertex.xyz.x / z;
-			projectionVector.y = vertex.xyz.y / z; //这样的投影是个方形，将来有了镜头后，可以设置镜头宽高比，之后用y乘以宽高比，计算出y的坐标
+			projectionVector.y = vertex.xyz.y*aspectRatio / z; //这样的投影是个方形，将来有了镜头后，可以设置镜头宽高比，之后用y乘以宽高比，计算出y的坐标
 			projectionVector.z = z;
 
 			Vertex projectionVertex;

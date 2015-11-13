@@ -16,16 +16,19 @@ public:
 	~Camera();
 
 
-	void	SetPos(const Vector3& pos);
-	void	SetAspectRatio(float ratio) { if(ratio > 0) { aspectRatio = ratio; } }
+	void			SetPos(const Vector3& pos);
 
-	void	Move(Vector3 offset);
+	inline void		SetAspectRatio(float ratio) { if(ratio > 0) { aspectRatio = ratio; } }
+	inline float	GetAspectRatio() const  { return aspectRatio;  }
 
-	void	Pitch(float angle);		//沿着UVN的X轴旋转
-	void	Yaw(float angle);		//沿着UVN的Y轴旋转
-	void	Roll(float angle);		//沿着UVN的Z轴旋转
 
-	Matrix4	MakeCameraMatrix() const;
+	void			Move(Vector3 offset);
+
+	void			Pitch(float angle);		//沿着UVN的X轴旋转
+	void			Yaw(float angle);		//沿着UVN的Y轴旋转
+	void			Roll(float angle);		//沿着UVN的Z轴旋转
+
+	Matrix4			MakeCameraMatrix() const;
 
 private:
 	Vector3 pos;
