@@ -10,6 +10,9 @@ namespace PipeLine
 
 	void ToWorld(const VertexList& vertexList, const Vector3& pos, OUTPUT VertexList& output);
 
+	void RemoveBackface(const VertexList& vertexList, const Camera& camera, OUTPUT VertexList& output);
+
+
 	void ToCamera(const VertexList& vertexList, const Camera& camera, OUTPUT VertexList& output);
 
 	void Projection(const VertexList& vertexList,const Camera& camera, OUTPUT VertexList& output);

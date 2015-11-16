@@ -355,7 +355,7 @@ void Graphic::DrawLine(Vector2 begin, Vector2 end, uint32 color)
 	int beginX = (int)begin.x, beginY = (int)begin.y;
 	int endX = (int)end.x, endY = (int)end.y;
 
-	bool isInScreen = CohenSutherlandClip(0, width, 0, height, beginX, beginY, endX, endY);
+	bool isInScreen = CohenSutherlandClip(0, width-1, 0, height-1, beginX, beginY, endX, endY);
 	if(!isInScreen) return;
 
 	int deltaX = endX - beginX;

@@ -219,16 +219,16 @@ __forceinline void Vector3::Zero()
 
 
 
-__forceinline Vector3 Vector3::Cross(const Vector3& a) const
+__forceinline Vector3 Vector3::Cross(const Vector3& b) const
 {
-	return Vector3(y*a.z-z*a.y, z*a.x-x*a.z, x*a.y-y*a.z);
+	return Vector3(y*b.z-z*b.y, z*b.x-x*b.z, x*b.y-y*b.x);
 }
 
 __forceinline Vector3& Vector3::Cross(const Vector3& a,const Vector3& b)
 {
-	x = y*a.z-z*a.y;
-	y = z*a.x-x*a.z;
-	z = x*a.y-y*a.z;
+	x = a.y*b.z-a.z*b.y;
+	y = a.z*b.x-a.x*b.z;
+	z = a.x*b.y-a.y*b.x;
 
 	return *this;
 }

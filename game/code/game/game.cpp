@@ -52,7 +52,7 @@ int Game::Init(HWND hWnd)
 	vertex2.xyz.z = 0;
 
 	breeze::Vertex vertex3;
-	vertex3.xyz.x = 90;
+	vertex3.xyz.x = 30;
 	vertex3.xyz.y = 0;
 	vertex3.xyz.z = 0;
 
@@ -71,16 +71,16 @@ int Game::Init(HWND hWnd)
 	vertices.indices.push_back(2);
 
 	vertices.indices.push_back(0);
-	vertices.indices.push_back(1);
 	vertices.indices.push_back(3);
+	vertices.indices.push_back(1);
 
 	vertices.indices.push_back(0);
 	vertices.indices.push_back(2);
 	vertices.indices.push_back(3);
 
 	vertices.indices.push_back(1);
-	vertices.indices.push_back(2);
 	vertices.indices.push_back(3);
+	vertices.indices.push_back(2);
 
 
 	pos.x = 0;
@@ -111,9 +111,9 @@ void Game::Main()
 	if(++angle >= 360.0) angle = 0;
 
 	//move ploygon slowly
-	//if(++pos.z > 100.0f) pos.z = 0;
+	//if(++pos.z > 500.0f) pos.z = 0;
 
-	//camera.Yaw(1);
+	//camera.Pitch(1);
 
 	//camera.Move(breeze::Vector3(0,1,0));
 
@@ -129,8 +129,11 @@ void Game::Main()
 	breeze::VertexList WorldVertices;
 	breeze::PipeLine::ToWorld(TransformVertices, pos, WorldVertices);
 
+	breeze::VertexList BackfaceRemovedVertices;
+	breeze::PipeLine::RemoveBackface(WorldVertices, camera, BackfaceRemovedVertices);
+
 	breeze::VertexList CameraVertices;
-	breeze::PipeLine::ToCamera(WorldVertices, camera, CameraVertices);
+	breeze::PipeLine::ToCamera(BackfaceRemovedVertices, camera, CameraVertices);
 
 	breeze::VertexList projectionVertices;
 	breeze::PipeLine::Projection(CameraVertices, camera, projectionVertices);

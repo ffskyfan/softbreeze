@@ -68,6 +68,41 @@ namespace PipeLine
 	}
 
 
+	void RemoveBackface(const VertexList& vertexList, const Camera& camera, OUTPUT VertexList& output)
+	{
+
+		std::vector<Vertex>::const_iterator it = vertexList.vertices.begin();
+		std::vector<Vertex>::const_iterator itEnd = vertexList.vertices.end();
+		for(; it != itEnd; it++) {
+			const Vertex& vertex = *it;
+			output.vertices.push_back(vertex);
+		}
+
+		size_t count = vertexList.indices.size();
+		for(size_t i = 0; ((i+1)*3)<=count; i++) {
+			int idx1 = vertexList.indices[i * 3];
+			int idx2 = vertexList.indices[(i * 3)+1];
+			int idx3 = vertexList.indices[(i * 3)+2];
+
+			const Vector3& vec1 = vertexList.vertices[idx1].xyz;
+			const Vector3& vec2 = vertexList.vertices[idx2].xyz;
+			const Vector3& vec3 = vertexList.vertices[idx3].xyz;
+
+			Vector3 u = vec2 - vec1;
+			Vector3 v = vec3 - vec1;
+			Vector3 n = v.Cross(u);
+
+			Vector3 cameraDirection = camera.GetDirection();
+			float dp = n*cameraDirection;
+			if(dp > 0) {
+				output.indices.push_back(idx1);
+				output.indices.push_back(idx2);
+				output.indices.push_back(idx3);
+			}
+		}
+
+	}
+
 
 	void ToCamera(const VertexList& vertexList, const Camera& camera, OUTPUT VertexList& output)
 	{
