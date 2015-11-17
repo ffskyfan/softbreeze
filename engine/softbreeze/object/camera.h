@@ -17,6 +17,7 @@ public:
 
 
 	void					SetPos(const Vector3& pos);
+	inline const Vector3&	GetPos() const { return pos; }
 
 	inline void				SetAspectRatio(float ratio) { if(ratio > 0) { aspectRatio = ratio; } }
 	inline float			GetAspectRatio() const  { return aspectRatio;  }
