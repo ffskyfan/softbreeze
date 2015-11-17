@@ -35,8 +35,6 @@ public:
 	Vector4&		operator[]( int index );
 
 	Matrix4			operator*( const float a ) const;
-	Vector4			operator*( const Vector4 &vec ) const;
-	Vector3			operator*( const Vector3 &vec ) const;
 	Matrix4			operator*( const Matrix4 &a ) const;
 	Matrix4			operator+( const Matrix4 &a ) const;
 	Matrix4			operator-( const Matrix4 &a ) const;
@@ -141,38 +139,6 @@ __forceinline Matrix4 Matrix4::operator*( const float a ) const
 		data[3].x*a, data[3].y*a, data[3].z*a, data[3].w*a);
 }
 
-__forceinline Vector4 Matrix4::operator*( const Vector4 &vec ) const
-{
-	return Vector4(
-		data[0].x*vec.x + data[0].y*vec.y + data[0].z*vec.z + data[0].w*vec.w,
-		data[1].x*vec.x + data[1].y*vec.y + data[1].z*vec.z + data[1].w*vec.w,
-		data[2].x*vec.x + data[2].y*vec.y + data[2].z*vec.z + data[2].w*vec.w,
-		data[3].x*vec.x + data[3].y*vec.y + data[3].z*vec.z + data[3].w*vec.w);
-
-}
-
-
-__forceinline Vector3 Matrix4::operator*( const Vector3 &vec ) const
-{
-	float s = data[3].x*vec.x + data[3].y*vec.y + data[3].z*vec.z + data[3].w;
-	if( s == 0.0f ){
-		return Vector3(0.0f,0.0f,0.0f);
-	}
-
-	if( s == 1.0f ) {
-		return Vector3(
-			data[0].x*vec.x + data[0].y*vec.y + data[0].z*vec.z + data[0].w,
-			data[1].x*vec.x + data[1].y*vec.y + data[1].z*vec.z + data[1].w,
-			data[2].x*vec.x + data[2].y*vec.y + data[2].z*vec.z + data[2].w);
-	} else {
-		float invS = 1.0f / s;
-		return Vector3(
-			(data[0].x*vec.x + data[0].y*vec.y + data[0].z*vec.z + data[0].w) * invS,
-			(data[1].x*vec.x + data[1].y*vec.y + data[1].z*vec.z + data[1].w) * invS,
-			(data[2].x*vec.x + data[2].y*vec.y + data[2].z*vec.z + data[2].w) * invS);
-	}
-}
-
 
 __forceinline Matrix4 Matrix4::operator*( const Matrix4 &a ) const
 {
@@ -259,23 +225,44 @@ __forceinline Matrix4	operator*( const float a, const Matrix4 &mat )
 
 __forceinline Vector4	operator*( const Vector4 &vec, const Matrix4 &mat )
 {
-	return mat*vec;
+	return Vector4(
+		mat.data[0].x*vec.x + mat.data[1].x*vec.y + mat.data[2].x*vec.z + mat.data[3].x*vec.w,
+		mat.data[0].y*vec.x + mat.data[1].y*vec.y + mat.data[2].y*vec.z + mat.data[3].y*vec.w,
+		mat.data[0].z*vec.x + mat.data[1].z*vec.y + mat.data[2].z*vec.z + mat.data[3].z*vec.w,
+		mat.data[0].w*vec.x + mat.data[1].w*vec.y + mat.data[2].w*vec.z + mat.data[3].w*vec.w);
 }
 
 __forceinline Vector3	operator*( const Vector3 &vec, const Matrix4 &mat )
 {
-	return mat*vec;
+	float s = mat.data[0].w*vec.x + mat.data[1].w*vec.y + mat.data[2].w*vec.z + mat.data[3].w;
+	if( s == 0.0f ){
+		return Vector3(0.0f,0.0f,0.0f);
+	}
+
+	if( s == 1.0f ) {
+		return Vector3(
+			mat.data[0].x*vec.x + mat.data[1].x*vec.y + mat.data[2].x*vec.z + mat.data[3].x,
+			mat.data[0].y*vec.x + mat.data[1].y*vec.y + mat.data[2].y*vec.z + mat.data[3].y,
+			mat.data[0].z*vec.x + mat.data[1].z*vec.y + mat.data[2].z*vec.z + mat.data[3].z);
+	} else {
+		float invS = 1.0f / s;
+		return Vector3(
+			(mat.data[0].x*vec.x + mat.data[1].x*vec.y + mat.data[2].x*vec.z + mat.data[3].x) * invS,
+			(mat.data[0].y*vec.x + mat.data[1].y*vec.y + mat.data[2].y*vec.z + mat.data[3].y) * invS,
+			(mat.data[0].z*vec.x + mat.data[1].z*vec.y + mat.data[2].z*vec.z + mat.data[3].z) * invS);
+	}
+
 }
 
 __forceinline Vector4&	operator*=( Vector4 &vec, const Matrix4 &mat )
 {
-	vec = mat*vec;
+	vec = vec*mat;
 	return vec;
 }
 
 __forceinline Vector3&	operator*=( Vector3 &vec, const Matrix4 &mat )
 {
-	vec = mat*vec;
+	vec = vec* mat;
 	return vec;
 }
 

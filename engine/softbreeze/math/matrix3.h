@@ -198,9 +198,9 @@ __forceinline Matrix3	operator*( const float a, const Matrix3 &mat )
 __forceinline Vector3	operator*( const Vector3 &vec, const Matrix3 &mat )
 {
 	return Vector3(
-		vec.x*mat.data[0].x + vec.y*mat.data[0].y + vec.z*mat.data[0].z,
-		vec.x*mat.data[1].x + vec.y*mat.data[1].y + vec.z*mat.data[1].z,
-		vec.x*mat.data[2].x + vec.y*mat.data[2].y + vec.z*mat.data[2].z);
+		vec.x*mat.data[0].x + vec.y*mat.data[1].x + vec.z*mat.data[2].x,
+		vec.x*mat.data[0].y + vec.y*mat.data[1].y + vec.z*mat.data[2].y,
+		vec.x*mat.data[0].z + vec.y*mat.data[1].z + vec.z*mat.data[2].z);
 }
 
 
