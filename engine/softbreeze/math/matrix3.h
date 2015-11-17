@@ -33,7 +33,6 @@ public:
 	Vector3&		operator[]( int index );
 
 	Matrix3			operator*( const float a ) const;
-	Vector3			operator*( const Vector3 &vec ) const;
 	Matrix3			operator*( const Matrix3 &a ) const;
 	Matrix3			operator+( const Matrix3 &a ) const;
 	Matrix3			operator-( const Matrix3 &a ) const;
@@ -118,13 +117,6 @@ __forceinline Matrix3 Matrix3::operator*( const float a ) const
 		data[2].x*a, data[2].y*a, data[2].z*a);
 }
 
-__forceinline Vector3 Matrix3::operator*( const Vector3 &vec ) const
-{
-	return Vector3(
-		data[0].x*vec.x + data[0].y*vec.y + data[0].z*vec.z,
-		data[1].x*vec.x + data[1].y*vec.y + data[1].z*vec.z,
-		data[2].x*vec.x + data[2].y*vec.y + data[2].z*vec.z);
-}
 
 
 __forceinline Matrix3 Matrix3::operator*( const Matrix3 &a ) const
@@ -205,13 +197,16 @@ __forceinline Matrix3	operator*( const float a, const Matrix3 &mat )
 
 __forceinline Vector3	operator*( const Vector3 &vec, const Matrix3 &mat )
 {
-	return mat*vec;
+	return Vector3(
+		vec.x*mat.data[0].x + vec.y*mat.data[0].y + vec.z*mat.data[0].z,
+		vec.x*mat.data[1].x + vec.y*mat.data[1].y + vec.z*mat.data[1].z,
+		vec.x*mat.data[2].x + vec.y*mat.data[2].y + vec.z*mat.data[2].z);
 }
 
 
 __forceinline Vector3&	operator*=( Vector3 &vec, const Matrix3 &mat )
 {
-	vec = mat*vec;
+	vec = vec*mat;
 	return vec;
 }
 
