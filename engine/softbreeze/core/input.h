@@ -7,55 +7,49 @@
 
 softbreeze_namespace_beg
 
-// DEFINES ////////////////////////////////////////////////
 
-// MACROS /////////////////////////////////////////////////
-
-
-
-// TYPES //////////////////////////////////////////////////
-
-
-
-// PROTOTYPES /////////////////////////////////////////////
+class Input
+{
+public:
+	Input();
+	~Input();
 
 // input
-int DInput_Init(void);
-void DInput_Shutdown(void);
+	int			Init(void);
+	void		Shutdown(void);
 
-int DInput_Init_Joystick(int min_x=-256, int max_x=256, 
-                         int min_y=-256, int max_y=256, int dead_band = 10);
+	int			Init_Joystick(int min_x=-256, int max_x=256, int min_y=-256, int max_y=256, int dead_band = 10);
+	int			Init_Mouse(void);
+	int			Init_Keyboard(void);
 
-int DInput_Init_Mouse(void);
-int DInput_Init_Keyboard(void);
-int DInput_Read_Joystick(void);
-int DInput_Read_Mouse(void);
-int DInput_Read_Keyboard(void);
-void DInput_Release_Joystick(void);
-void DInput_Release_Mouse(void);
-void DInput_Release_Keyboard(void);
+	int			Read_Joystick(void);
+	int			Read_Mouse(void);
+	int			Read_Keyboard(void);
 
-// GLOBALS ////////////////////////////////////////////////
+	void		Release_Joystick(void);
+	void		Release_Mouse(void);
+	void		Release_Keyboard(void);
+
+private:
+	//extern HWND main_window_handle; // save the window handle
+	//extern HINSTANCE main_instance; // save the instance
+
+	// directinput globals
+	LPDIRECTINPUT8       lpdi;         // dinput object
+	LPDIRECTINPUTDEVICE8 lpdikey;      // dinput keyboard
+	LPDIRECTINPUTDEVICE8 lpdimouse;    // dinput mouse
+	LPDIRECTINPUTDEVICE8 lpdijoy;      // dinput joystick 
+	GUID                 joystickGUID; // guid for main joystick
+	char                 joyname[80];  // name of joystick
+
+	// these contain the target records for all di input packets
+	UCHAR				keyboard_state[256]; // contains keyboard state table
+	DIMOUSESTATE		mouse_state;  // contains state of mouse
+	DIJOYSTATE			joy_state;      // contains state of joystick
+	int					joystick_found;        // tracks if stick is plugged in
 
 
-// EXTERNALS //////////////////////////////////////////////
-
-extern HWND main_window_handle; // save the window handle
-extern HINSTANCE main_instance; // save the instance
-
-// directinput globals
-extern LPDIRECTINPUT8       lpdi;         // dinput object
-extern LPDIRECTINPUTDEVICE8 lpdikey;      // dinput keyboard
-extern LPDIRECTINPUTDEVICE8 lpdimouse;    // dinput mouse
-extern LPDIRECTINPUTDEVICE8 lpdijoy;      // dinput joystick 
-extern GUID                 joystickGUID; // guid for main joystick
-extern char                 joyname[80];  // name of joystick
-
-// these contain the target records for all di input packets
-extern UCHAR keyboard_state[256]; // contains keyboard state table
-extern DIMOUSESTATE mouse_state;  // contains state of mouse
-extern DIJOYSTATE joy_state;      // contains state of joystick
-extern int joystick_found;        // tracks if stick is plugged in
+};
 
 
 
