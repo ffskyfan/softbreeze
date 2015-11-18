@@ -24,7 +24,6 @@
 
 breeze::Mesh			mesh;
 breeze::VertexBuffer	buffer;
-breeze::Vector3			pos;
 breeze::Matrix4			matrix = breeze::matrix4_zero;
 breeze::Camera			camera;
 float					angle;
@@ -91,12 +90,15 @@ int Game::Init(HINSTANCE instance, HWND hWnd)
 	vertices->indices.push_back(3);
 	vertices->indices.push_back(2);
 
-
-	buffer.lists.push_back(vertices);
-
+	breeze::Vector3	pos;
 	pos.x = 0;
 	pos.y = 0;
 	pos.z = 500;
+	vertices->pos = pos;
+
+	buffer.lists.push_back(vertices);
+
+
 
 	breeze::Vector3 cameraPos(0, 0, 0);
 	camera.SetPos(cameraPos); 
@@ -167,7 +169,7 @@ void Game::Main()
 	breeze::PipeLine::Transform(buffer, matrix, TransformVertices);
 
 	breeze::VertexBuffer WorldVertices;
-	breeze::PipeLine::ToWorld(TransformVertices, pos, WorldVertices);
+	breeze::PipeLine::ToWorld(TransformVertices, WorldVertices);
 
 	breeze::VertexBuffer BackfaceRemovedVertices;
 	breeze::PipeLine::RemoveBackface(WorldVertices, camera, BackfaceRemovedVertices);

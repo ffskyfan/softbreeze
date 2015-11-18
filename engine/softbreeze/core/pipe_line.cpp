@@ -52,6 +52,8 @@ namespace PipeLine
 				newVertices->indices.push_back(*indexIt);
 			}
 
+			newVertices->pos = vertexList.pos;
+
 			output.lists.push_back(newVertices);
 
 		}
@@ -59,7 +61,7 @@ namespace PipeLine
 	}
 
 
-	void ToWorld(const VertexBuffer& vertexBuffer, const Vector3& pos, OUTPUT VertexBuffer& output)
+	void ToWorld(const VertexBuffer& vertexBuffer, OUTPUT VertexBuffer& output)
 	{
 		std::vector<VertexList*>::const_iterator bufferIt = vertexBuffer.lists.begin();
 		std::vector<VertexList*>::const_iterator bufferItEnd = vertexBuffer.lists.end();
@@ -73,7 +75,7 @@ namespace PipeLine
 				const Vertex& vertex = *it;
 
 				Vertex newVertex = vertex;
-				newVertex.xyz = vertex.xyz + pos;
+				newVertex.xyz = vertex.xyz + vertexList.pos;
 
 				newVertices->vertices.push_back(newVertex);
 			}
@@ -83,6 +85,8 @@ namespace PipeLine
 			for(; indexIt != indexItEnd; indexIt++) {
 				newVertices->indices.push_back(*indexIt);
 			}
+
+			newVertices->pos = vertexList.pos;
 
 			output.lists.push_back(newVertices);
 		}
@@ -127,6 +131,8 @@ namespace PipeLine
 					newVertices->indices.push_back(idx2);
 				}
 			}
+
+			newVertices->pos = vertexList.pos;
 
 			output.lists.push_back(newVertices);
 		}
@@ -185,6 +191,8 @@ namespace PipeLine
 				newVertices->indices.push_back(*indexIt);
 			}
 
+			newVertices->pos = vertexList.pos;
+
 			output.lists.push_back(newVertices);
 		}
 	}
@@ -223,6 +231,8 @@ namespace PipeLine
 			for(; indexIt != indexItEnd; indexIt++) {
 				newVertices->indices.push_back(*indexIt);
 			}
+
+			newVertices->pos = vertexList.pos;
 
 			output.lists.push_back(newVertices);
 

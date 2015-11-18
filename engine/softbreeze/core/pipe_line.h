@@ -8,7 +8,7 @@ namespace PipeLine
 {
 	void Transform(const VertexBuffer& vertexBuffer, const Matrix4& matrix, OUTPUT VertexBuffer& output);
 
-	void ToWorld(const VertexBuffer& vertexBuffer, const Vector3& pos, OUTPUT VertexBuffer& output);
+	void ToWorld(const VertexBuffer& vertexBuffer, OUTPUT VertexBuffer& output);
 
 	void RemoveBackface(const VertexBuffer& vertexBuffer, const Camera& camera, OUTPUT VertexBuffer& output);
 
