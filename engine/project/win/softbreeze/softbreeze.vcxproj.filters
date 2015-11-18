@@ -99,6 +99,9 @@
     <ClInclude Include="..\..\..\softbreeze\math\utility.h">
       <Filter>math</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\softbreeze\object\vertex_buffer.h">
+      <Filter>object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\..\softbreeze\shader\core.fx">

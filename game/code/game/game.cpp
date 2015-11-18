@@ -15,18 +15,19 @@
 #include <softbreeze/math/utility.h>
 #include <softbreeze/object/vertex.h>
 #include <softbreeze/object/vertex_list.h>
+#include <softbreeze/object/vertex_buffer.h>
 #include <softbreeze/object/mesh.h>
 #include <softbreeze/object/camera.h>
 #include <softbreeze/core/pipe_line.h>
 
 #include "game.h"
 
-breeze::Mesh		mesh;
-breeze::VertexList	vertices;
-breeze::Vector3		pos;
-breeze::Matrix4		matrix = breeze::matrix4_zero;
-breeze::Camera		camera;
-float				angle;
+breeze::Mesh			mesh;
+breeze::VertexBuffer	buffer;
+breeze::Vector3			pos;
+breeze::Matrix4			matrix = breeze::matrix4_zero;
+breeze::Camera			camera;
+float					angle;
 
 Game::Game()
 {
@@ -46,6 +47,8 @@ int Game::Init(HINSTANCE instance, HWND hWnd)
 	result = input.Init(instance);
 	input.Init_Keyboard(hWnd);
 
+
+	breeze::VertexList* vertices = new breeze::VertexList;
 
 	breeze::Vertex vertex1;
 	vertex1.xyz.x = -90;
@@ -67,27 +70,29 @@ int Game::Init(HINSTANCE instance, HWND hWnd)
 	vertex4.xyz.y = 45;
 	vertex4.xyz.z = 90;
 
-	vertices.vertices.push_back(vertex1);
-	vertices.vertices.push_back(vertex2);
-	vertices.vertices.push_back(vertex3);
-	vertices.vertices.push_back(vertex4);
+	vertices->vertices.push_back(vertex1);
+	vertices->vertices.push_back(vertex2);
+	vertices->vertices.push_back(vertex3);
+	vertices->vertices.push_back(vertex4);
 
-	vertices.indices.push_back(0);
-	vertices.indices.push_back(1);
-	vertices.indices.push_back(2);
+	vertices->indices.push_back(0);
+	vertices->indices.push_back(1);
+	vertices->indices.push_back(2);
 
-	vertices.indices.push_back(0);
-	vertices.indices.push_back(3);
-	vertices.indices.push_back(1);
+	vertices->indices.push_back(0);
+	vertices->indices.push_back(3);
+	vertices->indices.push_back(1);
 
-	vertices.indices.push_back(0);
-	vertices.indices.push_back(2);
-	vertices.indices.push_back(3);
+	vertices->indices.push_back(0);
+	vertices->indices.push_back(2);
+	vertices->indices.push_back(3);
 
-	vertices.indices.push_back(1);
-	vertices.indices.push_back(3);
-	vertices.indices.push_back(2);
+	vertices->indices.push_back(1);
+	vertices->indices.push_back(3);
+	vertices->indices.push_back(2);
 
+
+	buffer.lists.push_back(vertices);
 
 	pos.x = 0;
 	pos.y = 0;
@@ -158,22 +163,22 @@ void Game::Main()
 
 	breeze::BuildXYZRotationMatrix4(0, angle, 0,   matrix);
 
-	breeze::VertexList TransformVertices;
-	breeze::PipeLine::Transform(vertices, matrix, TransformVertices);
+	breeze::VertexBuffer TransformVertices;
+	breeze::PipeLine::Transform(buffer, matrix, TransformVertices);
 
-	breeze::VertexList WorldVertices;
+	breeze::VertexBuffer WorldVertices;
 	breeze::PipeLine::ToWorld(TransformVertices, pos, WorldVertices);
 
-	breeze::VertexList BackfaceRemovedVertices;
+	breeze::VertexBuffer BackfaceRemovedVertices;
 	breeze::PipeLine::RemoveBackface(WorldVertices, camera, BackfaceRemovedVertices);
 
-	breeze::VertexList CameraVertices;
+	breeze::VertexBuffer CameraVertices;
 	breeze::PipeLine::ToCamera(BackfaceRemovedVertices, camera, CameraVertices);
 
-	breeze::VertexList projectionVertices;
+	breeze::VertexBuffer projectionVertices;
 	breeze::PipeLine::Projection(CameraVertices, camera, projectionVertices);
 
-	breeze::VertexList ScreenVertices;
+	breeze::VertexBuffer ScreenVertices;
 	breeze::PipeLine::ToScreen(projectionVertices, graphic.GetWidth(), graphic.GetHeight(), ScreenVertices);
 
 	// render the polygon list

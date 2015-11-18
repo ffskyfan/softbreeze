@@ -36,24 +36,22 @@ public:
 	bool		IsKeyDown(int key);
 
 private:
-	//extern HWND main_window_handle; // save the window handle
-	//extern HINSTANCE main_instance; // save the instance
 
-	static Input*		_inst;
+	static Input*			_inst;
 
 	// directinput globals
-	LPDIRECTINPUT8       lpdi;         // dinput object
-	LPDIRECTINPUTDEVICE8 lpdikey;      // dinput keyboard
-	LPDIRECTINPUTDEVICE8 lpdimouse;    // dinput mouse
-	LPDIRECTINPUTDEVICE8 lpdijoy;      // dinput joystick 
-	GUID                 joystickGUID; // guid for main joystick
-	char                 joyname[80];  // name of joystick
+	LPDIRECTINPUT8			lpdi;         // dinput object
+	LPDIRECTINPUTDEVICE8	lpdikey;      // dinput keyboard
+	LPDIRECTINPUTDEVICE8	lpdimouse;    // dinput mouse
+	LPDIRECTINPUTDEVICE8	lpdijoy;      // dinput joystick 
+	GUID					joystickGUID; // guid for main joystick
+	char					joyname[80];  // name of joystick
 
 	// these contain the target records for all di input packets
-	UCHAR				keyboard_state[256]; // contains keyboard state table
-	DIMOUSESTATE		mouse_state;  // contains state of mouse
-	DIJOYSTATE			joy_state;      // contains state of joystick
-	int					joystick_found;        // tracks if stick is plugged in
+	UCHAR					keyboard_state[256]; // contains keyboard state table
+	DIMOUSESTATE			mouse_state;  // contains state of mouse
+	DIJOYSTATE				joy_state;      // contains state of joystick
+	int						joystick_found;        // tracks if stick is plugged in
 
 
 };

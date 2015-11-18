@@ -13,6 +13,7 @@
 #include "../math/vector4.h"
 #include "../object/vertex.h"
 #include "../object/vertex_list.h"
+#include "../object/vertex_buffer.h"
 #include "../object/camera.h"
 #include "../core/graphic.h"
 
@@ -23,93 +24,121 @@ softbreeze_namespace_beg
 namespace PipeLine
 {
 
-	void Transform(const VertexList& vertexList,const Matrix4& matrix, OUTPUT VertexList& output)
+	void Transform(const VertexBuffer& vertexBuffer,const Matrix4& matrix, OUTPUT VertexBuffer& output)
 	{
-		std::vector<Vertex>::const_iterator it = vertexList.vertices.begin();
-		std::vector<Vertex>::const_iterator itEnd = vertexList.vertices.end();
-		for(; it != itEnd; it++) {
-			const Vertex& vertex = *it;
+		std::vector<VertexList*>::const_iterator bufferIt = vertexBuffer.lists.begin();
+		std::vector<VertexList*>::const_iterator bufferItEnd = vertexBuffer.lists.end();
+		for(; bufferIt != bufferItEnd; bufferIt++) {
+			const VertexList& vertexList = **bufferIt;
+			VertexList* newVertices = new VertexList;
 
-			Vector4 newXYZ(vertex.xyz.x, vertex.xyz.y, vertex.xyz.z, 1);
-			newXYZ = newXYZ*matrix;
+			std::vector<Vertex>::const_iterator it = vertexList.vertices.begin();
+			std::vector<Vertex>::const_iterator itEnd = vertexList.vertices.end();
+			for(; it != itEnd; it++) {
+				const Vertex& vertex = *it;
 
-			Vertex newVertex = vertex;
-			newVertex.xyz = Vector3(newXYZ.x, newXYZ.y, newXYZ.z);
+				Vector4 newXYZ(vertex.xyz.x, vertex.xyz.y, vertex.xyz.z, 1);
+				newXYZ = newXYZ*matrix;
 
-			output.vertices.push_back(newVertex);
-		}
+				Vertex newVertex = vertex;
+				newVertex.xyz = Vector3(newXYZ.x, newXYZ.y, newXYZ.z);
 
-		std::vector<int>::const_iterator indexIt = vertexList.indices.begin();
-		std::vector<int>::const_iterator indexItEnd = vertexList.indices.end();
-		for(; indexIt != indexItEnd; indexIt++) {
-			output.indices.push_back(*indexIt);
-		}
-	}
-
-
-	void ToWorld(const VertexList& vertexList, const Vector3& pos, OUTPUT VertexList& output)
-	{
-		std::vector<Vertex>::const_iterator it = vertexList.vertices.begin();
-		std::vector<Vertex>::const_iterator itEnd = vertexList.vertices.end();
-		for(; it != itEnd; it++) {
-			const Vertex& vertex = *it;
-
-			Vertex newVertex = vertex;
-			newVertex.xyz = vertex.xyz+pos;
-
-			output.vertices.push_back(newVertex);
-		}
-
-		std::vector<int>::const_iterator indexIt = vertexList.indices.begin();
-		std::vector<int>::const_iterator indexItEnd = vertexList.indices.end();
-		for(; indexIt != indexItEnd; indexIt++) {
-			output.indices.push_back(*indexIt);
-		}
-	}
-
-
-	void RemoveBackface(const VertexList& vertexList, const Camera& camera, OUTPUT VertexList& output)
-	{
-
-		std::vector<Vertex>::const_iterator it = vertexList.vertices.begin();
-		std::vector<Vertex>::const_iterator itEnd = vertexList.vertices.end();
-		for(; it != itEnd; it++) {
-			const Vertex& vertex = *it;
-			output.vertices.push_back(vertex);
-		}
-
-		size_t count = vertexList.indices.size();
-		for(size_t i = 0; ((i+1)*3)<=count; i++) {
-			int idx0 = vertexList.indices[i * 3];
-			int idx1 = vertexList.indices[(i * 3)+1];
-			int idx2 = vertexList.indices[(i * 3)+2];
-
-			const Vector3& vec0 = vertexList.vertices[idx0].xyz;
-			const Vector3& vec1 = vertexList.vertices[idx1].xyz;
-			const Vector3& vec2 = vertexList.vertices[idx2].xyz;
-
-			Vector3 u = vec1 - vec0;
-			Vector3 v = vec2 - vec0;
-			Vector3 n = v.Cross(u);
-
-			const Vector3& cameraPos = camera.GetPos();
-			Vector3 viewVector = vec1 - cameraPos;
-			float dp = n*viewVector;
-			if(dp > 0) {
-				output.indices.push_back(idx0);
-				output.indices.push_back(idx1);
-				output.indices.push_back(idx2);
+				newVertices->vertices.push_back(newVertex);
 			}
+
+			std::vector<int>::const_iterator indexIt = vertexList.indices.begin();
+			std::vector<int>::const_iterator indexItEnd = vertexList.indices.end();
+			for(; indexIt != indexItEnd; indexIt++) {
+				newVertices->indices.push_back(*indexIt);
+			}
+
+			output.lists.push_back(newVertices);
+
 		}
 
 	}
 
 
-	void ToCamera(const VertexList& vertexList, const Camera& camera, OUTPUT VertexList& output)
+	void ToWorld(const VertexBuffer& vertexBuffer, const Vector3& pos, OUTPUT VertexBuffer& output)
+	{
+		std::vector<VertexList*>::const_iterator bufferIt = vertexBuffer.lists.begin();
+		std::vector<VertexList*>::const_iterator bufferItEnd = vertexBuffer.lists.end();
+		for(; bufferIt != bufferItEnd; bufferIt++) {
+			const VertexList& vertexList = **bufferIt;
+			VertexList* newVertices = new VertexList;
+
+			std::vector<Vertex>::const_iterator it = vertexList.vertices.begin();
+			std::vector<Vertex>::const_iterator itEnd = vertexList.vertices.end();
+			for(; it != itEnd; it++) {
+				const Vertex& vertex = *it;
+
+				Vertex newVertex = vertex;
+				newVertex.xyz = vertex.xyz + pos;
+
+				newVertices->vertices.push_back(newVertex);
+			}
+
+			std::vector<int>::const_iterator indexIt = vertexList.indices.begin();
+			std::vector<int>::const_iterator indexItEnd = vertexList.indices.end();
+			for(; indexIt != indexItEnd; indexIt++) {
+				newVertices->indices.push_back(*indexIt);
+			}
+
+			output.lists.push_back(newVertices);
+		}
+	}
+
+
+	void RemoveBackface(const VertexBuffer& vertexBuffer, const Camera& camera, OUTPUT VertexBuffer& output)
+	{
+		std::vector<VertexList*>::const_iterator bufferIt = vertexBuffer.lists.begin();
+		std::vector<VertexList*>::const_iterator bufferItEnd = vertexBuffer.lists.end();
+		for(; bufferIt != bufferItEnd; bufferIt++) {
+			const VertexList& vertexList = **bufferIt;
+			VertexList* newVertices = new VertexList;
+
+			std::vector<Vertex>::const_iterator it = vertexList.vertices.begin();
+			std::vector<Vertex>::const_iterator itEnd = vertexList.vertices.end();
+			for(; it != itEnd; it++) {
+				const Vertex& vertex = *it;
+				newVertices->vertices.push_back(vertex);
+			}
+
+			size_t count = vertexList.indices.size();
+			for(size_t i = 0; ((i + 1) * 3) <= count; i++) {
+				int idx0 = vertexList.indices[i * 3];
+				int idx1 = vertexList.indices[(i * 3) + 1];
+				int idx2 = vertexList.indices[(i * 3) + 2];
+
+				const Vector3& vec0 = vertexList.vertices[idx0].xyz;
+				const Vector3& vec1 = vertexList.vertices[idx1].xyz;
+				const Vector3& vec2 = vertexList.vertices[idx2].xyz;
+
+				Vector3 u = vec1 - vec0;
+				Vector3 v = vec2 - vec0;
+				Vector3 n = v.Cross(u);
+
+				const Vector3& cameraPos = camera.GetPos();
+				Vector3 viewVector = vec1 - cameraPos;
+				float dp = n*viewVector;
+				if(dp > 0) {
+					newVertices->indices.push_back(idx0);
+					newVertices->indices.push_back(idx1);
+					newVertices->indices.push_back(idx2);
+				}
+			}
+
+			output.lists.push_back(newVertices);
+		}
+
+	}
+
+
+	void ToCamera(const VertexBuffer& vertexBuffer, const Camera& camera, OUTPUT VertexBuffer& output)
 	{
 		const Matrix4& matrix = camera.MakeCameraMatrix();
 
-		Transform(vertexList, matrix, output);
+		Transform(vertexBuffer, matrix, output);
 	}
 
 
@@ -118,89 +147,114 @@ namespace PipeLine
 											 0,0,1,1,
 											 0,0,0,0);
 
-	void Projection(const VertexList& vertexList,const Camera& camera, OUTPUT VertexList& output)
+	void Projection(const VertexBuffer& vertexBuffer,const Camera& camera, OUTPUT VertexBuffer& output)
 	{
 		float aspectRatio = camera.GetAspectRatio();
-		
-		std::vector<Vertex>::const_iterator it = vertexList.vertices.begin();
-		std::vector<Vertex>::const_iterator itEnd = vertexList.vertices.end();
-		for(; it != itEnd; it++) {
-			const Vertex vertex = *it;
-			float z = vertex.xyz.z;
 
-			Vector3 projectionVector;
-			projectionVector.x = vertex.xyz.x / z;
-			projectionVector.y = vertex.xyz.y*aspectRatio / z; //这样的投影是个方形，将来有了镜头后，可以设置镜头宽高比，之后用y乘以宽高比，计算出y的坐标
-			projectionVector.z = z;
+		std::vector<VertexList*>::const_iterator bufferIt = vertexBuffer.lists.begin();
+		std::vector<VertexList*>::const_iterator bufferItEnd = vertexBuffer.lists.end();
+		for(; bufferIt != bufferItEnd; bufferIt++) {
+			const VertexList& vertexList = **bufferIt;
+			VertexList* newVertices = new VertexList;
 
-			Vertex projectionVertex;
-			projectionVertex.xyz = projectionVector;
-			for(int i = 0; i < 3; i++) {
-				projectionVertex.color[i] = vertex.color[i];
+			std::vector<Vertex>::const_iterator it = vertexList.vertices.begin();
+			std::vector<Vertex>::const_iterator itEnd = vertexList.vertices.end();
+			for(; it != itEnd; it++) {
+				const Vertex vertex = *it;
+				float z = vertex.xyz.z;
+
+				Vector3 projectionVector;
+				projectionVector.x = vertex.xyz.x / z;
+				projectionVector.y = vertex.xyz.y*aspectRatio / z;
+				projectionVector.z = z;
+
+				Vertex projectionVertex;
+				projectionVertex.xyz = projectionVector;
+				for(int i = 0; i < 3; i++) {
+					projectionVertex.color[i] = vertex.color[i];
+				}
+				projectionVertex.normal = vertex.normal;
+				projectionVertex.textureCoord = vertex.textureCoord;
+
+				newVertices->vertices.push_back(projectionVertex);
 			}
-			projectionVertex.normal = vertex.normal;
-			projectionVertex.textureCoord = vertex.textureCoord;
 
-			output.vertices.push_back(projectionVertex);
-		}
+			std::vector<int>::const_iterator indexIt = vertexList.indices.begin();
+			std::vector<int>::const_iterator indexItEnd = vertexList.indices.end();
+			for(; indexIt != indexItEnd; indexIt++) {
+				newVertices->indices.push_back(*indexIt);
+			}
 
-		std::vector<int>::const_iterator indexIt = vertexList.indices.begin();
-		std::vector<int>::const_iterator indexItEnd = vertexList.indices.end();
-		for(; indexIt != indexItEnd; indexIt++) {
-			output.indices.push_back(*indexIt);
+			output.lists.push_back(newVertices);
 		}
 	}
 
 
-	void ToScreen(const VertexList& vertexList, int width, int height, OUTPUT VertexList& output)
+	void ToScreen(const VertexBuffer& vertexBuffer, int width, int height, OUTPUT VertexBuffer& output)
 	{
-		std::vector<Vertex>::const_iterator it = vertexList.vertices.begin();
-		std::vector<Vertex>::const_iterator itEnd = vertexList.vertices.end();
-		for(; it != itEnd; it++) {
-			const Vertex vertex = *it;
+		std::vector<VertexList*>::const_iterator bufferIt = vertexBuffer.lists.begin();
+		std::vector<VertexList*>::const_iterator bufferItEnd = vertexBuffer.lists.end();
+		for(; bufferIt != bufferItEnd; bufferIt++) {
+			const VertexList& vertexList = **bufferIt;
+			VertexList* newVertices = new VertexList;
 
-			Vector3 screenVector;
-			screenVector.x = (vertex.xyz.x + 1) * (0.5f * width -0.5f);
-			screenVector.y = (height - 1) - (vertex.xyz.y + 1)*(0.5f * height -0.5f);
+			std::vector<Vertex>::const_iterator it = vertexList.vertices.begin();
+			std::vector<Vertex>::const_iterator itEnd = vertexList.vertices.end();
+			for(; it != itEnd; it++) {
+				const Vertex vertex = *it;
 
-			Vertex screenVertex;
-			screenVertex.xyz = screenVector;
-			for(int i = 0; i < 3; i++) {
-				screenVertex.color[i] = vertex.color[i];
+				Vector3 screenVector;
+				screenVector.x = (vertex.xyz.x + 1) * (0.5f * width - 0.5f);
+				screenVector.y = (height - 1) - (vertex.xyz.y + 1)*(0.5f * height - 0.5f);
+
+				Vertex screenVertex;
+				screenVertex.xyz = screenVector;
+				for(int i = 0; i < 3; i++) {
+					screenVertex.color[i] = vertex.color[i];
+				}
+				screenVertex.normal = vertex.normal;
+				screenVertex.textureCoord = vertex.textureCoord;
+
+				newVertices->vertices.push_back(screenVertex);
 			}
-			screenVertex.normal = vertex.normal;
-			screenVertex.textureCoord = vertex.textureCoord;
 
-			output.vertices.push_back(screenVertex);
-		}
+			std::vector<int>::const_iterator indexIt = vertexList.indices.begin();
+			std::vector<int>::const_iterator indexItEnd = vertexList.indices.end();
+			for(; indexIt != indexItEnd; indexIt++) {
+				newVertices->indices.push_back(*indexIt);
+			}
 
-		std::vector<int>::const_iterator indexIt = vertexList.indices.begin();
-		std::vector<int>::const_iterator indexItEnd = vertexList.indices.end();
-		for(; indexIt != indexItEnd; indexIt++) {
-			output.indices.push_back(*indexIt);
+			output.lists.push_back(newVertices);
+
 		}
 
 
 	}
 
 
-	void DrawVertexList(const VertexList& vertexList)
+	void DrawVertexList(const VertexBuffer& vertexBuffer)
 	{
-		Graphic& graphic = Graphic::Instance();
-		int indexCount = (int)vertexList.indices.size();
-		for(int i = 0; ((i+1)*3) <= indexCount; i++) {
+		std::vector<VertexList*>::const_iterator bufferIt = vertexBuffer.lists.begin();
+		std::vector<VertexList*>::const_iterator bufferItEnd = vertexBuffer.lists.end();
+		for(; bufferIt != bufferItEnd; bufferIt++) {
+			const VertexList& vertexList = **bufferIt;
 
-			int idx0 = vertexList.indices[i * 3];
-			int idx1 = vertexList.indices[(i * 3)+1];
-			int idx2 = vertexList.indices[(i * 3)+2];
+			Graphic& graphic = Graphic::Instance();
+			int indexCount = (int)vertexList.indices.size();
+			for(int i = 0; ((i + 1) * 3) <= indexCount; i++) {
 
-			Vector2 pos0( vertexList.vertices[idx0].xyz.x, vertexList.vertices[idx0].xyz.y);
-			Vector2 pos1( vertexList.vertices[idx1].xyz.x, vertexList.vertices[idx1].xyz.y);
-			Vector2 pos2( vertexList.vertices[idx2].xyz.x, vertexList.vertices[idx2].xyz.y);
+				int idx0 = vertexList.indices[i * 3];
+				int idx1 = vertexList.indices[(i * 3) + 1];
+				int idx2 = vertexList.indices[(i * 3) + 2];
 
-			graphic.DrawLine(pos0,pos1,0xFF0000FF);
-			graphic.DrawLine(pos1,pos2,0xFF0000FF);
-			graphic.DrawLine(pos2,pos0,0xFF0000FF);
+				Vector2 pos0(vertexList.vertices[idx0].xyz.x, vertexList.vertices[idx0].xyz.y);
+				Vector2 pos1(vertexList.vertices[idx1].xyz.x, vertexList.vertices[idx1].xyz.y);
+				Vector2 pos2(vertexList.vertices[idx2].xyz.x, vertexList.vertices[idx2].xyz.y);
+
+				graphic.DrawLine(pos0, pos1, 0xFF0000FF);
+				graphic.DrawLine(pos1, pos2, 0xFF0000FF);
+				graphic.DrawLine(pos2, pos0, 0xFF0000FF);
+			}
 		}
 
 	}

@@ -38,6 +38,7 @@
     <ClInclude Include="..\..\..\softbreeze\object\camera.h" />
     <ClInclude Include="..\..\..\softbreeze\object\mesh.h" />
     <ClInclude Include="..\..\..\softbreeze\object\vertex.h" />
+    <ClInclude Include="..\..\..\softbreeze\object\vertex_buffer.h" />
     <ClInclude Include="..\..\..\softbreeze\object\vertex_list.h" />
     <ClInclude Include="..\..\..\softbreeze\softbreeze.h" />
   </ItemGroup>
