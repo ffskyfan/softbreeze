@@ -14,13 +14,15 @@ public:
 	Input();
 	~Input();
 
+	static	Input& Instance();
+
 // input
-	int			Init(void);
+	int			Init(HINSTANCE instance);
 	void		Shutdown(void);
 
-	int			Init_Joystick(int min_x=-256, int max_x=256, int min_y=-256, int max_y=256, int dead_band = 10);
-	int			Init_Mouse(void);
-	int			Init_Keyboard(void);
+	int			Init_Joystick(HWND hWnd, int min_x=-256, int max_x=256, int min_y=-256, int max_y=256, int dead_band = 10);
+	int			Init_Mouse(HWND hWnd);
+	int			Init_Keyboard(HWND hWnd);
 
 	int			Read_Joystick(void);
 	int			Read_Mouse(void);
@@ -30,9 +32,14 @@ public:
 	void		Release_Mouse(void);
 	void		Release_Keyboard(void);
 
+	void		SetJoyName(char* name);
+	bool		IsKeyDown(int key);
+
 private:
 	//extern HWND main_window_handle; // save the window handle
 	//extern HINSTANCE main_instance; // save the instance
+
+	static Input*		_inst;
 
 	// directinput globals
 	LPDIRECTINPUT8       lpdi;         // dinput object

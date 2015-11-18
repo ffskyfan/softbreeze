@@ -35,89 +35,98 @@
 
 softbreeze_namespace_beg
 
-// DEFINES ////////////////////////////////////////////////
+Input* Input::_inst = nullptr;
 
-// TYPES //////////////////////////////////////////////////
 
-// PROTOTYPES /////////////////////////////////////////////
+Input& Input::Instance()
+{
+	if(_inst == nullptr) {
+		_inst = new Input;
+	}
 
-// EXTERNALS /////////////////////////////////////////////
+	return *_inst;
+}
 
-extern HWND main_window_handle;     // access to main window handle in main module
-extern HINSTANCE main_instance; // save the instance
 
-// GLOBALS ////////////////////////////////////////////////
+Input::Input()
+{
+	lpdi			= NULL;    // dinput object
+	lpdikey			= NULL;    // dinput keyboard
+	lpdimouse		= NULL;    // dinput mouse
+	lpdijoy			= NULL;    // dinput joystick
 
-// directinput globals
-LPDIRECTINPUT8       lpdi = NULL;    // dinput object
-LPDIRECTINPUTDEVICE8 lpdikey = NULL;    // dinput keyboard
-LPDIRECTINPUTDEVICE8 lpdimouse = NULL;    // dinput mouse
-LPDIRECTINPUTDEVICE8 lpdijoy = NULL;    // dinput joystick
-GUID                 joystickGUID;        // guid for main joystick
-char                 joyname[80];         // name of joystick
+	joystick_found	= 0;    // tracks if joystick was found and inited
+}
 
-// these contain the target records for all di input packets
-UCHAR keyboard_state[256]; // contains keyboard state table
-DIMOUSESTATE mouse_state;  // contains state of mouse
-DIJOYSTATE joy_state;      // contains state of joystick
-int joystick_found = 0;    // tracks if joystick was found and inited
+
+Input::~Input()
+{
+	Release_Joystick();
+	Release_Mouse();
+	Release_Keyboard();
+}
 
 // FUNCTIONS //////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////
 
-BOOL CALLBACK DInput_Enum_Joysticks(LPCDIDEVICEINSTANCE lpddi,
-	LPVOID guid_ptr)
+namespace
 {
-	// this function enumerates the joysticks, but
-	// stops at the first one and returns the
-	// instance guid of it, so we can create it
 
-	*(GUID*)guid_ptr = lpddi->guidInstance;
+	BOOL CALLBACK EnumJoysticks(LPCDIDEVICEINSTANCE lpddi,
+								LPVOID guid_ptr)
+	{
+		// this function enumerates the joysticks, but
+		// stops at the first one and returns the
+		// instance guid of it, so we can create it
+		*(GUID*)guid_ptr = lpddi->guidInstance;
 
-	// copy name into global
-	strcpy(joyname, (char *)lpddi->tszProductName);
+		Input& input = Input::Instance();
 
-	// stop enumeration after one iteration
-	return(DIENUM_STOP);
+		input.SetJoyName((char *)lpddi->tszProductName);
 
-} // end DInput_Enum_Joysticks
+		// stop enumeration after one iteration
+		return(DIENUM_STOP);
+
+	} // end Input::Enum_Joysticks
+
+}
 
 //////////////////////////////////////////////////////////////////////////////
 
-int DInput_Init(void)
+int Input::Init(HINSTANCE instance)
 {
 	// this function initializes directinput
 
-	if(FAILED(DirectInput8Create(main_instance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void **)&lpdi, NULL)))
+	if(FAILED(DirectInput8Create(instance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void **)&lpdi, NULL)))
 		return(0);
 
 	// return success
 	return(1);
 
-} // end DInput_Init
+} // end Input::Init
 
 ///////////////////////////////////////////////////////////
 
-void DInput_Shutdown(void)
+void Input::Shutdown(void)
 {
 	// this function shuts down directinput
 
 	if(lpdi)
 		lpdi->Release();
 
-} // end DInput_Shutdown
+} // end Input::Shutdown
 
 ///////////////////////////////////////////////////////////
 
-int DInput_Init_Joystick(int min_x, int max_x, int min_y, int max_y, int dead_zone)
+int Input::Init_Joystick(HWND hWnd, int min_x, int max_x, int min_y, int max_y, int dead_zone)
 {
 	// this function initializes the joystick, it allows you to set
 	// the minimum and maximum x-y ranges 
 
 	// first find the fucking GUID of your particular joystick
 	lpdi->EnumDevices(DI8DEVCLASS_GAMECTRL,
-		DInput_Enum_Joysticks,
+		EnumJoysticks,
 		&joystickGUID,
 		DIEDFL_ATTACHEDONLY);
 
@@ -128,7 +137,7 @@ int DInput_Init_Joystick(int min_x, int max_x, int min_y, int max_y, int dead_zo
 		return(0);
 
 	// set cooperation level
-	if(lpdijoy->SetCooperativeLevel(main_window_handle,
+	if(lpdijoy->SetCooperativeLevel(hWnd,
 		DISCL_NONEXCLUSIVE | DISCL_BACKGROUND) != DI_OK)
 		return(0);
 
@@ -201,11 +210,11 @@ int DInput_Init_Joystick(int min_x, int max_x, int min_y, int max_y, int dead_zo
 	// return success
 	return(1);
 
-} // end DInput_Init_Joystick
+} // end Input::Init_Joystick
 
 ///////////////////////////////////////////////////////////
 
-int DInput_Init_Mouse(void)
+int Input::Init_Mouse(HWND hWnd)
 {
 	// this function intializes the mouse
 
@@ -215,7 +224,7 @@ int DInput_Init_Mouse(void)
 
 	// set cooperation level
 	// change to EXCLUSIVE FORGROUND for better control
-	if(lpdimouse->SetCooperativeLevel(main_window_handle,
+	if(lpdimouse->SetCooperativeLevel(hWnd,
 		DISCL_NONEXCLUSIVE | DISCL_BACKGROUND) != DI_OK)
 		return(0);
 
@@ -230,11 +239,11 @@ int DInput_Init_Mouse(void)
 	// return success
 	return(1);
 
-} // end DInput_Init_Mouse
+} // end Input::Init_Mouse
 
 ///////////////////////////////////////////////////////////
 
-int DInput_Init_Keyboard(void)
+int Input::Init_Keyboard(HWND hWnd)
 {
 	// this function initializes the keyboard device
 
@@ -243,7 +252,7 @@ int DInput_Init_Keyboard(void)
 		return(0);
 
 	// set cooperation level
-	if(lpdikey->SetCooperativeLevel(main_window_handle,
+	if(lpdikey->SetCooperativeLevel(hWnd,
 		DISCL_NONEXCLUSIVE | DISCL_BACKGROUND) != DI_OK)
 		return(0);
 
@@ -258,11 +267,11 @@ int DInput_Init_Keyboard(void)
 	// return success
 	return(1);
 
-} // end DInput_Init_Keyboard
+} // end Input::Init_Keyboard
 
 ///////////////////////////////////////////////////////////
 
-int DInput_Read_Joystick(void)
+int Input::Read_Joystick(void)
 {
 	// this function reads the joystick state
 
@@ -288,11 +297,11 @@ int DInput_Read_Joystick(void)
 	// return sucess
 	return(1);
 
-} // end DInput_Read_Joystick
+} // end Input::Read_Joystick
 
 ///////////////////////////////////////////////////////////
 
-int DInput_Read_Mouse(void)
+int Input::Read_Mouse(void)
 {
 	// this function reads  the mouse state
 
@@ -310,11 +319,11 @@ int DInput_Read_Mouse(void)
 	// return sucess
 	return(1);
 
-} // end DInput_Read_Mouse
+} // end Input::Read_Mouse
 
 ///////////////////////////////////////////////////////////
 
-int DInput_Read_Keyboard(void)
+int Input::Read_Keyboard(void)
 {
 	// this function reads the state of the keyboard
 
@@ -332,11 +341,11 @@ int DInput_Read_Keyboard(void)
 	// return sucess
 	return(1);
 
-} // end DInput_Read_Keyboard
+} // end Input::Read_Keyboard
 
 ///////////////////////////////////////////////////////////
 
-void DInput_Release_Joystick(void)
+void Input::Release_Joystick(void)
 {
 	// this function unacquires and releases the joystick
 
@@ -345,11 +354,11 @@ void DInput_Release_Joystick(void)
 		lpdijoy->Release();
 	} // end if
 
-} // end DInput_Release_Joystick
+} // end Input::Release_Joystick
 
 ///////////////////////////////////////////////////////////
 
-void DInput_Release_Mouse(void)
+void Input::Release_Mouse(void)
 {
 	// this function unacquires and releases the mouse
 
@@ -358,11 +367,11 @@ void DInput_Release_Mouse(void)
 		lpdimouse->Release();
 	} // end if
 
-} // end DInput_Release_Mouse
+} // end Input::Release_Mouse
 
 ///////////////////////////////////////////////////////////
 
-void DInput_Release_Keyboard(void)
+void Input::Release_Keyboard(void)
 {
 	// this function unacquires and releases the keyboard
 
@@ -371,7 +380,23 @@ void DInput_Release_Keyboard(void)
 		lpdikey->Release();
 	} // end if
 
-} // end DInput_Release_Keyboard
+} // end Input::Release_Keyboard
+
+
+void Input::SetJoyName(char* name)
+{
+	strcpy_s(joyname, name);
+}
+
+
+bool Input::IsKeyDown(int key)
+{
+	if(key < 0 || key >= 256) return false;
+	if(keyboard_state[key] != 0) return true;
+
+	return false;
+
+}
 
 
 softbreeze_namespace_end

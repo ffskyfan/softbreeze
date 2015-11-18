@@ -19,20 +19,20 @@ public:
 	float				operator[]( int index ) const;
 	float &				operator[]( int index );
 
-	Vector4&		operator =(const Vector4& a);
-	Vector4			operator -();
+	Vector4&			operator =(const Vector4& a);
+	Vector4				operator -();
 
-	Vector4			operator +(const Vector4& a) const; 
-	Vector4			operator -(const Vector4& a) const;  
-	Vector4			operator *(const float a) const;
-	Vector4			operator /(const float a) const;
+	Vector4				operator +(const Vector4& a) const; 
+	Vector4				operator -(const Vector4& a) const;  
+	Vector4				operator *(const float a) const;
+	Vector4				operator /(const float a) const;
 
-	friend Vector4	operator *(const float a, const Vector4& v);
+	friend Vector4		operator *(const float a, const Vector4& v);
 
-	Vector4&		operator +=(const Vector4& a);
-	Vector4&		operator -=(const Vector4& a);
-	Vector4&		operator *=(const float& a);
-	Vector4&		operator /=(const float& a);
+	Vector4&			operator +=(const Vector4& a);
+	Vector4&			operator -=(const Vector4& a);
+	Vector4&			operator *=(const float& a);
+	Vector4&			operator /=(const float& a);
 
 	bool				operator == (const Vector4& a) const ;
 	bool				operator != (const Vector4& a) const ;

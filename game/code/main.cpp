@@ -42,7 +42,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     if( FAILED( InitWindow( hInstance, nCmdShow ) ) )
         return 0;
 
-    if( FAILED( g_game.Init(g_hWnd) ) )
+    if( FAILED( g_game.Init(hInstance, g_hWnd) ) )
     {
         g_game.Shutdown();
         return 0;

@@ -40,7 +40,11 @@ void Camera::SetPos(const Vector3& pos)
 
 void Camera::Move(Vector3 offset)
 {
-	pos += offset;
+	Vector3 u(uvn.data[0].x, uvn.data[0].y, uvn.data[0].z);
+	Vector3 v(uvn.data[1].x, uvn.data[1].y, uvn.data[1].z);
+	Vector3 n(uvn.data[2].x, uvn.data[2].y, uvn.data[2].z);
+
+	pos += u *offset.x + v *offset.y + n*offset.z;
 }
 
 
@@ -126,10 +130,10 @@ Matrix4	Camera::MakeCameraMatrix() const
 	const Vector4& n = uvn.data[2];
 	Vector4 cameraPos(pos.x, pos.y, pos.z, 0);
 
-	Matrix4 matrix( u.x,				v.x,				n.x,				-cameraPos.Dot(u),
-					u.y,				v.y,				n.y,				-cameraPos.Dot(v),
-					u.z,				v.z,				n.z,				-cameraPos.Dot(n),
-					0,					0,					0,								1);
+	Matrix4 matrix( u.x,					v.x,					n.x,									0,
+					u.y,					v.y,					n.y,									0,
+					u.z,					v.z,					n.z,									0,
+					-cameraPos.Dot(u),		-cameraPos.Dot(v),		-cameraPos.Dot(n),						1);
 
 	return matrix;
 }

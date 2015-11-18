@@ -10,7 +10,7 @@ public:
 	Game();
 	~Game();
 
-	int		Init(HWND hWnd);
+	int		Init(HINSTANCE instance, HWND hWnd);
 	void	Shutdown();
 	void	Main();
 };

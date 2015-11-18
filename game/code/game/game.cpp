@@ -4,9 +4,11 @@
 #include <windows.h>
 #include <d3d11.h>
 #include <d3dx11.h>
+#include <dinput.h>
 
 #include <softbreeze/softbreeze.h>
 #include <softbreeze/core/graphic.h>
+#include <softbreeze/core/input.h>
 #include <softbreeze/math/vector2.h>
 #include <softbreeze/math/vector3.h>
 #include <softbreeze/math/matrix4.h>
@@ -35,10 +37,14 @@ Game::~Game()
 }
 
 
-int Game::Init(HWND hWnd)
+int Game::Init(HINSTANCE instance, HWND hWnd)
 {
 	breeze::Graphic& graphic = breeze::Graphic::Instance();
 	HRESULT result = graphic.Init(hWnd);
+
+	breeze::Input& input = breeze::Input::Instance();
+	result = input.Init(instance);
+	input.Init_Keyboard(hWnd);
 
 
 	breeze::Vertex vertex1;
@@ -106,9 +112,38 @@ void Game::Main()
 	breeze::Graphic& graphic = breeze::Graphic::Instance();
 	graphic.ClearCanvas(0x00000000);
 
+	breeze::Input& input = breeze::Input::Instance();
+	input.Read_Keyboard();
 
-	// rotate polygon slowly
-	if(++angle >= 360.0) angle = 0;
+
+	
+	if(input.IsKeyDown(DIK_D)) {
+		camera.Move(breeze::Vector3(5,0,0));
+	} 
+	if(input.IsKeyDown(DIK_A)) {
+		camera.Move(breeze::Vector3(-5,0,0));
+	}
+	if(input.IsKeyDown(DIK_W)) {
+		camera.Move(breeze::Vector3(0,0,5));
+	} 
+	if(input.IsKeyDown(DIK_S)) {
+		camera.Move(breeze::Vector3(0,0,-5));
+	} 
+	if(input.IsKeyDown(DIK_RIGHT)) {
+		camera.Yaw(-1);
+	} 
+	if(input.IsKeyDown(DIK_LEFT)) {
+		camera.Yaw(1);
+	} 
+	if(input.IsKeyDown(DIK_UP)) {
+		camera.Pitch(1);
+	} 
+	if(input.IsKeyDown(DIK_DOWN)) {
+		camera.Pitch(-1);
+	}
+
+
+	//if(++angle >= 360.0) angle = 0;
 
 	//move ploygon slowly
 	//if(++pos.z > 500.0f) pos.z = 0;
