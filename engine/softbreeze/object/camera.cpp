@@ -13,14 +13,18 @@ softbreeze_namespace_beg
 
 Camera::Camera()
 {
-	direction = Vector3(0, 0, 1);
+	direction	= Vector3(0, 0, 1);
 
-	uvn = Matrix4(	1, 0, 0, 0,
-					0, 1, 0, 0,
-					0, 0, 1, 0,
-					0, 0, 0, 0);
+	uvn			= Matrix4(	1, 0, 0, 0,
+							0, 1, 0, 0,
+							0, 0, 1, 0,
+							0, 0, 0, 0);
 
 	aspectRatio = 1;
+	fov			= 90;
+
+	nearClipZ	= 1;		
+	farClipZ	= 10000;	
 }
 
 

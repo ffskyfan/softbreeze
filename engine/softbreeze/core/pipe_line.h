@@ -12,8 +12,9 @@ namespace PipeLine
 
 	void RemoveBackface(const VertexBuffer& vertexBuffer, const Camera& camera, OUTPUT VertexBuffer& output);
 
-
 	void ToCamera(const VertexBuffer& vertexBuffer, const Camera& camera, OUTPUT VertexBuffer& output);
+
+	void Clipping(const VertexBuffer& vertexBuffer, const Camera& camera, OUTPUT VertexBuffer& output);
 
 	void Projection(const VertexBuffer& vertexBuffer,const Camera& camera, OUTPUT VertexBuffer& output);
 

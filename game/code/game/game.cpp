@@ -64,31 +64,31 @@ int Game::Init(HINSTANCE instance, HWND hWnd)
 	vertex3.xyz.y = 0;
 	vertex3.xyz.z = 0;
 
-	breeze::Vertex vertex4;
-	vertex4.xyz.x = 0;
-	vertex4.xyz.y = 45;
-	vertex4.xyz.z = 90;
+	//breeze::Vertex vertex4;
+	//vertex4.xyz.x = 0;
+	//vertex4.xyz.y = 45;
+	//vertex4.xyz.z = 90;
 
 	vertices->vertices.push_back(vertex1);
 	vertices->vertices.push_back(vertex2);
 	vertices->vertices.push_back(vertex3);
-	vertices->vertices.push_back(vertex4);
-
-	vertices->indices.push_back(0);
-	vertices->indices.push_back(1);
-	vertices->indices.push_back(2);
-
-	vertices->indices.push_back(0);
-	vertices->indices.push_back(3);
-	vertices->indices.push_back(1);
+	//vertices->vertices.push_back(vertex4);
 
 	vertices->indices.push_back(0);
 	vertices->indices.push_back(2);
-	vertices->indices.push_back(3);
+	vertices->indices.push_back(0);
 
-	vertices->indices.push_back(1);
-	vertices->indices.push_back(3);
-	vertices->indices.push_back(2);
+	//vertices->indices.push_back(0);
+	//vertices->indices.push_back(3);
+	//vertices->indices.push_back(1);
+
+	//vertices->indices.push_back(0);
+	//vertices->indices.push_back(2);
+	//vertices->indices.push_back(3);
+
+	//vertices->indices.push_back(1);
+	//vertices->indices.push_back(3);
+	//vertices->indices.push_back(2);
 
 	breeze::Vector3	pos;
 	pos.x = 0;
@@ -175,10 +175,13 @@ void Game::Main()
 	breeze::PipeLine::RemoveBackface(WorldVertices, camera, BackfaceRemovedVertices);
 
 	breeze::VertexBuffer CameraVertices;
-	breeze::PipeLine::ToCamera(BackfaceRemovedVertices, camera, CameraVertices);
+	breeze::PipeLine::ToCamera(WorldVertices, camera, CameraVertices);
+
+	breeze::VertexBuffer ClippingVertices;
+	breeze::PipeLine::Clipping(CameraVertices, camera, ClippingVertices);
 
 	breeze::VertexBuffer projectionVertices;
-	breeze::PipeLine::Projection(CameraVertices, camera, projectionVertices);
+	breeze::PipeLine::Projection(ClippingVertices, camera, projectionVertices);
 
 	breeze::VertexBuffer ScreenVertices;
 	breeze::PipeLine::ToScreen(projectionVertices, graphic.GetWidth(), graphic.GetHeight(), ScreenVertices);

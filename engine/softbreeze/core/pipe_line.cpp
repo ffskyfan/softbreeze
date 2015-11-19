@@ -11,6 +11,7 @@
 #include "../math/vector2.h"
 #include "../math/vector3.h"
 #include "../math/vector4.h"
+#include "../math/utility.h"
 #include "../object/vertex.h"
 #include "../object/vertex_list.h"
 #include "../object/vertex_buffer.h"
@@ -145,6 +146,57 @@ namespace PipeLine
 		const Matrix4& matrix = camera.MakeCameraMatrix();
 
 		Transform(vertexBuffer, matrix, output);
+	}
+
+
+	void Clipping(const VertexBuffer& vertexBuffer, const Camera& camera,  OUTPUT VertexBuffer& output)
+	{
+		std::vector<VertexList*>::const_iterator bufferIt = vertexBuffer.lists.begin();
+		std::vector<VertexList*>::const_iterator bufferItEnd = vertexBuffer.lists.end();
+		for(; bufferIt != bufferItEnd; bufferIt++) {
+			const VertexList& vertexList = **bufferIt;
+
+			bool isInFrustum = false;
+			std::vector<Vertex>::const_iterator it = vertexList.vertices.begin();
+			std::vector<Vertex>::const_iterator itEnd = vertexList.vertices.end();
+			for(; it != itEnd; it++) {
+				const Vertex& vertex = *it;
+
+				float xTest = tan(AngleToRadian(camera.GetFov()/2*camera.GetAspectRatio()))*vertex.xyz.z;
+				float yTest = tan(AngleToRadian(camera.GetFov()/2))*vertex.xyz.z;
+
+				if(	vertex.xyz.x > -xTest && vertex.xyz.x < xTest &&
+					vertex.xyz.y > -yTest && vertex.xyz.y < yTest &&
+					vertex.xyz.z > camera.GetNearClipZ() && vertex.xyz.z < camera.GetFarClipZ()
+				   ) {
+					isInFrustum = true;
+					break;
+				}
+			}
+
+
+			if(isInFrustum) {
+				VertexList* newVertices = new VertexList;
+
+				std::vector<Vertex>::const_iterator it = vertexList.vertices.begin();
+				std::vector<Vertex>::const_iterator itEnd = vertexList.vertices.end();
+				for(; it != itEnd; it++) {
+					const Vertex& vertex = *it;
+					newVertices->vertices.push_back(vertex);
+				}
+
+				std::vector<int>::const_iterator indexIt = vertexList.indices.begin();
+				std::vector<int>::const_iterator indexItEnd = vertexList.indices.end();
+				for(; indexIt != indexItEnd; indexIt++) {
+					newVertices->indices.push_back(*indexIt);
+				}
+
+				newVertices->pos = vertexList.pos;
+
+				output.lists.push_back(newVertices);
+			}
+
+		}
 	}
 
 

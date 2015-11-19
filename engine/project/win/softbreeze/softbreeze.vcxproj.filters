@@ -102,6 +102,9 @@
     <ClInclude Include="..\..\..\softbreeze\object\vertex_buffer.h">
       <Filter>object</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\softbreeze\object\object.h">
+      <Filter>object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\..\softbreeze\shader\core.fx">

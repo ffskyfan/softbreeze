@@ -81,23 +81,8 @@ namespace ObjFileLoader
 			}
 		}
 
-		size_t vertexNum = vertexVector.size();
-		mesh->vertexNum = vertexNum;
-		mesh->vertices = new Vertex[vertexNum];
-		for(int i=0;i<mesh->vertexNum;i++) {
-			mesh->vertices[i] = vertexVector[i];
-		}
-
-		mesh->indexNum = indicesVector.size();
-		mesh->indices = new unsigned int[mesh->indexNum];
-		for(int i=0;i<mesh->indexNum; i++)
-		{
-			mesh->indices[i] = indicesVector[i];
-		}
-		/*if(mesh->indexNum > 0 ) {
-			std::memcpy(mesh->indices,indicesVector.data(),sizeof(int)*mesh->indexNum);
-		}*/
-
+		mesh->vertices = vertexVector;
+		mesh->indices = indicesVector;
 	}
 
 
