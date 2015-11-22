@@ -207,8 +207,6 @@ namespace PipeLine
 
 	void Projection(const VertexBuffer& vertexBuffer,const Camera& camera, OUTPUT VertexBuffer& output)
 	{
-		float aspectRatio = camera.GetAspectRatio();
-
 		std::vector<VertexList*>::const_iterator bufferIt = vertexBuffer.lists.begin();
 		std::vector<VertexList*>::const_iterator bufferItEnd = vertexBuffer.lists.end();
 		for(; bufferIt != bufferItEnd; bufferIt++) {
@@ -223,7 +221,7 @@ namespace PipeLine
 
 				Vector3 projectionVector;
 				projectionVector.x = vertex.xyz.x / z;
-				projectionVector.y = vertex.xyz.y*aspectRatio / z;
+				projectionVector.y = vertex.xyz.y / z;
 				projectionVector.z = z;
 
 				Vertex projectionVertex;
@@ -250,7 +248,7 @@ namespace PipeLine
 	}
 
 
-	void ToScreen(const VertexBuffer& vertexBuffer, int width, int height, OUTPUT VertexBuffer& output)
+	void ToScreen(const VertexBuffer& vertexBuffer, const Camera& camera, int width, int height, OUTPUT VertexBuffer& output)
 	{
 		std::vector<VertexList*>::const_iterator bufferIt = vertexBuffer.lists.begin();
 		std::vector<VertexList*>::const_iterator bufferItEnd = vertexBuffer.lists.end();
@@ -264,8 +262,9 @@ namespace PipeLine
 				const Vertex vertex = *it;
 
 				Vector3 screenVector;
-				screenVector.x = (vertex.xyz.x + 1) * (0.5f * width - 0.5f);
-				screenVector.y = (height - 1) - (vertex.xyz.y + 1)*(0.5f * height - 0.5f);
+				screenVector.x= 0.5*height*vertex.xyz.x +0.5*width;
+				screenVector.y = -0.5*width*vertex.xyz.y  + 0.5*height; 
+
 
 				Vertex screenVertex;
 				screenVertex.xyz = screenVector;

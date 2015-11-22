@@ -18,7 +18,7 @@ namespace PipeLine
 
 	void Projection(const VertexBuffer& vertexBuffer,const Camera& camera, OUTPUT VertexBuffer& output);
 
-	void ToScreen(const VertexBuffer& vertexBuffer, int width, int height, OUTPUT VertexBuffer& output);
+	void ToScreen(const VertexBuffer& vertexBuffer, const Camera& camera, int width, int height, OUTPUT VertexBuffer& output);
 
 	void DrawVertexList(const VertexBuffer& vertexBuffer);
 }

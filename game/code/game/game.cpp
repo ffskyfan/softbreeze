@@ -60,35 +60,35 @@ int Game::Init(HINSTANCE instance, HWND hWnd)
 	vertex2.xyz.z = 0;
 
 	breeze::Vertex vertex3;
-	vertex3.xyz.x = 30;
+	vertex3.xyz.x = 90;
 	vertex3.xyz.y = 0;
 	vertex3.xyz.z = 0;
 
-	//breeze::Vertex vertex4;
-	//vertex4.xyz.x = 0;
-	//vertex4.xyz.y = 45;
-	//vertex4.xyz.z = 90;
+	breeze::Vertex vertex4;
+	vertex4.xyz.x = 0;
+	vertex4.xyz.y = 45;
+	vertex4.xyz.z = 90;
 
 	vertices->vertices.push_back(vertex1);
 	vertices->vertices.push_back(vertex2);
 	vertices->vertices.push_back(vertex3);
-	//vertices->vertices.push_back(vertex4);
+	vertices->vertices.push_back(vertex4);
+
+	vertices->indices.push_back(0);
+	vertices->indices.push_back(1);
+	vertices->indices.push_back(2);
+
+	vertices->indices.push_back(0);
+	vertices->indices.push_back(3);
+	vertices->indices.push_back(1);
 
 	vertices->indices.push_back(0);
 	vertices->indices.push_back(2);
-	vertices->indices.push_back(0);
+	vertices->indices.push_back(3);
 
-	//vertices->indices.push_back(0);
-	//vertices->indices.push_back(3);
-	//vertices->indices.push_back(1);
-
-	//vertices->indices.push_back(0);
-	//vertices->indices.push_back(2);
-	//vertices->indices.push_back(3);
-
-	//vertices->indices.push_back(1);
-	//vertices->indices.push_back(3);
-	//vertices->indices.push_back(2);
+	vertices->indices.push_back(1);
+	vertices->indices.push_back(3);
+	vertices->indices.push_back(2);
 
 	breeze::Vector3	pos;
 	pos.x = 0;
@@ -143,10 +143,10 @@ void Game::Main()
 		camera.Yaw(1);
 	} 
 	if(input.IsKeyDown(DIK_UP)) {
-		camera.Pitch(1);
+		camera.Roll(1);
 	} 
 	if(input.IsKeyDown(DIK_DOWN)) {
-		camera.Pitch(-1);
+		camera.Roll(-1);
 	}
 
 
@@ -184,7 +184,7 @@ void Game::Main()
 	breeze::PipeLine::Projection(ClippingVertices, camera, projectionVertices);
 
 	breeze::VertexBuffer ScreenVertices;
-	breeze::PipeLine::ToScreen(projectionVertices, graphic.GetWidth(), graphic.GetHeight(), ScreenVertices);
+	breeze::PipeLine::ToScreen(projectionVertices, camera, graphic.GetWidth(), graphic.GetHeight(), ScreenVertices);
 
 	// render the polygon list
 	breeze::PipeLine::DrawVertexList(ScreenVertices);
