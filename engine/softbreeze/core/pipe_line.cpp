@@ -263,7 +263,7 @@ namespace PipeLine
 
 				Vector3 screenVector;
 				screenVector.x= 0.5*height*vertex.xyz.x +0.5*width;
-				screenVector.y = -0.5*width*vertex.xyz.y  + 0.5*height; 
+				screenVector.y = -0.5*height*vertex.xyz.y  + 0.5*height; 
 
 
 				Vertex screenVertex;
