@@ -162,8 +162,11 @@ namespace PipeLine
 			for(; it != itEnd; it++) {
 				const Vertex& vertex = *it;
 
-				float xTest = tan(AngleToRadian(camera.GetFov()/2*camera.GetAspectRatio()))*vertex.xyz.z;
-				float yTest = tan(AngleToRadian(camera.GetFov()/2))*vertex.xyz.z;
+				float xTest = camera.GetAspectRatio()*vertex.xyz.z;
+
+				float halfVFov = camera.GetFov() / 2;
+				float tanHalfvFov = tan(AngleToRadian(halfVFov));
+				float yTest = tanHalfvFov*vertex.xyz.z;
 
 				if(	vertex.xyz.x > -xTest && vertex.xyz.x < xTest &&
 					vertex.xyz.y > -yTest && vertex.xyz.y < yTest &&
@@ -262,8 +265,8 @@ namespace PipeLine
 				const Vertex vertex = *it;
 
 				Vector3 screenVector;
-				screenVector.x= 0.5*height*vertex.xyz.x +0.5*width;
-				screenVector.y = -0.5*height*vertex.xyz.y  + 0.5*height; 
+				screenVector.x= 0.5f*height*vertex.xyz.x +0.5f*width;
+				screenVector.y = -0.5f*height*vertex.xyz.y  + 0.5f*height; 
 
 
 				Vertex screenVertex;

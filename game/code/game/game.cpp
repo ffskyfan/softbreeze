@@ -175,7 +175,7 @@ void Game::Main()
 	breeze::PipeLine::RemoveBackface(WorldVertices, camera, BackfaceRemovedVertices);
 
 	breeze::VertexBuffer CameraVertices;
-	breeze::PipeLine::ToCamera(WorldVertices, camera, CameraVertices);
+	breeze::PipeLine::ToCamera(BackfaceRemovedVertices, camera, CameraVertices);
 
 	breeze::VertexBuffer ClippingVertices;
 	breeze::PipeLine::Clipping(CameraVertices, camera, ClippingVertices);
