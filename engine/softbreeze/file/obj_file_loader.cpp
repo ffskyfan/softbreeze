@@ -193,8 +193,9 @@ namespace ObjFileLoader
 
 	bool Load(const char* filePath,Mesh* mesh)
 	{
-		FILE* pFile = fopen(filePath,"r");
-		if(!pFile) {
+		FILE* pFile = NULL;
+		errno_t error = fopen_s(&pFile, filePath,"r");
+		if(!pFile && error!=0) {
 			return false;
 		}
 
